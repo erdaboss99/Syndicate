@@ -1,6 +1,6 @@
 'use client';
 
-import { SunMoon } from 'lucide-react';
+import { Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from './ui/Button';
@@ -14,8 +14,8 @@ const ThemeToggle = () => {
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant='outline'
-					size='icon'>
-					<SunMoon />
+					size='nav'>
+					<Sun className='scale-150' />
 					<span className='sr-only'>Toggle theme</span>
 				</Button>
 			</DropdownMenuTrigger>

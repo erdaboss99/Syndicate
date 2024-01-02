@@ -3,8 +3,8 @@ import ThemeToggle from '@/components/general/ThemeToggle';
 
 const Header = () => {
 	return (
-		<header className='relative inset-x-0 top-0 w-full z-[10] h-fit p-3'>
-			<nav className='flex items-center flex-col lg:flex-row gap-5 lg:gap-2 justify-between h-full px-8 mx-auto max-w-7xl'>
+		<header className='relative inset-x-0 top-0 z-[10] h-fit w-full p-3'>
+			<nav className='mx-auto flex h-full max-w-7xl flex-col items-center justify-between gap-5 px-8 lg:flex-row lg:gap-2'>
 				<Logo />
 				<ThemeToggle />
 			</nav>

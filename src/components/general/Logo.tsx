@@ -1,8 +1,10 @@
 const Logo = () => {
 	return (
-		<div className='bg-card flex select-none cursor-default flex-col items-center justify-center border border-border rounded-lg'>
-			<h1 className='text-primary text-4xl'>S8</h1>
-			<h2 className='text-primary/60 font-fanwood-text text-xl uppercase ml-[1em] tracking-[1em]'>syndicate</h2>
+		<div className='flex cursor-default select-none flex-col items-center justify-center rounded-lg border border-input bg-card hover:bg-accent hover:text-accent-foreground'>
+			<h1 className='foreground text-4xl'>S8</h1>
+			<h2 className='ml-[1em] font-fanwood-text text-xl uppercase tracking-[1em] text-foreground/60'>
+				syndicate
+			</h2>
 		</div>
 	);
 };

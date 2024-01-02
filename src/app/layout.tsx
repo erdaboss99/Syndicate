@@ -16,7 +16,7 @@ const fanwoodText = Fanwood_Text({ weight: ['400'], subsets: ['latin'], variable
 
 export const metadata: Metadata = {
 	title: 'Syndicate',
-	description: 'Syndicate - corporate management system',
+	description: 'Syndicate - A Corporate Management System',
 };
 
 export const viewport: Viewport = {
@@ -35,7 +35,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 			lang='en'
 			className={`${rajdhani.variable} ${fanwoodText.variable}`}
 			suppressHydrationWarning>
-			<body className='flex font-rajdhani flex-col items-center justify-center'>
+			<body className='font-rajdhani'>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'

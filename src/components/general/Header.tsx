@@ -1,5 +1,5 @@
-import Logo from './Logo';
-import ThemeToggle from './ThemeToggle';
+import Logo from '@/components/general/Logo';
+import ThemeToggle from '@/components/general/ThemeToggle';
 
 const Header = () => {
 	return (

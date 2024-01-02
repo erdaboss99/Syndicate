@@ -3,8 +3,8 @@
 import { Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Button } from './ui/Button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/DropdownMenu';
+import { Button } from '@/components/ui/Button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
 
 const ThemeToggle = () => {
 	const { setTheme } = useTheme();

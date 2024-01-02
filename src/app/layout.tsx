@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next';
 
 import { Fanwood_Text, Rajdhani } from 'next/font/google';
 
-import Header from '../components/Header';
-import { ThemeProvider } from '../components/ThemeProvider';
+import Header from '@/components/general/Header';
+import ThemeProvider from '@/components/providers/ThemeProvider';
 
 import './globals.css';
 

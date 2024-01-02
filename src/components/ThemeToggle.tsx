@@ -3,8 +3,8 @@
 import { SunMoon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Button } from './ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { Button } from './ui/Button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/DropdownMenu';
 
 const ThemeToggle = () => {
 	const { setTheme } = useTheme();

@@ -13,6 +13,10 @@ const config = {
 			},
 		},
 		extend: {
+			fontFamily: {
+				rajdhani: 'var(--font-rajdhani)',
+				'fanwood-text': 'var(--font-fanwood-text)',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

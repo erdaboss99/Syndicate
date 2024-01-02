@@ -1,13 +1,18 @@
 import type { Metadata, Viewport } from 'next';
 
-import { Rajdhani } from 'next/font/google';
+import { Fanwood_Text, Rajdhani } from 'next/font/google';
 
+import Header from '../components/Header';
 import { ThemeProvider } from '../components/ThemeProvider';
-import ThemeToggle from '../components/ThemeToggle';
 
 import './globals.css';
 
-const rajdhani = Rajdhani({ weight: ['300', '400', '500', '600', '700'], subsets: ['latin'] });
+const rajdhani = Rajdhani({
+	weight: ['300', '400', '500', '600', '700'],
+	subsets: ['latin'],
+	variable: '--font-rajdhani',
+});
+const fanwoodText = Fanwood_Text({ weight: ['400'], subsets: ['latin'], variable: '--font-fanwood-text' });
 
 export const metadata: Metadata = {
 	title: 'Syndicate',
@@ -28,15 +33,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<html
 			lang='en'
+			className={`${rajdhani.variable} ${fanwoodText.variable}`}
 			suppressHydrationWarning>
-			<body className={`${rajdhani.className} flex flex-col items-center justify-center`}>
+			<body className='flex font-rajdhani flex-col items-center justify-center'>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'
 					enableSystem>
-					<header>
-						<ThemeToggle />
-					</header>
+					<Header />
 					<div>{children}</div>
 				</ThemeProvider>
 			</body>

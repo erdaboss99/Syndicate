@@ -1,11 +1,12 @@
+import Link from 'next/link';
+
 const Logo = () => {
 	return (
-		<div className='flex cursor-default select-none flex-col items-center justify-center rounded-lg border border-input bg-card hover:bg-accent hover:text-accent-foreground'>
-			<h1 className='foreground text-4xl'>S8</h1>
-			<h2 className='ml-[1em] font-fanwood-text text-xl uppercase tracking-[1em] text-foreground/60'>
-				syndicate
-			</h2>
-		</div>
+		<Link
+			href='/'
+			className='flex h-fit cursor-pointer select-none flex-col items-center justify-center rounded-lg border border-input bg-card p-3 pt-5 text-card-foreground shadow transition-colors duration-500 hover:bg-primary/30 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'>
+			<h1 className='ml-[0.7em] font-fanwood-text text-xl uppercase tracking-[0.7em]'>syndicate</h1>
+		</Link>
 	);
 };
 export default Logo;

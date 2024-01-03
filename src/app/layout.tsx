@@ -35,7 +35,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 			lang='en'
 			className={`${rajdhani.variable} ${fanwoodText.variable}`}
 			suppressHydrationWarning>
-			<body className='font-rajdhani'>
+			<body className='font-rajdhani transition-colors duration-500'>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'

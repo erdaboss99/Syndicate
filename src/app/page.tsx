@@ -1,7 +1,11 @@
-const Home = () => {
+import Logo from '@/components/general/Logo';
+
+const Home = async () => {
 	return (
-		<main className='flex flex-col items-center justify-center'>
-			<h1 className='text-2xl font-bold text-primary'>Syndicate - Corporate Management System</h1>
+		<main className='flex h-full flex-col items-center justify-center text-center'>
+			<div className='space-y-6'>
+				<Logo size='lg' />
+			</div>
 		</main>
 	);
 };

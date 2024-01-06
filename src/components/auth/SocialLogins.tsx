@@ -11,7 +11,9 @@ const SocialLogins = () => {
 				size='lg'
 				className='w-[50%]'
 				variant='outline'
-				onClick={() => {}}>
+				onClick={() => {
+					console.log('Github login');
+				}}>
 				<Github />
 			</Button>
 
@@ -19,7 +21,9 @@ const SocialLogins = () => {
 				size='lg'
 				className='w-[50%]'
 				variant='outline'
-				onClick={() => {}}>
+				onClick={() => {
+					console.log('Facebook login');
+				}}>
 				<Facebook />
 			</Button>
 		</div>

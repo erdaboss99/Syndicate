@@ -1,18 +1,22 @@
 import type { Metadata, Viewport } from 'next';
 
-import { Rajdhani } from 'next/font/google';
+import { Fanwood_Text, Orbitron, Rajdhani } from 'next/font/google';
 
 import Header from '@/components/general/Header';
 import ThemeProvider from '@/components/providers/ThemeProvider';
-
-import { cn } from '@/lib/utils';
 
 import './globals.css';
 
 const rajdhani = Rajdhani({
 	weight: ['300', '400', '500', '600', '700'],
 	subsets: ['latin'],
+	variable: '--font-rajdhani',
 });
+const orbitron = Orbitron({
+	subsets: ['latin'],
+	variable: '--font-orbitron',
+});
+const fanwoodText = Fanwood_Text({ weight: ['400'], subsets: ['latin'], variable: '--font-fanwood-text' });
 
 export const metadata: Metadata = {
 	title: 'Syndicate',
@@ -33,8 +37,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<html
 			lang='en'
+			className={`${rajdhani.variable} ${orbitron.variable} ${fanwoodText.variable}`}
 			suppressHydrationWarning>
-			<body className={cn(rajdhani.className, 'transition-colors duration-500')}>
+			<body className='min-w-[400px] transition-colors duration-500'>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'

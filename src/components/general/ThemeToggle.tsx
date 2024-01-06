@@ -24,7 +24,7 @@ const ThemeToggle = () => {
 			variant='outline'
 			size='nav'
 			onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}>
-			{resolvedTheme === 'light' ? <Moon className='scale-150' /> : <Sun className='scale-150' />}
+			{resolvedTheme === 'light' ? <Moon className='scale-125' /> : <Sun className='scale-125' />}
 			<span className='sr-only'>Toggle theme</span>
 		</Button>
 	);

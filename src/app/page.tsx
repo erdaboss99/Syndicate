@@ -1,6 +1,6 @@
 import LoginButton from '@/components/auth/LoginButton';
 import Logo from '@/components/general/Logo';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 const Home = async () => {
 	return (

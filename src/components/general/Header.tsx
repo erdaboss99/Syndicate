@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 
 const Header = () => {
 	return (
-		<header className='relative inset-x-0 top-0 z-[10] h-fit w-full p-3'>
+		<header className='relative inset-x-0 top-0 z-[10] h-fit w-full border-b p-3'>
 			<nav className='mx-auto flex h-full max-w-7xl flex-col items-center justify-between gap-5 px-8 md:flex-row md:gap-2'>
 				<Link href='/'>
 					<Logo />

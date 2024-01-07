@@ -5,7 +5,7 @@ import { Fanwood_Text, Orbitron, Rajdhani } from 'next/font/google';
 import Header from '@/components/general/Header';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 
-import './globals.css';
+import '@/styles/globals.css';
 
 const rajdhani = Rajdhani({
 	weight: ['300', '400', '500', '600', '700'],

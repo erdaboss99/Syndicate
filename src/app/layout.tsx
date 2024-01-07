@@ -39,14 +39,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 			lang='en'
 			className={`${rajdhani.variable} ${orbitron.variable} ${fanwoodText.variable}`}
 			suppressHydrationWarning>
-			<body className='min-w-[400px] select-none transition-colors duration-500'>
+			<body className='min-w-[400px] select-none'>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'
 					storageKey='prefered-color-scheme'
 					enableSystem>
 					<Header />
-					<div>{children}</div>
+					<div className='m-auto mt-[5vh]'>{children}</div>
 				</ThemeProvider>
 			</body>
 		</html>

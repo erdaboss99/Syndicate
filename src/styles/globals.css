@@ -53,17 +53,14 @@
 	* {
 		@apply border-border;
 	}
-	body {
-		@apply bg-background font-rajdhani text-foreground;
-	}
-
-	.todo {
-		@apply text-6xl font-bold text-destructive;
-	}
 }
 
 html,
 body,
 :root {
-	@apply h-full min-h-screen;
+	@apply m-0 h-full min-h-screen bg-background font-rajdhani text-foreground transition-colors;
+}
+
+.todo {
+	@apply text-6xl font-bold text-destructive;
 }

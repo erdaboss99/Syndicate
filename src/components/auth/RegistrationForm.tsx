@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -119,7 +120,14 @@ const RegistrationForm = () => {
 						}}
 						className='w-full'
 						disabled={isPending}>
-						Create an account
+						{isPending ? (
+							<span className='flex flex-row gap-2'>
+								<Loader2 className='animate-spin ' />
+								Processing...
+							</span>
+						) : (
+							'Create an account'
+						)}
 					</Button>
 				</form>
 			</Form>

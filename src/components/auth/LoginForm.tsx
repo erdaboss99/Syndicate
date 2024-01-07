@@ -93,6 +93,7 @@ const LoginForm = () => {
 					<FormSuccess message={isSuccess} />
 					<Button
 						type='submit'
+						size='lg'
 						onClick={() => {
 							setIsSuccess('');
 							setIsError('');

@@ -1,6 +1,6 @@
 'use server';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import * as z from 'zod';
 
 import { database } from '@/lib/prisma';
@@ -16,16 +16,14 @@ export const registration = async (
 
 	const { name, email, password } = validatedData.data;
 
-	const hashedPassword = await bcrypt.hash(password, 10);
-
 	const existingUser = await database.user.findUnique({
 		where: {
 			email,
 		},
 	});
-
 	if (existingUser) return { success: false, message: 'This email is already taken!' };
 
+	const hashedPassword = await bcrypt.hash(password, 10);
 	await database.user.create({
 		data: {
 			name,

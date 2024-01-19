@@ -7,12 +7,10 @@ import { database } from '@/lib/prisma';
 
 import { RegistrationSchema } from '@/schemas';
 
-export const registration = async (
-	values: z.infer<typeof RegistrationSchema>,
-): Promise<{ success: boolean; message: string }> => {
+export const registration = async (values: z.infer<typeof RegistrationSchema>) => {
 	const validatedData = RegistrationSchema.safeParse(values);
 
-	if (!validatedData.success) return { success: false, message: 'Invalid data!' };
+	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const { name, email, password } = validatedData.data;
 
@@ -21,7 +19,7 @@ export const registration = async (
 			email,
 		},
 	});
-	if (existingUser) return { success: false, message: 'This email is already taken!' };
+	if (existingUser) return { error: 'This email is already taken!' };
 
 	const hashedPassword = await bcrypt.hash(password, 10);
 	await database.user.create({
@@ -34,5 +32,5 @@ export const registration = async (
 
 	// TODO: Send verification email token
 
-	return { success: true, message: 'Account successfully created!' };
+	return { success: 'Account successfully created!' };
 };

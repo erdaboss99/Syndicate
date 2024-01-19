@@ -34,11 +34,16 @@ const RegistrationForm = () => {
 
 	const onSubmit = (values: z.infer<typeof RegistrationSchema>) => {
 		startTransition(() => {
-			registration(values).then((data) => {
-				registrationForm.reset();
-				if (!data.success) setIsError(data.message);
-				else setIsSuccess(data.message);
-			});
+			registration(values)
+				.then((data) => {
+					if (data.error) {
+						registrationForm.reset();
+						setIsError(data.error);
+					}
+
+					if (data.success) setIsSuccess(data.success);
+				})
+				.catch(() => setIsError('Something went wrong'));
 		});
 	};
 

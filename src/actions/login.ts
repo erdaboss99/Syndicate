@@ -4,7 +4,9 @@ import { AuthError } from 'next-auth';
 import * as z from 'zod';
 
 import { signIn } from '@/auth';
+
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+
 import { LoginSchema } from '@/schemas';
 
 export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) => {

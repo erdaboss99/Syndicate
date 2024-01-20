@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/Button';
+import { LuMoon, LuSun } from 'react-icons/lu';
 
 const ThemeToggle = () => {
 	const [mounted, setMounted] = useState(false);
@@ -24,7 +24,7 @@ const ThemeToggle = () => {
 			variant='outline'
 			size='nav'
 			onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}>
-			{resolvedTheme === 'light' ? <Moon className='scale-125' /> : <Sun className='scale-125' />}
+			{resolvedTheme === 'light' ? <LuMoon className='scale-125' /> : <LuSun className='scale-125' />}
 			<span className='sr-only'>Toggle theme</span>
 		</Button>
 	);

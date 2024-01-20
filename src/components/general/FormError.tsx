@@ -1,4 +1,4 @@
-import { AlertTriangle } from 'lucide-react';
+import { LuAlertTriangle } from 'react-icons/lu';
 
 type FormErrorProps = {
 	message?: string;
@@ -9,7 +9,7 @@ const FormError = ({ message }: FormErrorProps) => {
 
 	return (
 		<div className='flex items-center gap-x-4 rounded-md bg-destructive/15 p-3 font-bold text-destructive'>
-			<AlertTriangle className='h-7 w-7' />
+			<LuAlertTriangle className='h-7 w-7' />
 			<p>{message}</p>
 		</div>
 	);

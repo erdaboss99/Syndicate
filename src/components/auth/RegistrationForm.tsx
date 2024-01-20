@@ -3,13 +3,12 @@
 import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { RegistrationSchema } from '@/schemas';
-
 import { registration } from '@/actions/registration';
+
+import { RegistrationSchema } from '@/schemas';
 
 import CardWrapper from '@/components/general/CardWrapper';
 import FormError from '@/components/general/FormError';
@@ -17,6 +16,7 @@ import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
+import { LuLoader2 } from 'react-icons/lu';
 
 const RegistrationForm = () => {
 	const [isPending, startTransition] = useTransition();
@@ -53,6 +53,8 @@ const RegistrationForm = () => {
 			headerLabel='Create an account'
 			backButtonLabel='Already have an account?'
 			backButtonHref='/auth/login'
+			backButtonVariant='link'
+			backButtonSize='full'
 			showSocial>
 			<Form {...registrationForm}>
 				<form
@@ -127,7 +129,7 @@ const RegistrationForm = () => {
 						disabled={isPending}>
 						{isPending ? (
 							<span className='flex flex-row gap-2'>
-								<Loader2 className='animate-spin ' />
+								<LuLoader2 className='animate-spin ' />
 								Processing...
 							</span>
 						) : (

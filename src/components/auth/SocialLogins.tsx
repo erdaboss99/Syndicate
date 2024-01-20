@@ -1,10 +1,12 @@
 'use client';
 
-import { Facebook, Github } from 'lucide-react';
 import { signIn } from 'next-auth/react';
+
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 
 import { Button } from '@/components/ui/Button';
+import { GrGoogle } from 'react-icons/gr';
+import { LuGithub } from 'react-icons/lu';
 
 const SocialLogins = () => {
 	const onClick = (provider: 'google' | 'github') => {
@@ -17,22 +19,16 @@ const SocialLogins = () => {
 				size='lg'
 				className='w-[50%]'
 				variant='outline'
-				onClick={() => {
-					console.log('Github login');
-				}}>
-				<Github />
 				onClick={() => onClick('github')}>
+				<LuGithub />
 			</Button>
 
 			<Button
 				size='lg'
 				className='w-[50%]'
 				variant='outline'
-				onClick={() => {
-					console.log('Facebook login');
-				}}>
-				<Facebook />
 				onClick={() => onClick('google')}>
+				<GrGoogle />
 			</Button>
 		</div>
 	);

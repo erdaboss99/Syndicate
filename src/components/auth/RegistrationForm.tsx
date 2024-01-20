@@ -128,7 +128,7 @@ const RegistrationForm = () => {
 						className='w-full'
 						disabled={isPending}>
 						{isPending ? (
-							<span className='flex flex-row gap-2'>
+							<span className='flex flex-row items-center gap-2'>
 								<LuLoader2 className='animate-spin ' />
 								Processing...
 							</span>

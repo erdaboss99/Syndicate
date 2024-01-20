@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +20,10 @@ import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
 
 const LoginForm = () => {
+	const searchParams = useSearchParams();
+	const urlError =
+		searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with different provider!' : '';
+
 	const [isPending, startTransition] = useTransition();
 	const [isError, setIsError] = useState('');
 	const [isSuccess, setIsSuccess] = useState('');
@@ -34,12 +39,12 @@ const LoginForm = () => {
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
 		startTransition(() => {
 			loginWithCredentials(values).then((data) => {
-				if (data.error) {
+				if (data?.error) {
 					loginForm.reset();
-					setIsError(data.error);
+					setIsError(data?.error);
 				}
-
-				if (data.success) setIsSuccess(data.success);
+				// TODO: ADD 2FA
+				// if (data.success) setIsSuccess(data.success);
 			});
 		});
 	};
@@ -95,7 +100,7 @@ const LoginForm = () => {
 							)}
 						/>
 					</div>
-					<FormError message={isError} />
+					<FormError message={isError || urlError} />
 					<FormSuccess message={isSuccess} />
 					<Button
 						type='submit'
@@ -107,8 +112,8 @@ const LoginForm = () => {
 						className='w-full'
 						disabled={isPending}>
 						{isPending ? (
-							<span className='flex flex-row gap-2'>
-								<LuLoader2 className='animate-spin ' />
+							<span className='flex flex-row items-center gap-2'>
+								<LuLoader2 className='animate-spin' />
 								Processing...
 							</span>
 						) : (

@@ -22,7 +22,6 @@ export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) 
 			password,
 			redirectTo: DEFAULT_LOGIN_REDIRECT,
 		});
-		return { success: 'Successfully logged in!' };
 	} catch (error) {
 		if (error instanceof AuthError)
 			switch (error.type) {

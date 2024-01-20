@@ -1,30 +1,32 @@
 'use client';
 
 import SocialLogins from '@/components/auth/SocialLogins';
-import BackButton from '@/components/general/BackButton';
+import BackButton, { type BackButtonProps } from '@/components/general/BackButton';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/Card';
 
 type CardWrapperProps = {
 	children: React.ReactNode;
 	headerTitle: string;
-	headerLabel: string;
-	backButtonLabel: string;
-	backButtonHref: string;
+	headerLabel?: string;
 	showSocial?: boolean;
-};
+} & BackButtonProps;
 
 const CardWrapper = ({
 	children,
 	headerTitle,
-	headerLabel,
 	backButtonLabel,
 	backButtonHref,
+	backButtonVariant,
+	backButtonSize,
+	headerLabel,
 	showSocial,
 }: CardWrapperProps) => {
 	return (
-		<Card className='w-full shadow-md md:w-[600px]'>
+		<Card className='w-full shadow-md md:w-[700px]'>
 			<CardHeader className='text-center font-orbitron text-5xl'>{headerTitle}</CardHeader>
-			<CardDescription className='text-center font-orbitron text-2xl'>{headerLabel}</CardDescription>
+			{headerLabel && (
+				<CardDescription className='text-center font-orbitron text-2xl'>{headerLabel}</CardDescription>
+			)}
 			<CardContent>{children}</CardContent>
 			{showSocial && (
 				<CardFooter>
@@ -32,10 +34,12 @@ const CardWrapper = ({
 				</CardFooter>
 			)}
 			{backButtonLabel && backButtonHref && (
-				<CardFooter>
+				<CardFooter className='flex items-center justify-center'>
 					<BackButton
-						label={backButtonLabel}
-						href={backButtonHref}
+						backButtonLabel={backButtonLabel}
+						backButtonHref={backButtonHref}
+						backButtonVariant={backButtonVariant}
+						backButtonSize={backButtonSize}
 					/>
 				</CardFooter>
 			)}

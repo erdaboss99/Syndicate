@@ -2,21 +2,22 @@
 
 import Link from 'next/link';
 
-import { Button } from '@/components/ui/Button';
+import { Button, ButtonProps } from '@/components/ui/Button';
 
-type BackButtonProps = {
-	label: string;
-	href: string;
+export type BackButtonProps = {
+	backButtonLabel: string;
+	backButtonHref: string;
+	backButtonVariant: ButtonProps['variant'];
+	backButtonSize: ButtonProps['size'];
 };
 
-const BackButton = ({ label, href }: BackButtonProps) => {
+const BackButton = ({ backButtonLabel, backButtonHref, backButtonVariant, backButtonSize }: BackButtonProps) => {
 	return (
 		<Button
-			variant='link'
-			className='w-full text-base'
-			size='lg'
+			variant={backButtonVariant}
+			size={backButtonSize}
 			asChild>
-			<Link href={href}>{label}</Link>
+			<Link href={backButtonHref}>{backButtonLabel}</Link>
 		</Button>
 	);
 };

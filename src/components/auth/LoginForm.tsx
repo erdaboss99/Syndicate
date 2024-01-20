@@ -39,12 +39,9 @@ const LoginForm = () => {
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
 		startTransition(() => {
 			loginWithCredentials(values).then((data) => {
-				if (data?.error) {
-					loginForm.reset();
-					setIsError(data?.error);
-				}
-				// TODO: ADD 2FA
-				// if (data.success) setIsSuccess(data.success);
+				loginForm.reset();
+				if (data?.error) setIsError(data?.error);
+				if (data?.success) setIsSuccess(data?.success);
 			});
 		});
 	};

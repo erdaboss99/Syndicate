@@ -9,12 +9,25 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 
 import { LoginSchema } from '@/schemas';
 
+import { getUserByEmail } from '@/data/user';
+import { generateVerificationToken } from '@/lib/tokens';
+
 export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) => {
 	const validatedData = LoginSchema.safeParse(values);
 
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const { email, password } = validatedData.data;
+
+	const user = await getUserByEmail(email);
+
+	if (!user || !user.email || !user.password) return { error: 'Invalid credentials!' };
+
+	if (!user.emailVerified) {
+		const verificationToken = await generateVerificationToken(user.email);
+
+		return { success: 'Confirmation email sent!' };
+	}
 
 	try {
 		await signIn('credentials', {

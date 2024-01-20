@@ -3,9 +3,11 @@
 import bcrypt from 'bcryptjs';
 import * as z from 'zod';
 
-import { database } from '@/lib/prisma';
+import { database } from '@/lib/database';
 
 import { RegistrationSchema } from '@/schemas';
+
+import { generateVerificationToken } from '@/lib/tokens';
 
 export const registration = async (values: z.infer<typeof RegistrationSchema>) => {
 	const validatedData = RegistrationSchema.safeParse(values);
@@ -30,7 +32,9 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 		},
 	});
 
+	const verificationToken = await generateVerificationToken(email);
+
 	// TODO: Send verification email token
 
-	return { success: 'Account successfully created!' };
+	return { success: 'Confirmation email sent!' };
 };

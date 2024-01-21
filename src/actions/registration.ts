@@ -9,6 +9,8 @@ import { RegistrationSchema } from '@/schemas';
 
 import { generateVerificationToken } from '@/lib/tokens';
 
+import { sendVerificationEmail } from '@/lib/mail';
+
 export const registration = async (values: z.infer<typeof RegistrationSchema>) => {
 	const validatedData = RegistrationSchema.safeParse(values);
 
@@ -34,7 +36,7 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 
 	const verificationToken = await generateVerificationToken(email);
 
-	// TODO: Send verification email token
+	await sendVerificationEmail(name, verificationToken.email, verificationToken.token);
 
 	return { success: 'Confirmation email sent!' };
 };

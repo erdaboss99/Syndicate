@@ -15,12 +15,12 @@ export default {
 				const validatedData = LoginSchema.safeParse(credentials);
 				if (validatedData.success) {
 					const { email, password } = validatedData.data;
-					const user = await getUserByEmail(email);
+					const existingUser = await getUserByEmail(email);
 
-					if (!user || !user.password) return null;
+					if (!existingUser || !existingUser.password) return null;
 
-					const passwordMatch = await bcrypt.compare(password, user.password);
-					if (passwordMatch) return user;
+					const passwordMatch = await bcrypt.compare(password, existingUser.password);
+					if (passwordMatch) return existingUser;
 				}
 				return null;
 			},

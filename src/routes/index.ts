@@ -8,7 +8,7 @@ export const publicRoutes: string[] = ['/'];
  * List of routes that are used for authentication.
  * These routes will redirect logged in users to the home page.
  */
-export const authRoutes: string[] = ['/auth/login', '/auth/registration', '/auth/error'];
+export const authRoutes: string[] = ['/auth/login', '/auth/registration', '/auth/error', '/auth/new-verification'];
 
 /**
  * This route is used for API authentication purposes.

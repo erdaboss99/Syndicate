@@ -1,30 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/Button';
-import { LuMoon, LuSun } from 'react-icons/lu';
+import { CgDarkMode } from 'react-icons/cg';
 
 const ThemeToggle = () => {
-	const [mounted, setMounted] = useState(false);
 	const { setTheme, resolvedTheme } = useTheme();
 
-	useEffect(() => {
-		setMounted(true);
-	}, []);
-
-	if (!mounted) {
-		return null;
-	}
+	const onClick = () => setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
 
 	return (
 		<Button
 			variant='outline'
 			size='nav'
-			onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}>
-			{resolvedTheme === 'light' ? <LuMoon className='scale-125' /> : <LuSun className='scale-125' />}
+			onClick={onClick}>
+			<CgDarkMode className='h-8 w-8' />
 			<span className='sr-only'>Toggle theme</span>
 		</Button>
 	);

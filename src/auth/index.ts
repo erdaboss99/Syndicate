@@ -3,8 +3,9 @@ import NextAuth from 'next-auth';
 
 import authConfig from '@/auth/auth.config';
 
-import { getUserById } from '@/data/user';
+import { JWT_TOKEN_EXPIRY } from '@/lib/constants';
 
+import { getUserById } from '@/data/user';
 import { database } from '@/lib/database';
 import { type UserRole } from '@prisma/client';
 
@@ -33,6 +34,8 @@ export const {
 			const existingUser = await getUserById(user.id);
 			if (!existingUser?.emailVerified) return false;
 
+			// Add 2FA
+
 			return true;
 		},
 		async session({ token, session }) {
@@ -51,6 +54,6 @@ export const {
 		},
 	},
 	adapter: PrismaAdapter(database),
-	session: { strategy: 'jwt' },
+	session: { strategy: 'jwt', maxAge: 60 * 60 * 24 * JWT_TOKEN_EXPIRY },
 	...authConfig,
 });

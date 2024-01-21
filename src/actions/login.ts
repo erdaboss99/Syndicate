@@ -10,6 +10,9 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { LoginSchema } from '@/schemas';
 
 import { getUserByEmail } from '@/data/user';
+
+import { sendVerificationEmail } from '@/lib/mail';
+
 import { generateVerificationToken } from '@/lib/tokens';
 
 export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) => {
@@ -21,10 +24,13 @@ export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) 
 
 	const existingUser = await getUserByEmail(email);
 
-	if (!existingUser || !existingUser.email || !existingUser.password) return { error: 'Invalid credentials!' };
+	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
+		return { error: 'Invalid credentials!' };
 
 	if (!existingUser.emailVerified) {
 		const verificationToken = await generateVerificationToken(existingUser.email);
+
+		await sendVerificationEmail(existingUser.name, verificationToken.email, verificationToken.token);
 
 		return { success: 'Confirmation email sent!' };
 	}

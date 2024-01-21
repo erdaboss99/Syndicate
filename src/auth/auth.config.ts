@@ -5,7 +5,10 @@ import Google from 'next-auth/providers/google';
 
 import bcrypt from 'bcryptjs';
 
+import { env } from '@/env.mjs';
+
 import { getUserByEmail } from '@/data/user';
+
 import { LoginSchema } from '@/schemas';
 
 export default {
@@ -26,12 +29,12 @@ export default {
 			},
 		}),
 		Github({
-			clientId: process.env.GITHUB_CLIENT_ID,
-			clientSecret: process.env.GITHUB_CLIENT_SECRET,
+			clientId: env.GITHUB_CLIENT_ID,
+			clientSecret: env.GITHUB_CLIENT_SECRET,
 		}),
 		Google({
-			clientId: process.env.GOOGLE_CLIENT_ID,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+			clientId: env.GOOGLE_CLIENT_ID,
+			clientSecret: env.GOOGLE_CLIENT_SECRET,
 		}),
 	],
 } satisfies NextAuthConfig;

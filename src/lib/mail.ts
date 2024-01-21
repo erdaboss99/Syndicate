@@ -1,12 +1,14 @@
 import EmailVerification from '@/emails/EmailVerification';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { env } from '@/env.mjs';
+
+const resend = new Resend(env.RESEND_API_KEY);
 
 export const sendVerificationEmail = async (name: string, email: string, token: string) => {
-	const confirmationLink = `${process.env.BASE_URL}/auth/new-verification?token=${token}`;
-	const sender = process.env.EMAIL_FROM as string;
-	const recipient = `${name} <${email}>`;
+	const confirmationLink = `${env.BASE_URL}/auth/new-verification?token=${token}`;
+	const sender = env.EMAIL_FROM;
+	const recipient = email;
 
 	await resend.emails.send({
 		from: sender,

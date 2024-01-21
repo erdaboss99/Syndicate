@@ -1,9 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
-import { getVerificationTokenByEmail } from '@/data/verificationToken';
-
 import { EMAIL_VERIFICATION_TOKEN_EXPIRY } from '@/lib/constants';
 
+import { getVerificationTokenByEmail } from '@/data/verificationToken';
 import { database } from '@/lib/database';
 
 export const generateVerificationToken = async (email: string) => {

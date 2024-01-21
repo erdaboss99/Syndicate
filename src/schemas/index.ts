@@ -13,3 +13,7 @@ export const RegistrationSchema = z.object({
 		.min(6, 'Password should be at least 6 characters!')
 		.max(25, 'Password should be maximum of 25 characters!'),
 });
+
+export const VerificationSchema = z.object({
+	token: z.string().uuid(),
+});

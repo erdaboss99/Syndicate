@@ -2,13 +2,13 @@
  * List of routes that are accessible to the public.
  * These routes do not require any form of authentication.
  */
-export const publicRoutes: string[] = ['/'];
+export const publicRoutes: string[] = ['/', '/auth/new-verification'];
 
 /**
  * List of routes that are used for authentication.
  * These routes will redirect logged in users to the home page.
  */
-export const authRoutes: string[] = ['/auth/login', '/auth/registration', '/auth/error', '/auth/new-verification'];
+export const authRoutes: string[] = ['/auth/login', '/auth/registration', '/auth/error'];
 
 /**
  * This route is used for API authentication purposes.

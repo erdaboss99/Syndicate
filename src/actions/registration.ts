@@ -13,7 +13,6 @@ import { sendVerificationEmail } from '@/lib/mail';
 
 export const registration = async (values: z.infer<typeof RegistrationSchema>) => {
 	const validatedData = RegistrationSchema.safeParse(values);
-
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const { name, email, password } = validatedData.data;
@@ -35,8 +34,6 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 	});
 
 	const verificationToken = await generateVerificationToken(email);
-
 	await sendVerificationEmail(name, verificationToken.email, verificationToken.token);
-
 	return { success: 'Confirmation email sent!' };
 };

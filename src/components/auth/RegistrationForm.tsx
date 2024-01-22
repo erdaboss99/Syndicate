@@ -33,6 +33,9 @@ const RegistrationForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof RegistrationSchema>) => {
+		setIsError('');
+		setIsSuccess('');
+
 		startTransition(() => {
 			registration(values)
 				.then((data) => {

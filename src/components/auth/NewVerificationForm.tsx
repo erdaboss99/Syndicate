@@ -36,6 +36,9 @@ const NewVerificationForm = ({ token }: NewVerificationFormProps) => {
 	});
 
 	const onSubmit = (values: z.infer<typeof VerificationSchema>) => {
+		setIsError('');
+		setIsSuccess('');
+
 		startTransition(() => {
 			newVerification(values).then((data) => {
 				verificationForm.reset();

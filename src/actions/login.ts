@@ -17,21 +17,17 @@ import { generateVerificationToken } from '@/lib/tokens';
 
 export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) => {
 	const validatedData = LoginSchema.safeParse(values);
-
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const { email, password } = validatedData.data;
 
 	const existingUser = await getUserByEmail(email);
-
 	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
 		return { error: 'Invalid credentials!' };
 
 	if (!existingUser.emailVerified) {
 		const verificationToken = await generateVerificationToken(existingUser.email);
-
 		await sendVerificationEmail(existingUser.name, verificationToken.email, verificationToken.token);
-
 		return { success: 'Confirmation email sent!' };
 	}
 

@@ -30,3 +30,10 @@ export const TokenVerificationSchema = z.object({
 export const RequestPasswordResetSchema = z.object({
 	email: z.string().email({ message: 'Email should be a valid email address!' }),
 });
+
+export const NewPasswordSchema = z.object({
+	password: z
+		.string()
+		.min(6, 'Password should be at least 6 characters!')
+		.max(25, 'Password should be maximum of 25 characters!'),
+});

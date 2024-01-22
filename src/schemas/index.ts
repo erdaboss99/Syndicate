@@ -31,9 +31,19 @@ export const RequestPasswordResetSchema = z.object({
 	email: z.string().email({ message: 'Email should be a valid email address!' }),
 });
 
-export const NewPasswordSchema = z.object({
-	password: z
-		.string()
-		.min(6, 'Password should be at least 6 characters!')
-		.max(25, 'Password should be maximum of 25 characters!'),
-});
+export const NewPasswordSchema = z
+	.object({
+		token: z.string().uuid(),
+		password: z
+			.string()
+			.min(6, 'Password should be at least 6 characters!')
+			.max(25, 'Password should be maximum of 25 characters!'),
+		confirmPassword: z
+			.string()
+			.min(6, 'Password should be at least 6 characters!')
+			.max(25, 'Password should be maximum of 25 characters!'),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: 'Passwords do not match!',
+		path: ['confirmPassword'],
+	});

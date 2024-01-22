@@ -29,6 +29,7 @@ const RegistrationForm = () => {
 			name: '',
 			email: '',
 			password: '',
+			confirmPassword: '',
 		},
 	});
 
@@ -109,7 +110,23 @@ const RegistrationForm = () => {
 									<FormControl>
 										<Input
 											{...field}
-											placeholder='*******'
+											type='password'
+											disabled={isPending}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={registrationForm.control}
+							name='confirmPassword'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Confirm password</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
 											type='password'
 											disabled={isPending}
 										/>

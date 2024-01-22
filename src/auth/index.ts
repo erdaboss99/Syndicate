@@ -3,7 +3,7 @@ import NextAuth from 'next-auth';
 
 import authConfig from '@/auth/auth.config';
 
-import { JWT_TOKEN_EXPIRY } from '@/lib/constants';
+import { JWT_TOKEN_EXPIRY } from '@/constants';
 
 import { getUserById } from '@/data/user';
 import { database } from '@/lib/database';

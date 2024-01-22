@@ -1,11 +1,11 @@
 import { Body, Container, Heading, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components';
 
-type VerificationEmailProps = {
+type EmailVerificationProps = {
 	name: string;
 	confirmationLink: string;
 };
 
-export const EmailVerification = ({ name, confirmationLink }: VerificationEmailProps) => (
+export const EmailVerification = ({ name, confirmationLink }: EmailVerificationProps) => (
 	<Html style={base}>
 		<Tailwind>
 			<Preview>Syndicate - Email verification</Preview>

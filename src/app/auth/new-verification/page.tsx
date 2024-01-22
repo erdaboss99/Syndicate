@@ -1,4 +1,4 @@
-import { VerificationSchema } from '@/schemas';
+import { TokenVerificationSchema } from '@/schemas';
 
 import NewVerificationForm from '@/components/auth/NewVerificationForm';
 import ErrorCard from '@/components/general/ErrorCard';
@@ -9,7 +9,7 @@ type NewVerificationPageProps = {
 };
 
 const NewVerificationPage = ({ searchParams }: NewVerificationPageProps) => {
-	const validatedData = VerificationSchema.safeParse(searchParams);
+	const validatedData = TokenVerificationSchema.safeParse(searchParams);
 	if (!validatedData.success)
 		return (
 			<ErrorCard

@@ -1,8 +1,8 @@
-import EmailVerification from '@/emails/EmailVerification';
 import { Resend } from 'resend';
 
 import { env } from '@/env.mjs';
 
+import EmailVerification from '@/emails/EmailVerification';
 const resend = new Resend(env.RESEND_API_KEY);
 
 export const sendVerificationEmail = async (name: string, email: string, token: string) => {
@@ -13,7 +13,7 @@ export const sendVerificationEmail = async (name: string, email: string, token: 
 	await resend.emails.send({
 		from: sender,
 		to: [recipient],
-		subject: 'Confirm your email address',
+		subject: 'Syndicate - Confirm your email address',
 		react: EmailVerification({ name: name, confirmationLink: confirmationLink }),
 	});
 };

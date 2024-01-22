@@ -8,7 +8,7 @@ import * as z from 'zod';
 
 import { newVerification } from '@/actions/new-verification';
 
-import { VerificationSchema } from '@/schemas';
+import { TokenVerificationSchema } from '@/schemas';
 
 import CardWrapper from '@/components/general/CardWrapper';
 import FormError from '@/components/general/FormError';
@@ -28,14 +28,14 @@ const NewVerificationForm = ({ token }: NewVerificationFormProps) => {
 	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
-	const verificationForm = useForm<z.infer<typeof VerificationSchema>>({
-		resolver: zodResolver(VerificationSchema),
+	const verificationForm = useForm<z.infer<typeof TokenVerificationSchema>>({
+		resolver: zodResolver(TokenVerificationSchema),
 		defaultValues: {
 			token: token,
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof VerificationSchema>) => {
+	const onSubmit = (values: z.infer<typeof TokenVerificationSchema>) => {
 		setIsError('');
 		setIsSuccess('');
 

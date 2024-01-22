@@ -15,7 +15,7 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 	const validatedData = RegistrationSchema.safeParse(values);
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
-	const { name, email, password } = validatedData.data;
+	const { name, email, password, confirmPassword } = validatedData.data;
 
 	const existingUser = await database.user.findUnique({
 		where: {
@@ -23,6 +23,7 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 		},
 	});
 	if (existingUser) return { error: 'This email is already taken!' };
+	if (password !== confirmPassword) return { error: 'Passwords do not match!' };
 
 	const hashedPassword = await bcrypt.hash(password, 10);
 	await database.user.create({

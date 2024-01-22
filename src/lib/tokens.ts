@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import { EMAIL_VERIFICATION_TOKEN_EXPIRY } from '@/lib/constants';
+import { EMAIL_VERIFICATION_TOKEN_EXPIRY, PASSWORD_RESET_TOKEN_EXPIRY } from '@/constants';
 
 import { getVerificationTokenByEmail } from '@/data/verificationToken';
 import { database } from '@/lib/database';

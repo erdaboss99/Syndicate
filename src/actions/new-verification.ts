@@ -2,14 +2,14 @@
 
 import { z } from 'zod';
 
-import { VerificationSchema } from '@/schemas';
+import { TokenVerificationSchema } from '@/schemas';
 
 import { getUserByEmail } from '@/data/user';
 import { getVerificationTokenByToken } from '@/data/verificationToken';
 import { database } from '@/lib/database';
 
-export const newVerification = async (values: z.infer<typeof VerificationSchema>) => {
-	const validatedData = VerificationSchema.safeParse(values);
+export const newVerification = async (values: z.infer<typeof TokenVerificationSchema>) => {
+	const validatedData = TokenVerificationSchema.safeParse(values);
 	if (!validatedData.success) return { error: 'Invalid token!' };
 
 	const { token } = validatedData.data;

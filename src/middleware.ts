@@ -19,7 +19,7 @@ export default auth((req) => {
 		return null;
 	}
 
-	if (!isActiveSession && !isPublicRoute) return Response.redirect(new URL('auth/login', nextUrl));
+	if (!isActiveSession && !isPublicRoute) return Response.redirect(new URL('/auth/login', nextUrl));
 
 	return null;
 });

@@ -17,3 +17,7 @@ export const RegistrationSchema = z.object({
 export const VerificationSchema = z.object({
 	token: z.string().uuid(),
 });
+
+export const RequestPasswordResetSchema = z.object({
+	email: z.string().email({ message: 'Email should be a valid email address!' }),
+});

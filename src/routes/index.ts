@@ -2,7 +2,7 @@
  * List of routes that are accessible to the public.
  * These routes do not require any form of authentication.
  */
-export const publicRoutes: string[] = ['/', '/auth/new-verification'];
+export const publicRoutes: string[] = ['/', '/auth/email-verification'];
 
 /**
  * List of routes that are used for authentication.
@@ -13,7 +13,7 @@ export const authRoutes: string[] = [
 	'/auth/registration',
 	'/auth/error',
 	'/auth/request-password-reset',
-	'/auth/new-password',
+	'/auth/reset-password',
 ];
 
 /**

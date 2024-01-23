@@ -8,7 +8,7 @@ import { getUserByEmail } from '@/data/user';
 import { getVerificationTokenByToken } from '@/data/verificationToken';
 import { database } from '@/lib/database';
 
-export const newVerification = async (values: z.infer<typeof TokenVerificationSchema>) => {
+export const emailVerification = async (values: z.infer<typeof TokenVerificationSchema>) => {
 	const validatedData = TokenVerificationSchema.safeParse(values);
 	if (!validatedData.success) return { error: 'Invalid token!' };
 

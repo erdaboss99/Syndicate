@@ -2,12 +2,12 @@ import { EMAIL_VERIFICATION_TOKEN_EXPIRY } from '@/constants';
 
 import { Body, Container, Heading, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components';
 
-type EmailVerificationProps = {
+type EmailVerificationTemplateProps = {
 	name: string;
 	confirmationLink: string;
 };
 
-export const EmailVerification = ({ name, confirmationLink }: EmailVerificationProps) => (
+export const EmailVerificationTemplate = ({ name, confirmationLink }: EmailVerificationTemplateProps) => (
 	<Html style={base}>
 		<Tailwind>
 			<Preview>Syndicate - Email verification</Preview>
@@ -38,7 +38,7 @@ export const EmailVerification = ({ name, confirmationLink }: EmailVerificationP
 	</Html>
 );
 
-export default EmailVerification;
+export default EmailVerificationTemplate;
 
 const base = {
 	fontFamily:

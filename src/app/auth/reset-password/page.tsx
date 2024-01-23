@@ -1,14 +1,13 @@
 import { TokenVerificationSchema } from '@/schemas';
 
-import NewVerificationForm from '@/components/auth/NewVerificationForm';
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
 import ErrorCard from '@/components/general/ErrorCard';
 
-type NewVerificationPageProps = {
+type ResetPasswordPageProps = {
 	params: { slug: string };
 	searchParams: { [key: string]: string | string[] | undefined };
 };
-
-const NewVerificationPage = ({ searchParams }: NewVerificationPageProps) => {
+const ResetPasswordPage = ({ searchParams }: ResetPasswordPageProps) => {
 	const validatedData = TokenVerificationSchema.safeParse(searchParams);
 	if (!validatedData.success)
 		return (
@@ -21,7 +20,7 @@ const NewVerificationPage = ({ searchParams }: NewVerificationPageProps) => {
 			/>
 		);
 
-	return <NewVerificationForm token={validatedData.data.token} />;
+	return <ResetPasswordForm token={validatedData.data.token} />;
 };
 
-export default NewVerificationPage;
+export default ResetPasswordPage;

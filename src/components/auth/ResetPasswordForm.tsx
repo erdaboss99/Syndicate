@@ -6,9 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { NewPasswordSchema } from '@/schemas';
+import { ResetPasswordSchema } from '@/schemas';
 
-import { newPassword } from '@/actions/new-password';
+import { resetPassword } from '@/actions/reset-password';
 
 import CardWrapper from '@/components/general/CardWrapper';
 import FormError from '@/components/general/FormError';
@@ -18,18 +18,18 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
 
-type NewPasswordFormProps = {
+type ResetPasswordFormProps = {
 	token: string;
 };
 
-const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
+const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 	const [isPending, startTransition] = useTransition();
 	const [isError, setIsError] = useState('');
 	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
-	const newPasswordForm = useForm<z.infer<typeof NewPasswordSchema>>({
-		resolver: zodResolver(NewPasswordSchema),
+	const resetPasswordForm = useForm<z.infer<typeof ResetPasswordSchema>>({
+		resolver: zodResolver(ResetPasswordSchema),
 		defaultValues: {
 			token: token,
 			password: '',
@@ -37,13 +37,13 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
+	const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
 		setIsError('');
 		setIsSuccess('');
 
 		startTransition(() => {
-			newPassword(values).then((data) => {
-				newPasswordForm.reset();
+			resetPassword(values).then((data) => {
+				resetPasswordForm.reset();
 				setIsDone(true);
 				if (data?.error) setIsError(data?.error);
 				if (data?.success) setIsSuccess(data?.success);
@@ -58,12 +58,12 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
 			backButtonHref='/auth/login'
 			backButtonVariant='link'
 			backButtonSize='lg'>
-			<Form {...newPasswordForm}>
+			<Form {...resetPasswordForm}>
 				<form
 					className='space-y-6'
-					onSubmit={newPasswordForm.handleSubmit(onSubmit)}>
+					onSubmit={resetPasswordForm.handleSubmit(onSubmit)}>
 					<FormField
-						control={newPasswordForm.control}
+						control={resetPasswordForm.control}
 						name='token'
 						render={({ field }) => (
 							<FormItem>
@@ -78,7 +78,7 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
 						)}
 					/>
 					<FormField
-						control={newPasswordForm.control}
+						control={resetPasswordForm.control}
 						name='password'
 						render={({ field }) => (
 							<FormItem>
@@ -95,7 +95,7 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
 						)}
 					/>
 					<FormField
-						control={newPasswordForm.control}
+						control={resetPasswordForm.control}
 						name='confirmPassword'
 						render={({ field }) => (
 							<FormItem>
@@ -137,4 +137,4 @@ const NewPasswordForm = ({ token }: NewPasswordFormProps) => {
 	);
 };
 
-export default NewPasswordForm;
+export default ResetPasswordForm;

@@ -31,7 +31,7 @@ export const RequestPasswordResetSchema = z.object({
 	email: z.string().email({ message: 'Email should be a valid email address!' }),
 });
 
-export const NewPasswordSchema = z
+export const ResetPasswordSchema = z
 	.object({
 		token: z.string().uuid(),
 		password: z

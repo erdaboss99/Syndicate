@@ -2,12 +2,12 @@ import { PASSWORD_RESET_TOKEN_EXPIRY } from '@/constants';
 
 import { Body, Container, Heading, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components';
 
-type PasswordResetProps = {
+type PasswordResetTemplateProps = {
 	name: string;
 	resetLink: string;
 };
 
-export const PasswordReset = ({ name, resetLink }: PasswordResetProps) => (
+export const PasswordResetTemplate = ({ name, resetLink }: PasswordResetTemplateProps) => (
 	<Html style={base}>
 		<Tailwind>
 			<Preview>Syndicate - Password reset</Preview>
@@ -38,7 +38,7 @@ export const PasswordReset = ({ name, resetLink }: PasswordResetProps) => (
 	</Html>
 );
 
-export default PasswordReset;
+export default PasswordResetTemplate;
 
 const base = {
 	fontFamily:

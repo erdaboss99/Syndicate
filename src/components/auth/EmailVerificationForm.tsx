@@ -6,9 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { newVerification } from '@/actions/new-verification';
-
 import { TokenVerificationSchema } from '@/schemas';
+
+import { emailVerification } from '@/actions/email-verification';
 
 import CardWrapper from '@/components/general/CardWrapper';
 import FormError from '@/components/general/FormError';
@@ -18,17 +18,17 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
 
-type NewVerificationFormProps = {
+type EmailVerificationFormProps = {
 	token: string;
 };
 
-const NewVerificationForm = ({ token }: NewVerificationFormProps) => {
+const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 	const [isPending, startTransition] = useTransition();
 	const [isError, setIsError] = useState('');
 	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
-	const verificationForm = useForm<z.infer<typeof TokenVerificationSchema>>({
+	const emailVerificationForm = useForm<z.infer<typeof TokenVerificationSchema>>({
 		resolver: zodResolver(TokenVerificationSchema),
 		defaultValues: {
 			token: token,
@@ -40,8 +40,8 @@ const NewVerificationForm = ({ token }: NewVerificationFormProps) => {
 		setIsSuccess('');
 
 		startTransition(() => {
-			newVerification(values).then((data) => {
-				verificationForm.reset();
+			emailVerification(values).then((data) => {
+				emailVerificationForm.reset();
 				setIsDone(true);
 				if (data?.error) setIsError(data?.error);
 				if (data?.success) setIsSuccess(data?.success);
@@ -56,12 +56,12 @@ const NewVerificationForm = ({ token }: NewVerificationFormProps) => {
 			backButtonHref='/auth/login'
 			backButtonVariant='link'
 			backButtonSize='lg'>
-			<Form {...verificationForm}>
+			<Form {...emailVerificationForm}>
 				<form
 					className='space-y-6'
-					onSubmit={verificationForm.handleSubmit(onSubmit)}>
+					onSubmit={emailVerificationForm.handleSubmit(onSubmit)}>
 					<FormField
-						control={verificationForm.control}
+						control={emailVerificationForm.control}
 						name='token'
 						render={({ field }) => (
 							<FormItem>
@@ -101,4 +101,4 @@ const NewVerificationForm = ({ token }: NewVerificationFormProps) => {
 	);
 };
 
-export default NewVerificationForm;
+export default EmailVerificationForm;

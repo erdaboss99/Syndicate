@@ -7,10 +7,10 @@ import { getPasswordResetTokenByToken } from '@/data/passwordResetToken';
 import { getUserByEmail } from '@/data/user';
 import { database } from '@/lib/database';
 
-import { NewPasswordSchema } from '@/schemas';
+import { ResetPasswordSchema } from '@/schemas';
 
-export const newPassword = async (values: z.infer<typeof NewPasswordSchema>) => {
-	const validatedData = NewPasswordSchema.safeParse(values);
+export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>) => {
+	const validatedData = ResetPasswordSchema.safeParse(values);
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const { token, password, confirmPassword } = validatedData.data;

@@ -1,3 +1,5 @@
+import { PASSWORD_RESET_TOKEN_EXPIRY } from '@/constants';
+
 import { Body, Container, Heading, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components';
 
 type PasswordResetProps = {
@@ -19,8 +21,11 @@ export const PasswordReset = ({ name, resetLink }: PasswordResetProps) => (
 							href={resetLink}>
 							Reset my password
 						</Link>
-						<Text className='text-xl'>If you didn&apos;t request this, please ignore this email.</Text>
+						<Text className='text-xl'>
+							{`This link will expire in ${PASSWORD_RESET_TOKEN_EXPIRY} minutes.`}
+						</Text>
 					</Section>
+					<Text className='text-xl'>If you didn&apos;t request this, please ignore this email.</Text>
 					<Text className='text-xl'>
 						Best regards,
 						<br />- Syndicate

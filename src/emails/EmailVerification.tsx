@@ -1,3 +1,5 @@
+import { EMAIL_VERIFICATION_TOKEN_EXPIRY } from '@/constants';
+
 import { Body, Container, Heading, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components';
 
 type EmailVerificationProps = {
@@ -19,8 +21,11 @@ export const EmailVerification = ({ name, confirmationLink }: EmailVerificationP
 							href={confirmationLink}>
 							Verify email address
 						</Link>
-						<Text className='text-xl'>If you didn&apos;t request this, please ignore this email.</Text>
+						<Text className='text-xl'>
+							{`This link will expire in ${EMAIL_VERIFICATION_TOKEN_EXPIRY} minutes.`}
+						</Text>
 					</Section>
+					<Text className='text-xl'>If you didn&apos;t request this, please ignore this email.</Text>
 					<Text className='text-xl'>
 						Best regards,
 						<br />- Syndicate

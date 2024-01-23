@@ -22,6 +22,7 @@ const RegistrationForm = () => {
 	const [isPending, startTransition] = useTransition();
 	const [isError, setIsError] = useState('');
 	const [isSuccess, setIsSuccess] = useState('');
+	const [isDone, setIsDone] = useState(false);
 
 	const registrationForm = useForm<z.infer<typeof RegistrationSchema>>({
 		resolver: zodResolver(RegistrationSchema),
@@ -45,7 +46,10 @@ const RegistrationForm = () => {
 						setIsError(data.error);
 					}
 
-					if (data.success) setIsSuccess(data.success);
+					if (data.success) {
+						setIsSuccess(data.success);
+						setIsDone(true);
+					}
 				})
 				.catch(() => setIsError('Something went wrong'));
 		});
@@ -76,7 +80,7 @@ const RegistrationForm = () => {
 											{...field}
 											placeholder='Your name'
 											type='text'
-											disabled={isPending}
+											disabled={isPending || isDone}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -94,7 +98,7 @@ const RegistrationForm = () => {
 											{...field}
 											placeholder='email@example.com'
 											type='email'
-											disabled={isPending}
+											disabled={isPending || isDone}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -111,7 +115,7 @@ const RegistrationForm = () => {
 										<Input
 											{...field}
 											type='password'
-											disabled={isPending}
+											disabled={isPending || isDone}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -128,7 +132,7 @@ const RegistrationForm = () => {
 										<Input
 											{...field}
 											type='password'
-											disabled={isPending}
+											disabled={isPending || isDone}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -146,7 +150,7 @@ const RegistrationForm = () => {
 							setIsError('');
 						}}
 						className='w-full'
-						disabled={isPending}>
+						disabled={isPending || isDone}>
 						{isPending ? (
 							<span className='flex flex-row items-center gap-2'>
 								<LuLoader2 className='animate-spin ' />

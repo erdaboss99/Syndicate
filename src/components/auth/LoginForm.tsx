@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
@@ -17,7 +18,6 @@ import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
-import Link from 'next/link';
 import { LuLoader2 } from 'react-icons/lu';
 
 const LoginForm = () => {

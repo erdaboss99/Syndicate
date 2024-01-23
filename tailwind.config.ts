@@ -71,8 +71,15 @@ const config = {
 					from: { height: 'var(--radix-accordion-content-height)' },
 					to: { height: '0' },
 				},
+				'dynamic-spin': {
+					'0%': { transform: 'rotate(0deg)' },
+					'25%': { transform: 'rotate(180deg)' },
+					'50%': { transform: 'rotate(270deg)' },
+					'100%': { transform: 'rotate(360deg)' },
+				},
 			},
 			animation: {
+				'dynamic-spin': 'dynamic-spin 1s linear infinite',
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 			},

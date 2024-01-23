@@ -100,7 +100,7 @@ const LoginForm = () => {
 									<Button
 										size='sm'
 										variant='link'
-										className='px-0 '
+										className='px-0'
 										asChild>
 										<Link href='/auth/request-password-reset'>Forgot password?</Link>
 									</Button>

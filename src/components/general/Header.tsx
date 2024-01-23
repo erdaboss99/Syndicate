@@ -14,9 +14,14 @@ const Header = async () => {
 	return (
 		<header className='relative inset-x-0 top-0 z-[10] h-fit w-full border-b p-3'>
 			<nav className='mx-auto flex h-full max-w-7xl flex-col items-center justify-between gap-5 px-8 md:flex-row md:gap-2'>
-				<Link href='/'>
-					<Logo />
-				</Link>
+				<Button
+					className='h-fit w-fit'
+					variant='logo'
+					asChild>
+					<Link href='/'>
+						<Logo />
+					</Link>
+				</Button>
 				<div className='flex items-center justify-center space-x-2'>
 					{!session && (
 						<LoginButton>

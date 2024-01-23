@@ -1,6 +1,18 @@
 import { EMAIL_VERIFICATION_TOKEN_EXPIRY } from '@/constants';
 
-import { Body, Container, Heading, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components';
+import {
+	Body,
+	Container,
+	Heading,
+	Hr,
+	Html,
+	Img,
+	Link,
+	Preview,
+	Section,
+	Tailwind,
+	Text,
+} from '@react-email/components';
 
 type EmailVerificationTemplateProps = {
 	name: string;
@@ -13,6 +25,12 @@ export const EmailVerificationTemplate = ({ name, confirmationLink }: EmailVerif
 			<Preview>Syndicate - Email verification</Preview>
 			<Body className='bg-slate-100'>
 				<Container className='mx-auto my-0 px-7 pb-12 pt-5'>
+					<Img
+						src='https://syndicate.erdelyiroland.com/syndicate.png'
+						alt='Syndicate logo'
+						width='518'
+						height='66'
+					/>
 					<Heading className='mt-12 text-3xl font-bold'>Dear {name},</Heading>
 					<Section className='mx-0 my-6'>
 						<Text className='text-xl'>Please click on the link below to verify your email address!</Text>

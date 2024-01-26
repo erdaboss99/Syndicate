@@ -23,6 +23,6 @@ export const authRoutes: string[] = [
 export const authAPIRoute: string = '/api/auth';
 
 /**
- * This route is the default route to redirect to after logging in.
+ * This route is the default route to redirect to after logging in or when trying to access auth routes while logged in.
  */
-export const DEFAULT_LOGIN_REDIRECT: string = '/';
+export const DEFAULT_LOGIN_REDIRECT: string = '/dashboard';

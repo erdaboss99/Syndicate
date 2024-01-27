@@ -14,21 +14,23 @@ const SocialLogins = () => {
 	};
 
 	return (
-		<div className='flex w-full items-center justify-center gap-x-4'>
+		<div className='flex w-full flex-col items-center justify-center gap-4 md:flex-row'>
 			<Button
 				size='lg'
-				className='w-[50%]'
+				className='w-full gap-4 md:w-[50%]'
 				variant='outline'
 				onClick={() => onClick('github')}>
-				<LuGithub />
+				<LuGithub className='h-6 w-6' />
+				<span>Sign in with Github</span>
 			</Button>
 
 			<Button
 				size='lg'
-				className='w-[50%]'
+				className='w-full gap-4 md:w-[50%]'
 				variant='outline'
 				onClick={() => onClick('google')}>
-				<GrGoogle />
+				<GrGoogle className='h-6 w-6' />
+				<span>Sign in with Google</span>
 			</Button>
 		</div>
 	);

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 
 import { Fanwood_Text, Orbitron, Rajdhani } from 'next/font/google';
 
-import Header from '@/components/general/Header';
+import Header from '@/components/navbar/Header';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 
 import { auth } from '@/auth';
@@ -44,14 +44,14 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 				lang='en'
 				className={`${rajdhani.variable} ${orbitron.variable} ${fanwoodText.variable}`}
 				suppressHydrationWarning>
-				<body className='flex min-w-[350px] select-none flex-col justify-center'>
+				<body className='min-w-[350px] select-none'>
 					<ThemeProvider
 						attribute='class'
 						defaultTheme='system'
 						storageKey='prefered-color-scheme'
 						enableSystem>
 						<Header />
-						<main className='flex h-full w-full items-start justify-center md:mt-[5vh]'>{children}</main>
+						<main className='flex h-full w-full items-start justify-center md:pt-[5vh]'>{children}</main>
 					</ThemeProvider>
 				</body>
 			</html>

@@ -13,7 +13,8 @@ const EmailVerificationPage = ({ searchParams }: EmailVerificationPageProps) => 
 	if (!validatedData.success)
 		return (
 			<ErrorCard
-				headerTitle='Invalid token!'
+				headerTitle='Authentication error!'
+				message='Invalid token!'
 				backButtonLabel='Back to login'
 				backButtonHref='/auth/login'
 				backButtonVariant='default'

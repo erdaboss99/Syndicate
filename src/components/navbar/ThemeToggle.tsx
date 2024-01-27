@@ -11,6 +11,12 @@ const ThemeToggle = ({ children }: ThemeToggleProps) => {
 
 	const onClick = () => setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
 
-	return <span onClick={onClick}>{children}</span>;
+	return (
+		<span
+			className='flex items-center justify-center'
+			onClick={onClick}>
+			{children}
+		</span>
+	);
 };
 export default ThemeToggle;

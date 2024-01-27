@@ -1,9 +1,15 @@
 import ErrorCard from '@/components/general/ErrorCard';
 
-const AuthErrorPage = () => {
+type AuthErrorPageProps = {
+	params: { slug: string };
+	searchParams: { [key: string]: string | string[] | undefined };
+};
+const AuthErrorPage = ({ searchParams }: AuthErrorPageProps) => {
+	const error = searchParams.error as string;
 	return (
 		<ErrorCard
-			headerTitle='Something went wrong!'
+			headerTitle='Authentication error!'
+			message={error}
 			backButtonLabel='Back to login'
 			backButtonHref='/auth/login'
 			backButtonVariant='default'

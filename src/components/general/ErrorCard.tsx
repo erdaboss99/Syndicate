@@ -4,10 +4,12 @@ import { LuAlertTriangle } from 'react-icons/lu';
 
 type ErrorCardProps = {
 	headerTitle: string;
+	message?: string;
 } & BackButtonProps;
 
 const ErrorCard = ({
 	headerTitle,
+	message,
 	backButtonLabel,
 	backButtonHref,
 	backButtonVariant,
@@ -20,9 +22,10 @@ const ErrorCard = ({
 			backButtonHref={backButtonHref}
 			backButtonVariant={backButtonVariant}
 			backButtonSize={backButtonSize}>
-			<span className='flex items-center justify-center text-destructive'>
-				<LuAlertTriangle className='text-4xl' />
-			</span>
+			<div className='flex items-center gap-x-4 rounded-md bg-destructive/15 p-3 text-xl font-bold text-destructive'>
+				<LuAlertTriangle className='h-10 w-10' />
+				<p>{message || 'Something went wrong! Please try again later.'}</p>
+			</div>
 		</CardWrapper>
 	);
 };

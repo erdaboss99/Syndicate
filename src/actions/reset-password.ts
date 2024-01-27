@@ -1,7 +1,8 @@
 'use server';
 
-import bcrypt from 'bcryptjs';
 import * as z from 'zod';
+
+import { hash } from '@/lib/hash';
 
 import { getPasswordResetTokenByToken } from '@/data/passwordResetToken';
 import { getUserByEmail } from '@/data/user';
@@ -26,7 +27,7 @@ export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>)
 
 	if (password !== confirmPassword) return { error: 'Passwords do not match!' };
 
-	const hashedPassword = await bcrypt.hash(password, 10);
+	const hashedPassword = await hash(password);
 	await database.user.update({
 		where: {
 			id: existingUser.id,

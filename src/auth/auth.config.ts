@@ -3,9 +3,9 @@ import Credentials from 'next-auth/providers/credentials';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
-import bcrypt from 'bcryptjs';
-
 import { env } from '@/env.mjs';
+
+import { compare } from '@/lib/hash';
 
 import { getUserByEmail } from '@/data/user';
 
@@ -22,7 +22,7 @@ export default {
 
 					if (!existingUser || !existingUser.password) return null;
 
-					const passwordMatch = await bcrypt.compare(password, existingUser.password);
+					const passwordMatch = await compare(password, existingUser.password);
 					if (passwordMatch) return existingUser;
 				}
 				return null;

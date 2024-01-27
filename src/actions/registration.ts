@@ -1,7 +1,8 @@
 'use server';
 
-import bcrypt from 'bcryptjs';
 import * as z from 'zod';
+
+import { hash } from '@/lib/hash';
 
 import { database } from '@/lib/database';
 
@@ -25,7 +26,7 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 	if (existingUser) return { error: 'This email is already taken!' };
 	if (password !== confirmPassword) return { error: 'Passwords do not match!' };
 
-	const hashedPassword = await bcrypt.hash(password, 10);
+	const hashedPassword = await hash(password);
 	await database.user.create({
 		data: {
 			name,

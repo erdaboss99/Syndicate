@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 
 import { Fanwood_Text, Orbitron, Rajdhani } from 'next/font/google';
 
-import Header from '@/components/navbar/Header';
+import Navbar from '@/components/navbar/Navbar';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 
 import { auth } from '@/auth';
@@ -50,7 +50,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 						defaultTheme='system'
 						storageKey='prefered-color-scheme'
 						enableSystem>
-						<Header />
+						<Navbar />
 						<main className='mx-auto flex w-full max-w-7xl items-start justify-center py-4 md:py-16'>
 							{children}
 						</main>

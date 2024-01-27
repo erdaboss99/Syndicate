@@ -25,6 +25,48 @@ const Logo = () => {
 					</tspan>
 				</text>
 			</g>
+			<defs>
+				<filter
+					id='filter0_d_6_7'
+					x='111.496'
+					y='29.7305'
+					width='658.93'
+					height='42.2773'
+					filterUnits='userSpaceOnUse'
+					colorInterpolationFilters='sRGB'>
+					<feFlood
+						floodOpacity='0'
+						result='BackgroundImageFix'
+					/>
+					<feColorMatrix
+						in='SourceAlpha'
+						type='matrix'
+						values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+						result='hardAlpha'
+					/>
+					<feOffset dy='4' />
+					<feGaussianBlur stdDeviation='2' />
+					<feComposite
+						in2='hardAlpha'
+						operator='out'
+					/>
+					<feColorMatrix
+						type='matrix'
+						values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'
+					/>
+					<feBlend
+						mode='normal'
+						in2='BackgroundImageFix'
+						result='effect1_dropShadow_6_7'
+					/>
+					<feBlend
+						mode='normal'
+						in='SourceGraphic'
+						in2='effect1_dropShadow_6_7'
+						result='shape'
+					/>
+				</filter>
+			</defs>
 		</svg>
 	);
 };

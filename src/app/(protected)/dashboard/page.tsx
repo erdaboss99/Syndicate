@@ -8,7 +8,7 @@ const DashboardPage = () => {
 	return (
 		<div>
 			<h1>Dashboard Page</h1>
-			<h1>{JSON.stringify(user)}</h1>
+			<h2>{JSON.stringify(user)}</h2>
 		</div>
 	);
 };

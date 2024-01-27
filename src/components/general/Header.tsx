@@ -1,21 +1,20 @@
 import Link from 'next/link';
 
-import { auth } from '@/auth';
+import { getCurrentUser } from '@/lib/auth';
 
 import LoginButton from '@/components/auth/LoginButton';
 import Logo from '@/components/general/Logo';
-import ThemeToggle from '@/components/general/ThemeToggle';
+import UserButton from '@/components/general/UserButton';
 import { Button } from '@/components/ui/Button';
-import LogoutButton from '../auth/LogoutButton';
 
 const Header = async () => {
-	const session = await auth();
+	const user = await getCurrentUser();
 
 	return (
 		<header className='relative inset-x-0 top-0 z-[10] h-fit w-full border-b p-3'>
 			<nav className='mx-auto flex h-full max-w-7xl flex-col items-center justify-between gap-5 px-8 md:flex-row md:gap-2'>
 				<Button
-					className='h-fit w-fit'
+					size='logo'
 					variant='logo'
 					asChild>
 					<Link href='/'>
@@ -23,25 +22,16 @@ const Header = async () => {
 					</Link>
 				</Button>
 				<div className='flex items-center justify-center space-x-2'>
-					{!session && (
+					{!user && (
 						<LoginButton>
 							<Button
-								variant='default'
-								size='lg'>
+								variant='outline'
+								size='logo'>
 								Sign in
 							</Button>
 						</LoginButton>
 					)}
-					{session && (
-						<LogoutButton>
-							<Button
-								variant='default'
-								size='lg'>
-								Log out
-							</Button>
-						</LogoutButton>
-					)}
-					<ThemeToggle />
+					{user && <UserButton />}
 				</div>
 			</nav>
 		</header>

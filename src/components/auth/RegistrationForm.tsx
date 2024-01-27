@@ -10,7 +10,7 @@ import { registration } from '@/actions/registration';
 
 import { RegistrationSchema } from '@/schemas';
 
-import CardWrapper from '@/components/general/CardWrapper';
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -56,14 +56,14 @@ const RegistrationForm = () => {
 	};
 
 	return (
-		<CardWrapper
+		<AuthWrapper
 			headerTitle='Registration'
 			headerLabel='Create an account'
 			backButtonLabel='Already have an account?'
 			backButtonHref='/auth/login'
 			backButtonVariant='link'
 			backButtonSize='full'
-			showSocial>
+			showSocialLogins>
 			<Form {...registrationForm}>
 				<form
 					className='space-y-6'
@@ -162,7 +162,7 @@ const RegistrationForm = () => {
 					</Button>
 				</form>
 			</Form>
-		</CardWrapper>
+		</AuthWrapper>
 	);
 };
 

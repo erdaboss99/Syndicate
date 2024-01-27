@@ -10,7 +10,7 @@ import { ResetPasswordSchema } from '@/schemas';
 
 import { resetPassword } from '@/actions/reset-password';
 
-import CardWrapper from '@/components/general/CardWrapper';
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -52,7 +52,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 	};
 
 	return (
-		<CardWrapper
+		<AuthWrapper
 			headerTitle='Enter a new password'
 			backButtonLabel='Back to login'
 			backButtonHref='/auth/login'
@@ -133,7 +133,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 					</Button>
 				</form>
 			</Form>
-		</CardWrapper>
+		</AuthWrapper>
 	);
 };
 

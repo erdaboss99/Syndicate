@@ -1,10 +1,37 @@
-const Banner = () => {
+import { getCurrentUser } from '@/lib/auth';
+
+import LoginButton from '../auth/LoginButton';
+import RegistrationButton from '../auth/RegistrationButton';
+import { Button } from '../ui/Button';
+
+const Banner = async () => {
+	const user = await getCurrentUser();
 	return (
-		<div className='flex h-fit w-full cursor-default select-none flex-col items-center justify-center divide-y-2 p-3 pt-5 md:w-[800px]'>
-			<h1 className='ml-[0.7em] py-4 font-fanwood-text text-2xl uppercase tracking-[0.7em] md:text-5xl'>
-				syndicate
-			</h1>
-			<p className='py-4 text-base md:text-2xl'>A corporate management system</p>
+		<div className='flex h-fit w-full flex-col items-center justify-center space-y-4 md:w-[800px]'>
+			<div className='flex flex-col items-center justify-center divide-y-2'>
+				<h1 className='ml-[0.7em] py-4 font-fanwood-text text-3xl uppercase tracking-[0.7em] md:text-5xl'>
+					syndicate
+				</h1>
+				<p className='py-4 text-base md:text-2xl'>A corporate management system</p>
+			</div>
+			{!user && (
+				<div className='flex items-center justify-center gap-8'>
+					<LoginButton>
+						<Button
+							variant='default'
+							size='lg'>
+							Sign in
+						</Button>
+					</LoginButton>
+					<RegistrationButton>
+						<Button
+							variant='outline'
+							size='lg'>
+							Sign up
+						</Button>
+					</RegistrationButton>
+				</div>
+			)}
 		</div>
 	);
 };

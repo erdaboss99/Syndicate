@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getCurrentUser } from '@/lib/auth';
 
 import LogoutButton from '@/components/auth/LogoutButton';
+import ThemeToggle from '@/components/navbar/ThemeToggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import {
@@ -13,6 +14,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 import { AiOutlineDashboard } from 'react-icons/ai';
+import { CgDarkMode } from 'react-icons/cg';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { MdExitToApp, MdOutlineManageAccounts } from 'react-icons/md';
 
@@ -48,6 +50,13 @@ const UserButton = async () => {
 						Dashboard
 					</DropdownMenuItem>
 				</Link>
+				<DropdownMenuSeparator />
+				<ThemeToggle>
+					<DropdownMenuItem>
+						<CgDarkMode className='mr-3 h-6 w-6' />
+						Switch theme
+					</DropdownMenuItem>
+				</ThemeToggle>
 				<DropdownMenuSeparator />
 				<LogoutButton>
 					<DropdownMenuItem>

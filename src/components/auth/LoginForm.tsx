@@ -12,7 +12,7 @@ import { loginWithCredentials } from '@/actions/login';
 
 import { LoginSchema } from '@/schemas';
 
-import CardWrapper from '@/components/general/CardWrapper';
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -51,14 +51,14 @@ const LoginForm = () => {
 	};
 
 	return (
-		<CardWrapper
+		<AuthWrapper
 			headerTitle='Login'
 			headerLabel='Welcome back!'
 			backButtonLabel="Don't have an account?"
 			backButtonHref='/auth/registration'
 			backButtonVariant='link'
 			backButtonSize='full'
-			showSocial>
+			showSocialLogins>
 			<Form {...loginForm}>
 				<form
 					className='space-y-6'
@@ -130,7 +130,7 @@ const LoginForm = () => {
 					</Button>
 				</form>
 			</Form>
-		</CardWrapper>
+		</AuthWrapper>
 	);
 };
 

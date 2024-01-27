@@ -75,9 +75,5 @@
 html,
 body,
 :root {
-	@apply m-0 min-h-screen w-full bg-background font-rajdhani text-foreground transition-colors;
-}
-
-.todo {
-	@apply text-6xl font-bold text-destructive;
+	@apply m-0 bg-background font-rajdhani text-foreground transition-colors;
 }

@@ -10,7 +10,7 @@ import { TokenVerificationSchema } from '@/schemas';
 
 import { emailVerification } from '@/actions/email-verification';
 
-import CardWrapper from '@/components/general/CardWrapper';
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -50,7 +50,7 @@ const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 	};
 
 	return (
-		<CardWrapper
+		<AuthWrapper
 			headerTitle='Confirming your email'
 			backButtonLabel='Back to login'
 			backButtonHref='/auth/login'
@@ -97,7 +97,7 @@ const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 					</Button>
 				</form>
 			</Form>
-		</CardWrapper>
+		</AuthWrapper>
 	);
 };
 

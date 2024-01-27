@@ -51,7 +51,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 						storageKey='prefered-color-scheme'
 						enableSystem>
 						<Header />
-						<main className='flex h-full w-full items-start justify-center md:pt-[5vh]'>{children}</main>
+						<main className='mx-auto flex w-full max-w-7xl items-start justify-center py-4 md:py-16'>
+							{children}
+						</main>
 					</ThemeProvider>
 				</body>
 			</html>

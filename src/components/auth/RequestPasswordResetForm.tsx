@@ -9,7 +9,7 @@ import * as z from 'zod';
 import { RequestPasswordResetSchema } from '@/schemas';
 
 import { requestPasswordReset } from '@/actions/request-password-reset';
-import CardWrapper from '@/components/general/CardWrapper';
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -47,7 +47,7 @@ const RequestPasswordResetForm = () => {
 	};
 
 	return (
-		<CardWrapper
+		<AuthWrapper
 			headerTitle='Request new password'
 			backButtonLabel='Back to login'
 			backButtonHref='/auth/login'
@@ -99,7 +99,7 @@ const RequestPasswordResetForm = () => {
 					</Button>
 				</form>
 			</Form>
-		</CardWrapper>
+		</AuthWrapper>
 	);
 };
 

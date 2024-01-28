@@ -7,6 +7,7 @@ type ResetPasswordPageProps = {
 	params: { slug: string };
 	searchParams: { [key: string]: string | string[] | undefined };
 };
+
 const ResetPasswordPage = ({ searchParams }: ResetPasswordPageProps) => {
 	const validatedData = TokenVerificationSchema.safeParse(searchParams);
 	if (!validatedData.success)

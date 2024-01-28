@@ -4,6 +4,7 @@ type AuthErrorPageProps = {
 	params: { slug: string };
 	searchParams: { [key: string]: string | string[] | undefined };
 };
+
 const AuthErrorPage = ({ searchParams }: AuthErrorPageProps) => {
 	const error = searchParams.error as string;
 	return (

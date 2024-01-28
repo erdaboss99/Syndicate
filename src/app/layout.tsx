@@ -1,14 +1,13 @@
 import type { Metadata, Viewport } from 'next';
-
 import { Fanwood_Text, Orbitron, Rajdhani } from 'next/font/google';
-
-import Navbar from '@/components/navbar/Navbar';
-import ThemeProvider from '@/components/providers/ThemeProvider';
 
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
 
 import '@/styles/globals.css';
+
+import Navbar from '@/components/navbar/Navbar';
+import ThemeProvider from '@/components/providers/ThemeProvider';
 
 const rajdhani = Rajdhani({
 	weight: ['300', '400', '500', '600', '700'],

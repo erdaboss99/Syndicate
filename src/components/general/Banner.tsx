@@ -1,8 +1,8 @@
 import { getCurrentUser } from '@/lib/auth';
 
-import LoginButton from '../auth/LoginButton';
-import RegistrationButton from '../auth/RegistrationButton';
-import { Button } from '../ui/Button';
+import LoginButton from '@/components/auth/LoginButton';
+import RegistrationButton from '@/components/auth/RegistrationButton';
+import { Button } from '@/components/ui/Button';
 
 const Banner = async () => {
 	const user = await getCurrentUser();

@@ -47,3 +47,29 @@ export const ResetPasswordSchema = z
 		message: 'Passwords do not match!',
 		path: ['confirmPassword'],
 	});
+
+export const AccountSchema = z
+	.object({
+		name: z.string().min(1, 'Name is required!'),
+		email: z.string().email({ message: 'Email should be a valid email address!' }),
+		newPassword: z
+			.string()
+			.min(6, 'Password should be at least 6 characters!')
+			.max(25, 'Password should be maximum of 25 characters!'),
+		confirmPassword: z
+			.string()
+			.min(6, 'Password should be at least 6 characters!')
+			.max(25, 'Password should be maximum of 25 characters!'),
+		password: z
+			.string()
+			.min(6, 'Password should be at least 6 characters!')
+			.max(25, 'Password should be maximum of 25 characters!'),
+	})
+	.refine((data) => data.newPassword === data.confirmPassword, {
+		message: 'Passwords do not match!',
+		path: ['confirmPassword'],
+	})
+	.refine((data) => data.newPassword !== data.password, {
+		message: 'New password cannot be the same as the old password!',
+		path: ['newPassword'],
+	});

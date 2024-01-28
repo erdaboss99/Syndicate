@@ -59,10 +59,10 @@ const RegistrationForm = () => {
 		<AuthWrapper
 			headerTitle='Registration'
 			headerLabel='Create an account'
-			backButtonLabel='Already have an account?'
-			backButtonHref='/auth/login'
-			backButtonVariant='link'
-			backButtonSize='full'
+			buttonLabel='Already have an account?'
+			buttonHref='/auth/login'
+			buttonVariant='link'
+			buttonSize='full'
 			showSocialLogins>
 			<Form {...registrationForm}>
 				<form

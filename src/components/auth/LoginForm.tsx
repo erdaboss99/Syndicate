@@ -54,10 +54,10 @@ const LoginForm = () => {
 		<AuthWrapper
 			headerTitle='Login'
 			headerLabel='Welcome back!'
-			backButtonLabel="Don't have an account?"
-			backButtonHref='/auth/registration'
-			backButtonVariant='link'
-			backButtonSize='full'
+			buttonLabel="Don't have an account?"
+			buttonHref='/auth/registration'
+			buttonVariant='link'
+			buttonSize='full'
 			showSocialLogins>
 			<Form {...loginForm}>
 				<form

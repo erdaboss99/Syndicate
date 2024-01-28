@@ -1,7 +1,7 @@
 import { TokenVerificationSchema } from '@/schemas';
 
+import ErrorCard from '@/components/auth/ErrorCard';
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
-import ErrorCard from '@/components/general/ErrorCard';
 
 type ResetPasswordPageProps = {
 	params: { slug: string };
@@ -14,10 +14,10 @@ const ResetPasswordPage = ({ searchParams }: ResetPasswordPageProps) => {
 			<ErrorCard
 				headerTitle='Authentication error!'
 				message='Invalid token!'
-				backButtonLabel='Back to login'
-				backButtonHref='/auth/login'
-				backButtonVariant='default'
-				backButtonSize='lg'
+				buttonLabel='Back to login'
+				buttonHref='/auth/login'
+				buttonVariant='default'
+				buttonSize='lg'
 			/>
 		);
 

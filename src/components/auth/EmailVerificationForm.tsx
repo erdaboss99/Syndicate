@@ -52,10 +52,10 @@ const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 	return (
 		<AuthWrapper
 			headerTitle='Confirming your email'
-			backButtonLabel='Back to login'
-			backButtonHref='/auth/login'
-			backButtonVariant='link'
-			backButtonSize='lg'>
+			buttonLabel='Back to login'
+			buttonHref='/auth/login'
+			buttonVariant='link'
+			buttonSize='lg'>
 			<Form {...emailVerificationForm}>
 				<form
 					className='space-y-6'

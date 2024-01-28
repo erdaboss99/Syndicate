@@ -54,10 +54,10 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 	return (
 		<AuthWrapper
 			headerTitle='Enter a new password'
-			backButtonLabel='Back to login'
-			backButtonHref='/auth/login'
-			backButtonVariant='link'
-			backButtonSize='lg'>
+			buttonLabel='Back to login'
+			buttonHref='/auth/login'
+			buttonVariant='link'
+			buttonSize='lg'>
 			<Form {...resetPasswordForm}>
 				<form
 					className='space-y-6'

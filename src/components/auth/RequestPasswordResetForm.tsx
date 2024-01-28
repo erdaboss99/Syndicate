@@ -49,10 +49,10 @@ const RequestPasswordResetForm = () => {
 	return (
 		<AuthWrapper
 			headerTitle='Request new password'
-			backButtonLabel='Back to login'
-			backButtonHref='/auth/login'
-			backButtonVariant='link'
-			backButtonSize='full'>
+			buttonLabel='Back to login'
+			buttonHref='/auth/login'
+			buttonVariant='link'
+			buttonSize='full'>
 			<Form {...requestPasswordResetForm}>
 				<form
 					className='space-y-6'

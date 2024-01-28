@@ -1,4 +1,4 @@
-import ErrorCard from '@/components/general/ErrorCard';
+import ErrorCard from '@/components/auth/ErrorCard';
 
 type AuthErrorPageProps = {
 	params: { slug: string };
@@ -10,10 +10,10 @@ const AuthErrorPage = ({ searchParams }: AuthErrorPageProps) => {
 		<ErrorCard
 			headerTitle='Authentication error!'
 			message={error}
-			backButtonLabel='Back to login'
-			backButtonHref='/auth/login'
-			backButtonVariant='default'
-			backButtonSize='lg'
+			buttonLabel='Back to login'
+			buttonHref='/auth/login'
+			buttonVariant='default'
+			buttonSize='lg'
 		/>
 	);
 };

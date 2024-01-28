@@ -16,20 +16,16 @@ const Banner = async () => {
 			</div>
 			{!user && (
 				<div className='flex items-center justify-center gap-8'>
-					<LoginButton>
-						<Button
-							variant='default'
-							size='lg'>
-							Sign in
-						</Button>
-					</LoginButton>
-					<RegistrationButton>
-						<Button
-							variant='outline'
-							size='lg'>
-							Sign up
-						</Button>
-					</RegistrationButton>
+					<Button
+						variant='default'
+						size='lg'>
+						<LoginButton>Sign in</LoginButton>
+					</Button>
+					<Button
+						variant='outline'
+						size='lg'>
+						<RegistrationButton>Sign up</RegistrationButton>
+					</Button>
 				</div>
 			)}
 		</div>

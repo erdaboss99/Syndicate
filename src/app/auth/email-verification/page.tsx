@@ -1,7 +1,7 @@
 import { TokenVerificationSchema } from '@/schemas';
 
 import EmailVerificationForm from '@/components/auth/EmailVerificationForm';
-import ErrorCard from '@/components/general/ErrorCard';
+import ErrorCard from '@/components/auth/ErrorCard';
 
 type EmailVerificationPageProps = {
 	params: { slug: string };
@@ -15,10 +15,10 @@ const EmailVerificationPage = ({ searchParams }: EmailVerificationPageProps) => 
 			<ErrorCard
 				headerTitle='Authentication error!'
 				message='Invalid token!'
-				backButtonLabel='Back to login'
-				backButtonHref='/auth/login'
-				backButtonVariant='default'
-				backButtonSize='lg'
+				buttonLabel='Back to login'
+				buttonHref='/auth/login'
+				buttonVariant='default'
+				buttonSize='lg'
 			/>
 		);
 

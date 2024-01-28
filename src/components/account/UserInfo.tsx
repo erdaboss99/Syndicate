@@ -3,6 +3,7 @@ import { getCurrentUser } from '@/lib/auth';
 import AccountWrapper from '@/components/account/AccountWrapper';
 import LinkButton from '@/components/general/LinkButton';
 import { CardContent, CardFooter } from '@/components/ui/Card';
+import FormInfo from '../general/FormInfo';
 
 type UserInfoSectionProps = {
 	name: string;
@@ -45,11 +46,20 @@ const UserInfo = async () => {
 					</div>
 				</CardContent>
 				<CardFooter className='flex flex-col items-center justify-center space-y-4'>
-					<LinkButton
-						buttonLabel='Edit account information'
-						buttonHref='/account/edit'
-						buttonVariant='outline'
-						buttonSize='full'
+					{!user?.isOAuth && (
+						<LinkButton
+							buttonLabel='Edit account information'
+							buttonHref='/account/edit'
+							buttonVariant='outline'
+							buttonSize='full'
+						/>
+					)}
+					<FormInfo
+						message={
+							user?.isOAuth
+								? 'User data cannot be changed in accounts created using a third-party provider!'
+								: ''
+						}
 					/>
 					<LinkButton
 						buttonLabel='Delete account'

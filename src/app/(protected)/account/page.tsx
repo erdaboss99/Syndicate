@@ -1,14 +1,7 @@
-import { getCurrentUser } from '@/lib/auth';
+import UserInfo from '@/components/account/UserInfo';
 
-const AccountPage = async () => {
-	const user = await getCurrentUser();
-
-	return (
-		<div>
-			<h1>Account Page</h1>
-			<h2>{JSON.stringify(user)}</h2>
-		</div>
-	);
+const AccountPage = () => {
+	return <UserInfo />;
 };
 
 export default AccountPage;

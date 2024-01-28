@@ -1,6 +1,12 @@
 import NextAuth from 'next-auth';
 
-import { DEFAULT_LOGIN_REDIRECT, authAPIRoute, authRoutes, publicRoutes } from '@/routes';
+import {
+	DEFAULT_LOGIN_REDIRECT,
+	DEFAULT_UNAUTHENTICATED_REDIRECT,
+	authAPIRoute,
+	authRoutes,
+	publicRoutes,
+} from '@/routes';
 
 import authConfig from '@/auth/auth.config';
 const { auth } = NextAuth(authConfig);
@@ -19,7 +25,8 @@ export default auth((req) => {
 		return null;
 	}
 
-	if (!isActiveSession && !isPublicRoute) return Response.redirect(new URL('/auth/login', nextUrl));
+	if (!isActiveSession && !isPublicRoute)
+		return Response.redirect(new URL(DEFAULT_UNAUTHENTICATED_REDIRECT, nextUrl));
 
 	return null;
 });

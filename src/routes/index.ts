@@ -26,3 +26,8 @@ export const authAPIRoute: string = '/api/auth';
  * This route is the default route to redirect to after logging in or when trying to access auth routes while logged in.
  */
 export const DEFAULT_LOGIN_REDIRECT: string = '/dashboard';
+
+/**
+ * This route is the default route to redirect to after logging out or when trying to access forbidden pages.
+ */
+export const DEFAULT_UNAUTHENTICATED_REDIRECT: string = '/auth/login';

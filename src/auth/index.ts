@@ -2,6 +2,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import NextAuth from 'next-auth';
 
 import authConfig from '@/auth/auth.config';
+import { LoginProviders } from '@/auth/next-auth';
 
 import { JWT_TOKEN_EXPIRY } from '@/constants';
 
@@ -42,9 +43,11 @@ export const {
 			if (token.role && session.user) session.user.role = token.role as UserRole;
 
 			if (session.user) {
-				session.user.name = token.name;
-				session.user.email = token.email;
-				session.user.isOAuth = token.isOAuth as boolean;
+				session.user.name = token.name as string;
+				session.user.email = token.email as string;
+				session.user.provider = token.provider as LoginProviders;
+				session.user.updatedAt = new Date(token.updatedAt as string);
+				session.user.createdAt = new Date(token.createdAt as string);
 			}
 
 			return session;
@@ -56,8 +59,19 @@ export const {
 			if (!existingUser) return token;
 
 			const existingAccount = await getAccountByUserId(existingUser.id);
-
-			token.isOAuth = !!existingAccount;
+			switch (existingAccount?.provider) {
+				case 'google':
+					token.provider = 'Google';
+					break;
+				case 'github':
+					token.provider = 'GitHub';
+					break;
+				default:
+					token.provider = 'Credentials';
+					break;
+			}
+			token.updatedAt = existingUser.updatedAt.toISOString();
+			token.createdAt = existingUser.createdAt.toISOString();
 			token.name = existingUser.name;
 			token.email = existingUser.email;
 			token.role = existingUser.role;

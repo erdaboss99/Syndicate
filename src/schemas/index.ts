@@ -48,18 +48,30 @@ export const ResetPasswordSchema = z
 		path: ['confirmPassword'],
 	});
 
-export const AccountSchema = z
+export const AccountEditSchema = z
 	.object({
 		name: z.string().min(1, 'Name is required!'),
 		email: z.string().email({ message: 'Email should be a valid email address!' }),
 		newPassword: z
-			.string()
-			.min(6, 'Password should be at least 6 characters!')
-			.max(25, 'Password should be maximum of 25 characters!'),
+			.union([
+				z
+					.string()
+					.min(6, 'Password should be at least 6 characters!')
+					.max(25, 'Password should be maximum of 25 characters!'),
+				z.string().length(0),
+			])
+			.optional()
+			.transform((newPassword) => (newPassword === '' ? undefined : newPassword)),
 		confirmPassword: z
-			.string()
-			.min(6, 'Password should be at least 6 characters!')
-			.max(25, 'Password should be maximum of 25 characters!'),
+			.union([
+				z
+					.string()
+					.min(6, 'Password should be at least 6 characters!')
+					.max(25, 'Password should be maximum of 25 characters!'),
+				z.string().length(0),
+			])
+			.optional()
+			.transform((confirmNewPassword) => (confirmNewPassword === '' ? undefined : confirmNewPassword)),
 		password: z
 			.string()
 			.min(6, 'Password should be at least 6 characters!')
@@ -73,3 +85,7 @@ export const AccountSchema = z
 		message: 'New password cannot be the same as the old password!',
 		path: ['newPassword'],
 	});
+
+export const AccountDeleteSchema = z.object({
+	email: z.string().email({ message: 'Email should be a valid email address!' }),
+});

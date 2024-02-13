@@ -1,0 +1,25 @@
+name: Typecheck, Lint
+on:
+    pull_request:
+    push:
+jobs:
+    run_typecheck_and_lint:
+        timeout-minutes: 5
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Typecheck
+              run: npm run typecheck
+
+            - name: Lint
+              run: npm run lint

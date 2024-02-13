@@ -64,7 +64,7 @@ const UserInfo = async () => {
 						title='Delete account'
 						description='This action is irreversible. All data will be lost. Are you sure you want to delete your account?'
 						triggerButtonLabel='Delete account'
-						triggerButtonVariant='secondary'
+						triggerButtonVariant='outline'
 						triggerButtonSize='full'>
 						<AccountDeleteForm />
 					</AccountDialog>

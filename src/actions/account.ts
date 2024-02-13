@@ -79,7 +79,7 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 	const user = await getCurrentUser();
 	const existingUser = await getUserById(user?.id!);
 
-	if (!existingUser || !existingUser.email || !existingUser.password) return { error: 'User no longed exists!' };
+	if (!existingUser || !existingUser.email) return { error: 'User no longed exists!' };
 
 	if (existingUser.email !== email) return { error: 'Invalid email!' };
 

@@ -6,9 +6,11 @@ import { formatDate } from '@/lib/date';
 
 import { DEFAULT_UNAUTHENTICATED_REDIRECT } from '@/routes';
 
+import AccountDeleteForm from '@/components/account/AccountDeleteForm';
+import AccountDialog from '@/components/account/AccountDialog';
+import AccountEditForm from '@/components/account/AccountEditForm';
 import AccountWrapper from '@/components/account/AccountWrapper';
 import FormInfo from '@/components/general/FormInfo';
-import LinkButton from '@/components/general/LinkButton';
 import { CardContent, CardFooter } from '@/components/ui/Card';
 
 const UserInfo = async () => {
@@ -42,12 +44,14 @@ const UserInfo = async () => {
 				</CardContent>
 				<CardFooter className='flex flex-col items-center justify-center space-y-4'>
 					{!isOAuth && (
-						<LinkButton
-							buttonLabel='Edit account information'
-							buttonHref='/account/edit'
-							buttonVariant='outline'
-							buttonSize='full'
-						/>
+						<AccountDialog
+							title='Edit account'
+							description="Make changes to your account here. Click save when you're done."
+							triggerButtonLabel='Edit account information'
+							triggerButtonVariant='default'
+							triggerButtonSize='full'>
+							<AccountEditForm />
+						</AccountDialog>
 					)}
 					<FormInfo
 						message={
@@ -56,12 +60,14 @@ const UserInfo = async () => {
 								: ''
 						}
 					/>
-					<LinkButton
-						buttonLabel='Delete account'
-						buttonHref='/account/delete'
-						buttonVariant='destructive'
-						buttonSize='full'
-					/>
+					<AccountDialog
+						title='Delete account'
+						description='This action is irreversible. All data will be lost. Are you sure you want to delete your account?'
+						triggerButtonLabel='Delete account'
+						triggerButtonVariant='secondary'
+						triggerButtonSize='full'>
+						<AccountDeleteForm />
+					</AccountDialog>
 				</CardFooter>
 			</div>
 		</AccountWrapper>

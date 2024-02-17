@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { getCurrentUser } from '@/lib/auth';
 
 import LogoutButton from '@/components/auth/LogoutButton';
+import UserAvatar from '@/components/general/UserAvatar';
 import ThemeToggle from '@/components/navbar/ThemeToggle';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import {
 	DropdownMenu,
@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/DropdownMenu';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
-import { FaRegUserCircle } from 'react-icons/fa';
 import { MdExitToApp, MdOutlineManageAccounts } from 'react-icons/md';
 
 const UserButton = async () => {
@@ -27,12 +26,7 @@ const UserButton = async () => {
 				<Button
 					variant='ghost'
 					size='nav'>
-					<Avatar className='h-9 w-9'>
-						<AvatarImage src={user?.image || ''} />
-						<AvatarFallback className='bg-transparent'>
-							<FaRegUserCircle className='h-8 w-8' />
-						</AvatarFallback>
-					</Avatar>
+					<UserAvatar src={user?.image!} />
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent

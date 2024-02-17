@@ -45,6 +45,7 @@ model User {
     password      String?
     image         String?
     role          UserRole  @default(USER)
+    lastSeen      DateTime  @default(now()) @map("last_seen")
     updatedAt     DateTime  @updatedAt @map("updated_at")
     createdAt     DateTime  @default(now()) @map("created_at")
 

@@ -48,6 +48,11 @@ export const {
 				session.user.provider = token.provider as LoginProviders;
 				session.user.updatedAt = new Date(token.updatedAt as string);
 				session.user.createdAt = new Date(token.createdAt as string);
+
+				await database.user.update({
+					where: { id: session.user.id },
+					data: { lastSeen: new Date() },
+				});
 			}
 
 			return session;

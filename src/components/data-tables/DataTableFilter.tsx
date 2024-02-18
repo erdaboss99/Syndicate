@@ -37,7 +37,7 @@ const DataTableFilter = <TData, TValue>({ column, title, options }: DataTableFil
 					variant='outline'
 					size='sm'
 					className='h-9 border'>
-					<LuPlus className='mr-2 h-4 w-4' />
+					<LuPlus className='mr-2 hidden h-4 w-4 md:block' />
 					{title}
 					{selectedValues?.size > 0 && (
 						<>

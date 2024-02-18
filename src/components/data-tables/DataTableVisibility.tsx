@@ -20,8 +20,8 @@ const DataTableVisibility = <TData,>({ dataTable }: DataTableVisibilityProps<TDa
 				<Button
 					variant='outline'
 					size='sm'
-					className='ml-auto h-9 border'>
-					<LuEye className='mr-2 h-4 w-4' />
+					className='h-9 border md:ml-auto'>
+					<LuEye className='mr-2 hidden h-4 w-4 md:block' />
 					Columns visibility
 				</Button>
 			</DropdownMenuTrigger>

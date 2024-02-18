@@ -20,8 +20,8 @@ type DataTableToolbarProps<TData> = {
 
 const DataTableToolbar = <TData,>({ dataTable, search, filter, visibility }: DataTableToolbarProps<TData>) => {
 	return (
-		<div className='flex items-center justify-center md:justify-between'>
-			<div className='flex items-center space-x-4'>
+		<div className='flex items-center justify-center space-x-2 md:justify-between md:space-x-0'>
+			<div className='flex items-center space-x-2 md:space-x-4'>
 				{search && (
 					<DataTableSearch
 						dataTable={dataTable}

@@ -9,7 +9,7 @@ export type AuthWrapperProps = {
 	headerLabel?: string;
 	showSocialLogins?: boolean;
 } & LinkButtonProps &
-	Omit<CardWrapperProps, 'children'>;
+	Omit<CardWrapperProps, 'children' | 'size'>;
 
 const AuthWrapper = ({
 	children,
@@ -23,6 +23,7 @@ const AuthWrapper = ({
 }: AuthWrapperProps) => {
 	return (
 		<CardWrapper
+			size='md'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			<CardContent>{children}</CardContent>

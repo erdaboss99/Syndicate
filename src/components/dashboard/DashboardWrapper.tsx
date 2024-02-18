@@ -2,11 +2,12 @@ import CardWrapper, { type CardWrapperProps } from '@/components/general/CardWra
 
 type DashboardWrapperProps = {
 	children: React.ReactNode;
-} & Omit<CardWrapperProps, 'children'>;
+} & Omit<CardWrapperProps, 'children' | 'size'>;
 
 const DashboardWrapper = ({ children, headerTitle, headerLabel }: DashboardWrapperProps) => {
 	return (
 		<CardWrapper
+			size='lg'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			{children}

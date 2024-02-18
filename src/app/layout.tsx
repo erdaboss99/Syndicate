@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 
 import Navbar from '@/components/navbar/Navbar';
 import ThemeProvider from '@/components/providers/ThemeProvider';
+import { Toaster } from '@/components/ui/Sonner';
 
 const rajdhani = Rajdhani({
 	weight: ['300', '400', '500', '600', '700'],
@@ -53,6 +54,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 						<main className='mx-auto flex w-full max-w-7xl items-start justify-center py-4 md:py-16'>
 							{children}
 						</main>
+						<Toaster />
 					</ThemeProvider>
 				</body>
 			</html>

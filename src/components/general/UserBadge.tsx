@@ -1,14 +1,16 @@
-import { Badge } from '@/components/ui/Badge';
 import { UserRole } from '@prisma/client';
+
+import { Badge, BadgeProps } from '@/components/ui/Badge';
 import { LuBriefcase, LuShield, LuUser } from 'react-icons/lu';
 
 type UserRoleBadgeProps = {
 	role: UserRole;
+	badgeVariant: BadgeProps['variant'];
 };
 
-const UserRoleBadge = ({ role }: UserRoleBadgeProps) => {
+const UserRoleBadge = ({ role, badgeVariant }: UserRoleBadgeProps) => {
 	return (
-		<Badge variant='outline'>
+		<Badge variant={badgeVariant}>
 			{role === UserRole.ADMIN ? <AdminBadge /> : role === UserRole.EMPLOYEE ? <EmployeeBadge /> : <UserBadge />}
 		</Badge>
 	);

@@ -8,7 +8,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/Dialog';
 
-type AccountEditDialogProps = {
+type ConfirmDialogProps = {
 	title: string;
 	description: string;
 	triggerButtonLabel: string;
@@ -17,14 +17,14 @@ type AccountEditDialogProps = {
 	children: React.ReactNode;
 };
 
-const AccountDialog = ({
+const ConfirmDialog = ({
 	title,
 	description,
 	triggerButtonLabel,
 	triggerButtonVariant,
 	triggerButtonSize,
 	children,
-}: AccountEditDialogProps) => {
+}: ConfirmDialogProps) => {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
@@ -45,4 +45,4 @@ const AccountDialog = ({
 	);
 };
 
-export default AccountDialog;
+export default ConfirmDialog;

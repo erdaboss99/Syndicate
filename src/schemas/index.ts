@@ -1,3 +1,4 @@
+import { UserRole } from '@prisma/client';
 import * as z from 'zod';
 
 const NAME_VALIDATION = 'Name is required!';
@@ -69,4 +70,9 @@ export const AccountEditSchema = z
 
 export const AccountDeleteSchema = z.object({
 	email: z.string().email({ message: EMAIL_VALIDATION }),
+});
+
+export const RoleChangeSchema = z.object({
+	id: z.string().uuid(),
+	role: z.nativeEnum(UserRole),
 });

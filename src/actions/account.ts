@@ -10,7 +10,7 @@ import { database } from '@/lib/database';
 
 import { getUserByEmail, getUserById } from '@/data/user';
 
-import { AccountDeleteSchema, AccountEditSchema } from '@/schemas';
+import { AccountDeleteSchema, AccountEditSchema, RoleChangeSchema } from '@/schemas';
 
 export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => {
 	const validatedData = AccountEditSchema.safeParse(values);
@@ -85,4 +85,27 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 
 	await database.user.delete({ where: { id: existingUser.id } });
 	return { success: 'Account deleted!' };
+};
+
+export const changeRole = async (values: z.infer<typeof RoleChangeSchema>) => {
+	const validatedData = RoleChangeSchema.safeParse(values);
+	if (!validatedData.success) return { error: 'Invalid data!' };
+
+	const user = await getCurrentUser();
+	if (user?.role !== 'ADMIN') return { error: 'Role change not allowed!' };
+
+	const { id } = validatedData.data;
+	const existingUser = await getUserById(id);
+	if (!existingUser) return { error: 'User no longed exists!' };
+
+	const { role } = validatedData.data;
+	await database.user.update({
+		where: {
+			id,
+		},
+		data: {
+			role: role,
+		},
+	});
+	return { success: 'Role changed!' };
 };

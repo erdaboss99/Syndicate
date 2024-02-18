@@ -12,16 +12,14 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import DataTablePagination from '@/components/data-tables/DataTablePagination';
 import DataTableToolbar from '@/components/data-tables/DataTableToolbar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
-type ColumnType<TData, TValue> = ColumnDef<TData, TValue>;
-
 type DataTableProps<TData, TValue> = {
-	columns: ColumnType<TData, TValue>[];
+	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	search?: keyof TData;
 	filter?: {
@@ -48,9 +46,10 @@ const DataTable = <TData, TValue>({
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
+	const tableColumns = useMemo(() => columns, [columns]);
 	const dataTable = useReactTable({
 		data,
-		columns,
+		columns: tableColumns,
 		state: {
 			sorting,
 			columnFilters,

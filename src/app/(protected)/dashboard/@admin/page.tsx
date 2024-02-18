@@ -1,7 +1,7 @@
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
-import { UserColumns } from '@/components/data-tables/columns/users';
-import { roles } from '@/components/data-tables/filters/roles';
+import { UserColumns } from '@/components/data-tables/columns/UserColumns';
+import { userRoles } from '@/components/data-tables/filters';
 import { database } from '@/lib/database';
 
 const AdminDashboardPage = async () => {
@@ -14,7 +14,7 @@ const AdminDashboardPage = async () => {
 					columns={UserColumns}
 					data={users}
 					search='email'
-					filter={{ title: 'Role', columnKey: 'role', options: roles }}
+					filter={{ title: 'Role', columnKey: 'role', options: userRoles }}
 					visibility
 					pagination
 				/>

@@ -1,4 +1,4 @@
-export const roles = [
+export const userRoles = [
 	{
 		value: 'ADMIN',
 		label: 'Admin',

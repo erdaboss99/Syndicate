@@ -11,6 +11,9 @@ import AccountEditForm from '@/components/account/AccountEditForm';
 import AccountWrapper from '@/components/account/AccountWrapper';
 import ConfirmDialog from '@/components/general/ConfirmDialog';
 import FormInfo from '@/components/general/FormInfo';
+import LoginProviderBadge from '@/components/general/LoginProviderBadge';
+import UserRoleBadge from '@/components/general/UserBadge';
+import { Badge } from '@/components/ui/Badge';
 import { CardContent, CardFooter } from '@/components/ui/Card';
 
 const UserInfo = async () => {
@@ -19,27 +22,37 @@ const UserInfo = async () => {
 
 	const isOAuth = user.provider !== 'Credentials';
 
-	const accountData = [
-		{ name: 'Name', value: user.name },
-		{ name: 'Email', value: user.email },
-		{ name: 'Role', value: user.role },
-		{ name: 'Provider', value: user.provider },
-		{ name: 'Account created at', value: formatDate(user.createdAt, 'writtenShortDateTime') },
-	];
-
 	return (
 		<AccountWrapper headerTitle='Account information'>
 			<div className='space-y-6'>
 				<CardContent>
 					<div className='space-y-4'>
-						{accountData.map((data) => (
-							<div
-								key={data.name}
-								className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
-								<p className='text-sm font-medium md:text-base'>{data.name}</p>
-								<p className='rounded-sm bg-secondary/90 p-[0.6rem] font-mono text-xs'>{data.value}</p>
-							</div>
-						))}
+						<div className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
+							<p className='text-sm font-medium md:text-base'>Name</p>
+							<p className='rounded-sm bg-secondary/90 p-[0.5rem] font-mono text-xs'>{user.name}</p>
+						</div>
+						<div className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
+							<p className='text-sm font-medium md:text-base'>Email</p>
+							<p className='rounded-sm bg-secondary/90 p-[0.5rem] font-mono text-xs'>{user.email}</p>
+						</div>
+						<div className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
+							<p className='text-sm font-medium md:text-base'>Role</p>
+							<UserRoleBadge
+								role={user.role}
+								badgeVariant='outline'
+							/>
+						</div>
+						<div className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
+							<p className='text-sm font-medium md:text-base'>Login provider</p>
+							<LoginProviderBadge
+								provider={user.provider}
+								badgeVariant='outline'
+							/>
+						</div>
+						<div className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
+							<p className='text-sm font-medium md:text-base'>Account created at</p>
+							<Badge variant='outline'>{formatDate(user.createdAt, 'writtenShortDateTime')}</Badge>
+						</div>
 					</div>
 				</CardContent>
 				<CardFooter className='flex flex-col items-center justify-center space-y-4'>

@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signOut } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -17,6 +18,7 @@ import { DialogFooter } from '@/components/ui/Dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
+import { toast } from 'sonner';
 
 const AccountDeleteForm = () => {
 	const [isPending, startTransition] = useTransition();
@@ -45,6 +47,10 @@ const AccountDeleteForm = () => {
 					if (data?.success) {
 						setIsSuccess(data?.success);
 						setIsDone(true);
+						toast.info('Redirecting to login page...');
+						setTimeout(() => {
+							signOut();
+						}, 2000);
 					}
 				})
 				.catch(() => setIsError('Something went wrong'));

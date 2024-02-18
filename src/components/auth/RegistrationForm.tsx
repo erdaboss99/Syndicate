@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -16,12 +17,15 @@ import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
+import { toast } from 'sonner';
 
 const RegistrationForm = () => {
 	const [isPending, startTransition] = useTransition();
 	const [isError, setIsError] = useState('');
 	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
+
+	const router = useRouter();
 
 	const registrationForm = useForm<z.infer<typeof RegistrationSchema>>({
 		resolver: zodResolver(RegistrationSchema),
@@ -45,9 +49,13 @@ const RegistrationForm = () => {
 						setIsError(data.error);
 					}
 
-					if (data.success) {
-						setIsSuccess(data.success);
+					if (data?.success) {
 						setIsDone(true);
+						setIsSuccess(data?.success);
+						toast.info('Redirecting to login page...');
+						setTimeout(() => {
+							router.push('/auth/login');
+						}, 2000);
 					}
 				})
 				.catch(() => setIsError('Something went wrong'));

@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -16,6 +17,7 @@ import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
+import { toast } from 'sonner';
 
 type ResetPasswordFormProps = {
 	token: string;
@@ -26,6 +28,8 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 	const [isError, setIsError] = useState('');
 	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
+
+	const router = useRouter();
 
 	const resetPasswordForm = useForm<z.infer<typeof ResetPasswordSchema>>({
 		resolver: zodResolver(ResetPasswordSchema),
@@ -45,7 +49,13 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 				resetPasswordForm.reset();
 				setIsDone(true);
 				if (data?.error) setIsError(data?.error);
-				if (data?.success) setIsSuccess(data?.success);
+				if (data?.success) {
+					setIsSuccess(data?.success);
+					toast.info('Redirecting to login page...');
+					setTimeout(() => {
+						router.push('/auth/login');
+					}, 2000);
+				}
 			});
 		});
 	};

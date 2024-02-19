@@ -46,7 +46,6 @@ export const {
 				session.user.name = token.name as string;
 				session.user.email = token.email as string;
 				session.user.provider = token.provider as LoginProviders;
-				session.user.updatedAt = new Date(token.updatedAt as string);
 				session.user.createdAt = new Date(token.createdAt as string);
 
 				await database.user.update({
@@ -75,7 +74,6 @@ export const {
 					token.provider = 'Credentials';
 					break;
 			}
-			token.updatedAt = existingUser.updatedAt.toISOString();
 			token.createdAt = existingUser.createdAt.toISOString();
 			token.name = existingUser.name;
 			token.email = existingUser.email;

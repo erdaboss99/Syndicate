@@ -12,7 +12,6 @@ import { emailVerification } from '@/actions/email-verification';
 
 import { ACTION_REDIRECT_DELAY } from '@/constants';
 
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -61,54 +60,47 @@ const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 	};
 
 	return (
-		<AuthWrapper
-			headerTitle='Confirming your email'
-			buttonLabel='Back to login'
-			buttonHref='/auth/login'
-			buttonVariant='link'
-			buttonSize='lg'>
-			<Form {...emailVerificationForm}>
-				<form
-					className='space-y-6'
-					onSubmit={emailVerificationForm.handleSubmit(onSubmit)}>
-					<FormField
-						control={emailVerificationForm.control}
-						name='token'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										{...field}
-										type='hidden'
-										disabled={isPending}
-									/>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormError message={isError} />
-					<FormSuccess message={isSuccess} />
-					<Button
-						type='submit'
-						size='lg'
-						onClick={() => {
-							setIsSuccess('');
-							setIsError('');
-						}}
-						className='w-full'
-						disabled={isPending || isDone}>
-						{isPending ? (
-							<span className='flex flex-row items-center gap-2'>
-								<LuLoader2 className='animate-spin' />
-								Processing...
-							</span>
-						) : (
-							'Verify email address'
-						)}
-					</Button>
-				</form>
-			</Form>
-		</AuthWrapper>
+		<Form {...emailVerificationForm}>
+			<form
+				className='space-y-6'
+				onSubmit={emailVerificationForm.handleSubmit(onSubmit)}>
+				<FormField
+					control={emailVerificationForm.control}
+					name='token'
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input
+									{...field}
+									type='hidden'
+									disabled={isPending}
+								/>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormError message={isError} />
+				<FormSuccess message={isSuccess} />
+				<Button
+					type='submit'
+					size='lg'
+					onClick={() => {
+						setIsSuccess('');
+						setIsError('');
+					}}
+					className='w-full'
+					disabled={isPending || isDone}>
+					{isPending ? (
+						<span className='flex flex-row items-center gap-2'>
+							<LuLoader2 className='animate-spin' />
+							Processing...
+						</span>
+					) : (
+						'Verify email address'
+					)}
+				</Button>
+			</form>
+		</Form>
 	);
 };
 

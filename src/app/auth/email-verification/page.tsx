@@ -1,5 +1,6 @@
 import { TokenVerificationSchema } from '@/schemas';
 
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import EmailVerificationForm from '@/components/auth/EmailVerificationForm';
 import ErrorCard from '@/components/auth/ErrorCard';
 
@@ -22,7 +23,16 @@ const EmailVerificationPage = ({ searchParams }: EmailVerificationPageProps) => 
 			/>
 		);
 
-	return <EmailVerificationForm token={validatedData.data.token} />;
+	return (
+		<AuthWrapper
+			headerTitle='Confirming your email'
+			buttonLabel='Back to login'
+			buttonHref='/auth/login'
+			buttonVariant='link'
+			buttonSize='lg'>
+			<EmailVerificationForm token={validatedData.data.token} />
+		</AuthWrapper>
+	);
 };
 
 export default EmailVerificationPage;

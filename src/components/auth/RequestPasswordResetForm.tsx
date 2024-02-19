@@ -8,7 +8,6 @@ import * as z from 'zod';
 import { RequestPasswordResetSchema } from '@/schemas';
 
 import { requestPasswordReset } from '@/actions/request-password-reset';
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -46,59 +45,52 @@ const RequestPasswordResetForm = () => {
 	};
 
 	return (
-		<AuthWrapper
-			headerTitle='Request new password'
-			buttonLabel='Back to login'
-			buttonHref='/auth/login'
-			buttonVariant='link'
-			buttonSize='full'>
-			<Form {...requestPasswordResetForm}>
-				<form
-					className='space-y-6'
-					onSubmit={requestPasswordResetForm.handleSubmit(onSubmit)}>
-					<div className='space-y-4'>
-						<FormField
-							control={requestPasswordResetForm.control}
-							name='email'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Email address</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											placeholder='email@example.com'
-											type='email'
-											disabled={isPending || isDone}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<FormError message={isError} />
-					<FormSuccess message={isSuccess} />
-					<Button
-						type='submit'
-						size='lg'
-						onClick={() => {
-							setIsSuccess('');
-							setIsError('');
-						}}
-						className='w-full'
-						disabled={isPending || isDone}>
-						{isPending ? (
-							<span className='flex flex-row items-center gap-2'>
-								<LuLoader2 className='animate-spin' />
-								Processing...
-							</span>
-						) : (
-							'Send password reset email'
+		<Form {...requestPasswordResetForm}>
+			<form
+				className='space-y-6'
+				onSubmit={requestPasswordResetForm.handleSubmit(onSubmit)}>
+				<div className='space-y-4'>
+					<FormField
+						control={requestPasswordResetForm.control}
+						name='email'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email address</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										placeholder='email@example.com'
+										type='email'
+										disabled={isPending || isDone}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
 						)}
-					</Button>
-				</form>
-			</Form>
-		</AuthWrapper>
+					/>
+				</div>
+				<FormError message={isError} />
+				<FormSuccess message={isSuccess} />
+				<Button
+					type='submit'
+					size='lg'
+					onClick={() => {
+						setIsSuccess('');
+						setIsError('');
+					}}
+					className='w-full'
+					disabled={isPending || isDone}>
+					{isPending ? (
+						<span className='flex flex-row items-center gap-2'>
+							<LuLoader2 className='animate-spin' />
+							Processing...
+						</span>
+					) : (
+						'Send password reset email'
+					)}
+				</Button>
+			</form>
+		</Form>
 	);
 };
 

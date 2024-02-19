@@ -12,7 +12,6 @@ import { resetPassword } from '@/actions/reset-password';
 
 import { ACTION_REDIRECT_DELAY } from '@/constants';
 
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -63,88 +62,81 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 	};
 
 	return (
-		<AuthWrapper
-			headerTitle='Enter a new password'
-			buttonLabel='Back to login'
-			buttonHref='/auth/login'
-			buttonVariant='link'
-			buttonSize='lg'>
-			<Form {...resetPasswordForm}>
-				<form
-					className='space-y-6'
-					onSubmit={resetPasswordForm.handleSubmit(onSubmit)}>
-					<FormField
-						control={resetPasswordForm.control}
-						name='token'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										{...field}
-										type='hidden'
-										disabled={isPending}
-									/>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={resetPasswordForm.control}
-						name='password'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Password</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										type='password'
-										disabled={isPending}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={resetPasswordForm.control}
-						name='confirmPassword'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Confirm password</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										type='password'
-										disabled={isPending}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormError message={isError} />
-					<FormSuccess message={isSuccess} />
-					<Button
-						type='submit'
-						size='lg'
-						onClick={() => {
-							setIsSuccess('');
-							setIsError('');
-						}}
-						className='w-full'
-						disabled={isPending || isDone}>
-						{isPending ? (
-							<span className='flex flex-row items-center gap-2'>
-								<LuLoader2 className='animate-spin' />
-								Processing...
-							</span>
-						) : (
-							'Reset password'
-						)}
-					</Button>
-				</form>
-			</Form>
-		</AuthWrapper>
+		<Form {...resetPasswordForm}>
+			<form
+				className='space-y-6'
+				onSubmit={resetPasswordForm.handleSubmit(onSubmit)}>
+				<FormField
+					control={resetPasswordForm.control}
+					name='token'
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input
+									{...field}
+									type='hidden'
+									disabled={isPending}
+								/>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={resetPasswordForm.control}
+					name='password'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									type='password'
+									disabled={isPending}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={resetPasswordForm.control}
+					name='confirmPassword'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Confirm password</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									type='password'
+									disabled={isPending}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormError message={isError} />
+				<FormSuccess message={isSuccess} />
+				<Button
+					type='submit'
+					size='lg'
+					onClick={() => {
+						setIsSuccess('');
+						setIsError('');
+					}}
+					className='w-full'
+					disabled={isPending || isDone}>
+					{isPending ? (
+						<span className='flex flex-row items-center gap-2'>
+							<LuLoader2 className='animate-spin' />
+							Processing...
+						</span>
+					) : (
+						'Reset password'
+					)}
+				</Button>
+			</form>
+		</Form>
 	);
 };
 

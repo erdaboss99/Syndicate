@@ -11,7 +11,6 @@ import { loginWithCredentials } from '@/actions/login';
 
 import { LoginSchema } from '@/schemas';
 
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
@@ -50,86 +49,77 @@ const LoginForm = () => {
 	};
 
 	return (
-		<AuthWrapper
-			headerTitle='Login'
-			headerLabel='Welcome back!'
-			buttonLabel="Don't have an account?"
-			buttonHref='/auth/registration'
-			buttonVariant='link'
-			buttonSize='full'
-			showSocialLogins>
-			<Form {...loginForm}>
-				<form
-					className='space-y-6'
-					onSubmit={loginForm.handleSubmit(onSubmit)}>
-					<div className='space-y-4'>
-						<FormField
-							control={loginForm.control}
-							name='email'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Email address</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											placeholder='email@example.com'
-											type='email'
-											disabled={isPending}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={loginForm.control}
-							name='password'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Password</FormLabel>
-									<FormControl>
-										<Input
-											{...field}
-											placeholder='*******'
-											type='password'
-											disabled={isPending}
-										/>
-									</FormControl>
-									<FormMessage />
-									<Button
-										size='sm'
-										variant='link'
-										className='px-0'
-										asChild>
-										<Link href='/auth/request-password-reset'>Forgot password?</Link>
-									</Button>
-								</FormItem>
-							)}
-						/>
-					</div>
-					<FormError message={isError || urlError} />
-					<FormSuccess message={isSuccess} />
-					<Button
-						type='submit'
-						size='lg'
-						onClick={() => {
-							setIsSuccess('');
-							setIsError('');
-						}}
-						className='w-full'
-						disabled={isPending}>
-						{isPending ? (
-							<span className='flex flex-row items-center gap-2'>
-								<LuLoader2 className='animate-spin' />
-								Processing...
-							</span>
-						) : (
-							'Login'
+		<Form {...loginForm}>
+			<form
+				className='space-y-6'
+				onSubmit={loginForm.handleSubmit(onSubmit)}>
+				<div className='space-y-4'>
+					<FormField
+						control={loginForm.control}
+						name='email'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email address</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										placeholder='email@example.com'
+										type='email'
+										disabled={isPending}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
 						)}
-					</Button>
-				</form>
-			</Form>
-		</AuthWrapper>
+					/>
+					<FormField
+						control={loginForm.control}
+						name='password'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Password</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										placeholder='*******'
+										type='password'
+										disabled={isPending}
+									/>
+								</FormControl>
+								<FormMessage />
+								<Button
+									size='sm'
+									variant='link'
+									className='px-0'
+									asChild>
+									<Link href='/auth/request-password-reset'>Forgot password?</Link>
+								</Button>
+							</FormItem>
+						)}
+					/>
+				</div>
+				<FormError message={isError || urlError} />
+				<FormSuccess message={isSuccess} />
+				<Button
+					type='submit'
+					size='lg'
+					onClick={() => {
+						setIsSuccess('');
+						setIsError('');
+					}}
+					className='w-full'
+					disabled={isPending}>
+					{isPending ? (
+						<span className='flex flex-row items-center gap-2'>
+							<LuLoader2 className='animate-spin' />
+							Processing...
+						</span>
+					) : (
+						'Login'
+					)}
+				</Button>
+			</form>
+		</Form>
 	);
 };
 

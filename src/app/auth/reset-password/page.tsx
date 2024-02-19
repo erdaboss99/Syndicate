@@ -1,5 +1,6 @@
 import { TokenVerificationSchema } from '@/schemas';
 
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import ErrorCard from '@/components/auth/ErrorCard';
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
 
@@ -22,7 +23,16 @@ const ResetPasswordPage = ({ searchParams }: ResetPasswordPageProps) => {
 			/>
 		);
 
-	return <ResetPasswordForm token={validatedData.data.token} />;
+	return (
+		<AuthWrapper
+			headerTitle='Enter a new password'
+			buttonLabel='Back to login'
+			buttonHref='/auth/login'
+			buttonVariant='link'
+			buttonSize='lg'>
+			<ResetPasswordForm token={validatedData.data.token} />
+		</AuthWrapper>
+	);
 };
 
 export default ResetPasswordPage;

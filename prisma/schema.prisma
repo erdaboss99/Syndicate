@@ -70,3 +70,8 @@ model PasswordResetToken {
 
     @@unique([email, token])
 }
+
+model Appointment {
+    id        String   @id @default(uuid())
+    startTime DateTime @unique @map("start_time")
+}

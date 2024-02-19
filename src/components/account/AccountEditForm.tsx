@@ -12,6 +12,8 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 import { AccountEditSchema } from '@/schemas';
 
+import { ACTION_REDIRECT_DELAY } from '@/constants';
+
 import LogoutButton from '@/components/auth/LogoutButton';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
@@ -58,7 +60,7 @@ const AccountEditForm = () => {
 						toast.info('Redirecting to login page...');
 						setTimeout(() => {
 							signOut();
-						}, 2000);
+						}, ACTION_REDIRECT_DELAY);
 					}
 				})
 				.catch(() => setIsError('Something went wrong'));

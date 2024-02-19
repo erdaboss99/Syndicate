@@ -10,6 +10,8 @@ import { deleteAccount } from '@/actions/account';
 
 import { AccountDeleteSchema } from '@/schemas';
 
+import { ACTION_REDIRECT_DELAY } from '@/constants';
+
 import LogoutButton from '@/components/auth/LogoutButton';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
@@ -50,7 +52,7 @@ const AccountDeleteForm = () => {
 						toast.info('Redirecting to login page...');
 						setTimeout(() => {
 							signOut();
-						}, 2000);
+						}, ACTION_REDIRECT_DELAY);
 					}
 				})
 				.catch(() => setIsError('Something went wrong'));

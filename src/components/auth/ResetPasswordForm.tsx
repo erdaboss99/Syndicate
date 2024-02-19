@@ -10,6 +10,8 @@ import { ResetPasswordSchema } from '@/schemas';
 
 import { resetPassword } from '@/actions/reset-password';
 
+import { ACTION_REDIRECT_DELAY } from '@/constants';
+
 import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
@@ -54,7 +56,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 					toast.info('Redirecting to login page...');
 					setTimeout(() => {
 						router.push('/auth/login');
-					}, 2000);
+					}, ACTION_REDIRECT_DELAY);
 				}
 			});
 		});

@@ -10,6 +10,8 @@ import { TokenVerificationSchema } from '@/schemas';
 
 import { emailVerification } from '@/actions/email-verification';
 
+import { ACTION_REDIRECT_DELAY } from '@/constants';
+
 import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
@@ -52,7 +54,7 @@ const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 					toast.info('Redirecting to login page...');
 					setTimeout(() => {
 						router.push('/auth/login');
-					}, 2000);
+					}, ACTION_REDIRECT_DELAY);
 				}
 			});
 		});

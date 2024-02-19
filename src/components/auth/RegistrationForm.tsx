@@ -10,6 +10,8 @@ import { registration } from '@/actions/registration';
 
 import { RegistrationSchema } from '@/schemas';
 
+import { ACTION_REDIRECT_DELAY } from '@/constants';
+
 import AuthWrapper from '@/components/auth/AuthWrapper';
 import FormError from '@/components/general/FormError';
 import FormSuccess from '@/components/general/FormSuccess';
@@ -55,7 +57,7 @@ const RegistrationForm = () => {
 						toast.info('Redirecting to login page...');
 						setTimeout(() => {
 							router.push('/auth/login');
-						}, 2000);
+						}, ACTION_REDIRECT_DELAY);
 					}
 				})
 				.catch(() => setIsError('Something went wrong'));

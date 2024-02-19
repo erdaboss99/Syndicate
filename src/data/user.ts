@@ -17,3 +17,31 @@ export const getUserById = async (id: string) => {
 		return null;
 	}
 };
+
+export const getUsersCount = async (variant: 'all' | 'lastWeek') => {
+	try {
+		switch (variant) {
+			case 'all':
+				const userCount = await database.user.aggregate({
+					_count: {
+						id: true,
+					},
+				});
+				return userCount._count.id;
+			case 'lastWeek':
+				const registeredInLastWeek = await database.user.aggregate({
+					_count: {
+						id: true,
+					},
+					where: {
+						createdAt: {
+							gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+						},
+					},
+				});
+				return registeredInLastWeek._count.id;
+		}
+	} catch (error) {
+		return null;
+	}
+};

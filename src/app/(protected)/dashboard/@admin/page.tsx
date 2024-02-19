@@ -1,28 +1,15 @@
 import Link from 'next/link';
 
-import { database } from '@/lib/database';
+import { getUsersCount } from '@/data/user';
 
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { LuUsers } from 'react-icons/lu';
 
 const AdminDashboardPage = async () => {
-	const userCount = await database.user.aggregate({
-		_count: {
-			id: true,
-		},
-	});
+	const userCount = await getUsersCount('all');
 
-	const registeredInLastWeek = await database.user.aggregate({
-		_count: {
-			id: true,
-		},
-		where: {
-			createdAt: {
-				gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-			},
-		},
-	});
+	const registeredInLastWeek = await getUsersCount('lastWeek');
 
 	return (
 		<DashboardWrapper headerTitle='Admin dashbord'>
@@ -34,11 +21,17 @@ const AdminDashboardPage = async () => {
 							<LuUsers className='h-6 w-6 text-muted-foreground' />
 						</CardHeader>
 						<CardContent>
-							<h4 className='text-xl font-bold'>{`${userCount._count.id} registered users`}</h4>
-							<p className='text-xs text-muted-foreground md:text-sm'>{`${registeredInLastWeek._count.id} new users in the last week`}</p>
+							<h4 className='text-xl'>
+								<span className='font-bold text-primary'>{userCount}</span>
+								{' registered users'}
+							</h4>
+							<p className='text-xs text-muted-foreground md:text-sm'>
+								{`${registeredInLastWeek} new users in the last week`}
+							</p>
 						</CardContent>
 					</Card>
 				</Link>
+
 			</div>
 		</DashboardWrapper>
 	);

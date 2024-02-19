@@ -1,4 +1,3 @@
-import ChangeRoleDropdown from '@/components/dashboard/ChangeRoleDropdown';
 import { UsersDataTableFields } from '@/components/data-tables/columns/UserColumns';
 import CopyToClipboard from '@/components/general/CopyToClipboardButton';
 import { Button } from '@/components/ui/Button';
@@ -13,6 +12,7 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
+import ChangeRoleDropdown from '@/components/users/ChangeRoleDropdown';
 import { LuMoreHorizontal } from 'react-icons/lu';
 
 type UsersTableActionProps = {

@@ -6,10 +6,10 @@ import { formatDate } from '@/lib/date';
 
 import { UserRole, type User } from '@prisma/client';
 
-import UsersTableAction from '@/components/dashboard/UsersTableAction';
 import UserAvatar from '@/components/general/UserAvatar';
 import UserRoleBadge from '@/components/general/UserBadge';
 import { Button } from '@/components/ui/Button';
+import UsersTableAction from '@/components/users/UsersTableAction';
 import { LuArrowUpDown } from 'react-icons/lu';
 
 export type UsersDataTableFields = Pick<

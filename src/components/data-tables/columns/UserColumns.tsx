@@ -1,6 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
+import { Suspense } from 'react';
 
 import { formatDate } from '@/lib/date';
 
@@ -94,10 +95,14 @@ export const UserColumns: ColumnDef<UsersDataTableFields>[] = [
 		},
 		cell: ({ row }) => {
 			if (row.getValue('emailVerified') === null) return <div className='font-medium'>Not yet verified</div>;
-			const date = new Date(row.getValue('emailVerified'));
-			const formatted = formatDate(date, 'writtenShortDate');
 
-			return <div className='font-medium'>{formatted}</div>;
+			return (
+				<time className='font-medium'>
+					<Suspense fallback={null}>
+						{formatDate(new Date(row.getValue('emailVerified')), 'writtenShortDate')}
+					</Suspense>
+				</time>
+			);
 		},
 	},
 	{
@@ -113,10 +118,13 @@ export const UserColumns: ColumnDef<UsersDataTableFields>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			const date = new Date(row.getValue('lastSeen'));
-			const formatted = formatDate(date, 'writtenShortDateTime');
-
-			return <div className='font-medium'>{formatted}</div>;
+			return (
+				<time className='font-medium'>
+					<Suspense fallback={null}>
+						{formatDate(new Date(row.getValue('lastSeen')), 'writtenShortDateTime')}
+					</Suspense>
+				</time>
+			);
 		},
 	},
 	{

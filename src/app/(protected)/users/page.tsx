@@ -13,7 +13,17 @@ const AdminUsersPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const users = await database.user.findMany();
+	const users = await database.user.findMany({
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			role: true,
+			emailVerified: true,
+			lastSeen: true,
+			image: true,
+		},
+	});
 
 	return (
 		<CardWrapper

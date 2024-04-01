@@ -18,7 +18,7 @@ export const getUserById = async (id: string) => {
 	}
 };
 
-export const getUsersCount = async (variant: 'all' | 'lastWeek') => {
+export const getUserCount = async (variant: 'all' | 'lastWeek') => {
 	try {
 		switch (variant) {
 			case 'all':

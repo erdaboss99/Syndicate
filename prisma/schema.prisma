@@ -48,6 +48,7 @@ model User {
     createdAt     DateTime  @default(now()) @map("created_at")
 
     accounts Account[]
+    Booking  Booking[]
 }
 
 model VerificationToken {
@@ -71,6 +72,40 @@ model PasswordResetToken {
 }
 
 model Appointment {
-    id        String   @id @default(uuid())
-    startTime DateTime @unique @map("start_time")
+    id         String   @id @default(cuid())
+    start_time DateTime @unique
+
+    Booking Booking?
+
+    @@index([id])
+}
+
+model Issue {
+    id   String @id @default(cuid())
+    name String
+
+    bookings Booking[]
+}
+
+model Booking {
+    id             String   @id @default(cuid())
+    description    String
+    issue_id       String
+    appointment_id String   @unique
+    user_id        String
+    created_at     DateTime @default(now())
+
+    Issue       Issue       @relation(fields: [issue_id], references: [id])
+    Appointment Appointment @relation(fields: [appointment_id], references: [id])
+    User        User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    @@index([issue_id])
+    @@index([appointment_id])
+    @@index([user_id])
+}
+
+model FeatureToggle {
+    id         String  @id @default(cuid())
+    enabled    Boolean @default(false)
+    parameters Json?
 }

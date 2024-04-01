@@ -20,7 +20,7 @@ jobs:
 
             - name: Set up environment variables
               run: |
-                  echo "${{ secrets.DATABASE_URL }}" >> .env
+                  echo "${{ secrets.POSTGRES_PRISMA_URL }}" >> .env
                   echo "${{ secrets.AUTH_SECRET }}" >> .env
                   echo "${{ secrets.BASE_URL }}" >> .env
                   echo "${{ secrets.RESEND_API_KEY }}" >> .env

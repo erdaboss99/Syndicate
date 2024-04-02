@@ -1,7 +1,7 @@
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 
-const UserDashboardPage = () => {
+const UserDashboard = () => {
 	return <DashboardWrapper headerTitle='User dashbord'>User</DashboardWrapper>;
 };
 
-export default UserDashboardPage;
+export default UserDashboard;

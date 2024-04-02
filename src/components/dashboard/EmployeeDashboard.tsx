@@ -1,7 +1,7 @@
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 
-const EmployeeDashboardPage = () => {
+const EmployeeDashboard = () => {
 	return <DashboardWrapper headerTitle='Employee dashbord'>Employee</DashboardWrapper>;
 };
 
-export default EmployeeDashboardPage;
+export default EmployeeDashboard;

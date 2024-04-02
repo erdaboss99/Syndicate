@@ -19,13 +19,11 @@ import {
 } from '@/components/ui/DropdownMenu';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
-import { LuUsers } from 'react-icons/lu';
 import { MdExitToApp, MdOutlineManageAccounts } from 'react-icons/md';
 
 const NavRecords: Omit<NavItemProps, 'currentRole'>[] = [
 	{ name: 'Account', href: '/account', roles: ['ADMIN', 'EMPLOYEE', 'USER'], Icon: MdOutlineManageAccounts },
 	{ name: 'Dashboard', href: '/dashboard', roles: ['ADMIN', 'EMPLOYEE', 'USER'], Icon: AiOutlineDashboard },
-	{ name: 'Users', href: '/users', roles: ['ADMIN'], Icon: LuUsers },
 ];
 
 type NavItemProps = {

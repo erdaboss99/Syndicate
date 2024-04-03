@@ -25,3 +25,6 @@ export const API_FORBIDDEN_ERROR_CODE = 403;
 export const API_AUTHENTICATION_ERROR_CODE = 401;
 export const API_SUCCESSFUL_MODIFICATION_CODE = 201;
 export const API_SUCCESSFUL_REQUEST_CODE = 200;
+
+// DateTime related constants
+export const DEFAULT_TIMEZONE = 'Europe/Budapest';

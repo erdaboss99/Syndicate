@@ -1,7 +1,9 @@
 import { types } from 'util';
 
-import { format } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 import { hu } from 'date-fns/locale';
+
+import { DEFAULT_TIMEZONE } from '@/constants';
 
 export const formatDate = (
 	date: Date,
@@ -15,24 +17,23 @@ export const formatDate = (
 		| 'writtenShortDateTime'
 		| 'writtenLongDateTime',
 ) => {
-	const options = { locale: hu, timeZone: 'Europe/Budapest' };
 	switch (dateFormat) {
 		case 'yyyy-MM-dd':
-			return format(date, 'yyyy-MM-dd', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'yyyy-MM-dd', { locale: hu });
 		case 'numericShortDay':
-			return format(date, 'd', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'd', { locale: hu });
 		case 'longMonthAndYear':
-			return format(date, 'MMMM yyyy', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'MMMM yyyy', { locale: hu });
 		case 'onlyTime':
-			return format(date, 'p', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'p', { locale: hu });
 		case 'writtenShortDate':
-			return format(date, 'PPP', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPP', { locale: hu });
 		case 'writtenLongDate':
-			return format(date, 'PPPP', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPP', { locale: hu });
 		case 'writtenShortDateTime':
-			return format(date, 'PPp', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPp', { locale: hu });
 		case 'writtenLongDateTime':
-			return format(date, 'PPPPp', options);
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPPp', { locale: hu });
 	}
 };
 

@@ -76,3 +76,7 @@ export const RoleChangeSchema = z.object({
 	id: z.string().uuid(),
 	role: z.nativeEnum(UserRole),
 });
+
+export const AppointmentGenerationSchema = z.object({
+	autoAppointmentGeneration: z.boolean(),
+});

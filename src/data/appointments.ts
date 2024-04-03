@@ -1,4 +1,15 @@
+import { AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE, AUTO_APPOINTMENT_GENERATION_KEY } from '@/constants';
+
 import { database } from '@/lib/database';
+
+export const getAppointments = async () => {
+	try {
+		const appointments = await database.appointment.findMany();
+		return appointments;
+	} catch (error) {
+		return [];
+	}
+};
 
 export const getAppointmentCount = async (variant: 'booked' | 'available') => {
 	try {
@@ -31,4 +42,23 @@ export const getAppointmentCount = async (variant: 'booked' | 'available') => {
 	} catch (error) {
 		return null;
 	}
+};
+
+export const getAutoAppointmentGenerationStatus = async () => {
+	const autoAppointmentGeneration = await database.configuration.findUnique({
+		where: {
+			name: AUTO_APPOINTMENT_GENERATION_KEY,
+		},
+	});
+
+	if (!autoAppointmentGeneration)
+		return (
+			await database.configuration.create({
+				data: {
+					name: AUTO_APPOINTMENT_GENERATION_KEY,
+					value: AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE,
+				},
+			})
+		).value;
+	return autoAppointmentGeneration.value;
 };

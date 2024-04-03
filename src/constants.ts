@@ -9,9 +9,9 @@ export const ACTION_REDIRECT_DELAY = 2500; // in milliseconds
 export const AUTO_APPOINTMENT_GENERATION_KEY = 'AUTO_APPOINTMENT_GENERATION';
 export const AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
 
-export const OPENING_HOUR = 9; // in UTC time ( 9 UTC is 10 Budapest )
+export const OPENING_HOUR = 8; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
 
-export const CLOSING_HOUR = 13; // in UTC time ( 13 UTC is 14 Budapest )
+export const CLOSING_HOUR = 12; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
 
 export const APPOINTMENT_DURATION = 30; // in minutes
 

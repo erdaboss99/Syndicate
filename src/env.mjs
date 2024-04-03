@@ -11,6 +11,7 @@ export const env = createEnv({
 
 		RESEND_API_KEY: z.string().min(1),
 		EMAIL_FROM: z.string().min(1),
+		REPORT_RECIPIENT: z.string().min(1),
 
 		GH_CLIENT_ID: z.string().min(1),
 		GH_CLIENT_SECRET: z.string().min(1),

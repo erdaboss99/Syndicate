@@ -1,6 +1,7 @@
 import { types } from 'util';
 
 import { format } from 'date-fns';
+import { hu } from 'date-fns/locale';
 
 export const formatDate = (
 	date: Date,
@@ -16,21 +17,21 @@ export const formatDate = (
 ) => {
 	switch (dateFormat) {
 		case 'yyyy-MM-dd':
-			return format(date, dateFormat);
+			return format(date, 'yyyy-MM-dd', { locale: hu });
 		case 'numericShortDay':
-			return format(date, 'd');
+			return format(date, 'd', { locale: hu });
 		case 'longMonthAndYear':
-			return format(date, 'MMMM yyyy');
+			return format(date, 'MMMM yyyy', { locale: hu });
 		case 'onlyTime':
-			return format(date, 'p');
+			return format(date, 'p', { locale: hu });
 		case 'writtenShortDate':
-			return format(date, 'PPP');
+			return format(date, 'PPP', { locale: hu });
 		case 'writtenLongDate':
-			return format(date, 'PPPP');
+			return format(date, 'PPPP', { locale: hu });
 		case 'writtenShortDateTime':
-			return format(date, 'PPp');
+			return format(date, 'PPp', { locale: hu });
 		case 'writtenLongDateTime':
-			return format(date, 'PPPPp');
+			return format(date, 'PPPPp', { locale: hu });
 	}
 };
 

@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { AppointmentGenerationSchema } from '@/schemas';
 
 import { toggleAutoAppointmentGeneration } from '@/actions/appointment';
+
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/Form';
 import { Switch } from '@/components/ui/Switch';
 import { toast } from 'sonner';

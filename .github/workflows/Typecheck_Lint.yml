@@ -25,11 +25,11 @@ jobs:
                   echo "${{ secrets.BASE_URL }}" >> .env
                   echo "${{ secrets.RESEND_API_KEY }}" >> .env
                   echo "${{ secrets.EMAIL_FROM }}" >> .env
+                  echo "${{ secrets.REPORT_RECIPIENT }}" >> .env
                   echo "${{ secrets.GH_CLIENT_ID }}" >> .env
                   echo "${{ secrets.GH_CLIENT_SECRET }}" >> .env
                   echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
                   echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
-
             - name: Typecheck
               run: npm run typecheck
 

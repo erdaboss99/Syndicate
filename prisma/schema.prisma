@@ -72,8 +72,8 @@ model PasswordResetToken {
 }
 
 model Appointment {
-    id         String   @id @default(cuid())
-    start_time DateTime @unique
+    id        String   @id @default(cuid())
+    startTime DateTime @unique @map("start_time")
 
     Booking Booking?
 
@@ -88,20 +88,20 @@ model Issue {
 }
 
 model Booking {
-    id             String   @id @default(cuid())
-    description    String
-    issue_id       String
-    appointment_id String   @unique
-    user_id        String
-    created_at     DateTime @default(now())
+    id            String   @id @default(cuid())
+    description   String
+    issueId       String   @map("issue_id")
+    appointmentId String   @unique @map("appointment_id")
+    userId        String   @map("user_id")
+    createdAt     DateTime @default(now())
 
-    Issue       Issue       @relation(fields: [issue_id], references: [id])
-    Appointment Appointment @relation(fields: [appointment_id], references: [id])
-    User        User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    Issue       Issue       @relation(fields: [issueId], references: [id])
+    Appointment Appointment @relation(fields: [appointmentId], references: [id])
+    User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@index([issue_id])
-    @@index([appointment_id])
-    @@index([user_id])
+    @@index([issueId])
+    @@index([appointmentId])
+    @@index([userId])
 }
 
 model Configuration {

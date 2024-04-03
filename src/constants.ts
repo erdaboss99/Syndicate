@@ -14,3 +14,13 @@ export const OPENING_HOUR = 9; // in UTC time ( 9 UTC is 10 Budapest )
 export const CLOSING_HOUR = 13; // in UTC time ( 13 UTC is 14 Budapest )
 
 export const APPOINTMENT_DURATION = 30; // in minutes
+
+export const FURTHEST_APPOINTMENT_DATE = 5; // in days
+
+// API related constants
+export const API_ONLY_AUTHENTICATED_ERROR_MESSAGE = 'This feature is only available for authenticated users!';
+export const API_FORBIDDEN_ONLY_ADMIN_ROUTE_ERROR_MESSAGE =
+	'This feature is only available for  users with admin role!';
+export const API_FORBIDDEN_ERROR_CODE = 403;
+export const API_AUTHENTICATION_ERROR_CODE = 401;
+export const API_SUCCESSFUL_MODIFICATION_CODE = 201;

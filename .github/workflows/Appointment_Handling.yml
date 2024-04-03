@@ -1,0 +1,27 @@
+name: Appointment Handling
+on:
+    schedule:
+        - cron: '0 1 * * *'
+    workflow_dispatch:
+
+jobs:
+    run_cron_jobs:
+        timeout-minutes: 5
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  sparse-checkout: |
+                      cron
+            - name: Run cron script
+              run: |
+                  cd cron
+                  ./cron.sh -e '${{secrets.ADMIN_EMAIL}}' -p '${{secrets.ADMIN_PASSWORD}}' -u '${{secrets.PRODUCTION_URL}}'
+
+            - uses: actions/upload-artifact@v3
+              if: always()
+              with:
+                  name: cron-response
+                  path: cron/response
+                  retention-days: 30

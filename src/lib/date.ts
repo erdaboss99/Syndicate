@@ -1,5 +1,8 @@
+import { types } from 'util';
+
 import { format } from 'date-fns';
-export function formatDate(
+
+export const formatDate = (
 	date: Date,
 	dateFormat:
 		| 'yyyy-MM-dd'
@@ -10,7 +13,7 @@ export function formatDate(
 		| 'writtenLongDate'
 		| 'writtenShortDateTime'
 		| 'writtenLongDateTime',
-) {
+) => {
 	switch (dateFormat) {
 		case 'yyyy-MM-dd':
 			return format(date, dateFormat);
@@ -29,4 +32,17 @@ export function formatDate(
 		case 'writtenLongDateTime':
 			return format(date, 'PPPPp');
 	}
-}
+};
+
+export const formatDatesInObject = (object: any): any => {
+	for (let key in object) {
+		if (object.hasOwnProperty(key)) {
+			if (types.isDate(object[key])) {
+				object[key] = object[key].toISOString();
+			} else if (typeof object[key] === 'object' && object[key] !== null) {
+				formatDatesInObject(object[key]);
+			}
+		}
+	}
+	return object;
+};

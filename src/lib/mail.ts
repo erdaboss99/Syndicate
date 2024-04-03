@@ -2,8 +2,11 @@ import { Resend } from 'resend';
 
 import { env } from '@/env.mjs';
 
+import AppointmentHandlingTemplate, { AppointmentHandlingTemplateProps } from '@/emails/AppointmentHandling';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
 import PasswordResetTemplate from '@/emails/PasswordReset';
+
+import { formatDate } from '@/lib/date';
 
 const resend = new Resend(env.RESEND_API_KEY);
 
@@ -30,5 +33,32 @@ export const sendVerificationEmail = async (name: string, email: string, token: 
 		to: [recipient],
 		subject: 'Syndicate - Confirm your email address',
 		react: EmailVerificationTemplate({ name: name, confirmationLink: confirmationLink }),
+	});
+};
+
+export const sendAppointmentGenerationReport = async ({
+	message,
+	intervalStart,
+	intervalEnd,
+	workDaysInInterval,
+	weekendDaysInInterval,
+	createdAppointments,
+}: AppointmentHandlingTemplateProps) => {
+	const sender = env.EMAIL_FROM;
+	const recipient = env.REPORT_RECIPIENT;
+	const currentTime = formatDate(new Date(), 'yyyy-MM-dd');
+
+	await resend.emails.send({
+		from: sender,
+		to: [recipient],
+		subject: `Syndicate - Appointment generation report ${currentTime}`,
+		react: AppointmentHandlingTemplate({
+			message,
+			intervalStart,
+			intervalEnd,
+			workDaysInInterval,
+			weekendDaysInInterval,
+			createdAppointments,
+		}),
 	});
 };

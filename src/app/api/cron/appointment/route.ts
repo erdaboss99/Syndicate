@@ -6,6 +6,7 @@ import {
 	API_FORBIDDEN_ONLY_ADMIN_ROUTE_ERROR_MESSAGE,
 	API_ONLY_AUTHENTICATED_ERROR_MESSAGE,
 	API_SUCCESSFUL_MODIFICATION_CODE,
+	API_SUCCESSFUL_REQUEST_CODE,
 	APPOINTMENT_DURATION,
 	CLOSING_HOUR,
 	FURTHEST_APPOINTMENT_DATE,
@@ -17,6 +18,8 @@ import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 
 import { formatDatesInObject } from '@/lib/date';
+
+import { getAutoAppointmentGenerationStatus } from '@/data/appointments';
 
 import { Appointment } from '@prisma/client';
 
@@ -34,56 +37,70 @@ export async function POST() {
 			status: API_FORBIDDEN_ERROR_CODE,
 		});
 
-	const currentTime = new Date();
-	const intervalStart = startOfDay(currentTime);
-	const intervalEnd = endOfDay(add(startOfDay(currentTime), { days: FURTHEST_APPOINTMENT_DATE }));
+	const autoAppointmentGeneration = await getAutoAppointmentGenerationStatus();
 
-	const daysInInterval: { dayStart: string; dayEnd: string }[] = [];
-	const weekendDaysInInterval: { dayStart: string; dayEnd: string }[] = [];
-	const createdAppointments: Appointment[] = [];
+	if (Boolean(autoAppointmentGeneration)) {
+		const currentTime = new Date();
+		const intervalStart = startOfDay(currentTime);
+		const intervalEnd = endOfDay(add(startOfDay(currentTime), { days: FURTHEST_APPOINTMENT_DATE }));
 
-	const existingAppointments = await database.appointment.findMany({
-		where: {
-			startTime: {
-				gte: intervalStart,
-				lte: intervalEnd,
+		const daysInInterval: { dayStart: string; dayEnd: string }[] = [];
+		const weekendDaysInInterval: { dayStart: string; dayEnd: string }[] = [];
+		const createdAppointments: Appointment[] = [];
+
+		const existingAppointments = await database.appointment.findMany({
+			where: {
+				startTime: {
+					gte: intervalStart,
+					lte: intervalEnd,
+				},
 			},
-		},
-	});
+		});
 
-	for (let i = intervalStart; i <= intervalEnd; i = add(i, { days: 1 })) {
-		const startOfThisDay = add(i, { hours: OPENING_HOUR });
-		const endOfThisDay = add(i, { hours: CLOSING_HOUR });
-		daysInInterval.push({ dayStart: startOfThisDay.toISOString(), dayEnd: endOfThisDay.toISOString() });
-		if (isWeekend(startOfThisDay)) {
-			weekendDaysInInterval.push({ dayStart: startOfThisDay.toISOString(), dayEnd: endOfThisDay.toISOString() });
-			continue;
-		}
-
-		for (let j = startOfThisDay; j < endOfThisDay; j = add(j, { minutes: APPOINTMENT_DURATION })) {
-			if (!existingAppointments.find((appointment) => appointment.startTime.getTime() === j.getTime())) {
-				const currentAppointment = await database.appointment.create({
-					data: {
-						startTime: j,
-					},
+		for (let i = intervalStart; i <= intervalEnd; i = add(i, { days: 1 })) {
+			const startOfThisDay = add(i, { hours: OPENING_HOUR });
+			const endOfThisDay = add(i, { hours: CLOSING_HOUR });
+			daysInInterval.push({ dayStart: startOfThisDay.toISOString(), dayEnd: endOfThisDay.toISOString() });
+			if (isWeekend(startOfThisDay)) {
+				weekendDaysInInterval.push({
+					dayStart: startOfThisDay.toISOString(),
+					dayEnd: endOfThisDay.toISOString(),
 				});
-				createdAppointments.push(currentAppointment);
+				continue;
+			}
+
+			for (let j = startOfThisDay; j < endOfThisDay; j = add(j, { minutes: APPOINTMENT_DURATION })) {
+				if (!existingAppointments.find((appointment) => appointment.startTime.getTime() === j.getTime())) {
+					const currentAppointment = await database.appointment.create({
+						data: {
+							startTime: j,
+						},
+					});
+					createdAppointments.push(currentAppointment);
+				}
 			}
 		}
+
+		const responseObject = formatDatesInObject({
+			message: `${existingAppointments.length} appointments were already existing, ${createdAppointments.length} new appointments were created.`,
+			currentDate: currentTime,
+			intervalStart: intervalStart,
+			intervalEnd: intervalEnd,
+			daysInInterval: daysInInterval,
+			weekendDaysInInterval: weekendDaysInInterval,
+			existingAppointments: existingAppointments,
+			createdAppointments: createdAppointments,
+		});
+
+		return new Response(JSON.stringify(responseObject), { status: API_SUCCESSFUL_MODIFICATION_CODE });
 	}
 
-	const responseObject = formatDatesInObject({
-		message: `${existingAppointments.length} appointments were already existing, ${createdAppointments.length} new appointments were created.`,
-		currentDate: currentTime,
-		intervalStart: intervalStart,
-		intervalEnd: intervalEnd,
-		daysInInterval: daysInInterval,
-		weekendDaysInInterval: weekendDaysInInterval,
-		existingAppointments: existingAppointments,
-		createdAppointments: createdAppointments,
-	});
-
-	return new Response(JSON.stringify(responseObject), { status: API_SUCCESSFUL_MODIFICATION_CODE });
+	return new Response(
+		JSON.stringify({
+			message: 'Automatic appointment generation is disabled.',
+		}),
+		{ status: API_SUCCESSFUL_REQUEST_CODE },
+	);
 }
 
 export async function DELETE() {

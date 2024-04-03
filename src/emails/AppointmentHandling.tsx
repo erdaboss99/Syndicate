@@ -69,7 +69,7 @@ export const AppointmentHandlingTemplate = ({
 									key={i}
 									className='text-base'>
 									<Column className='text-center font-semibold'>
-										{formatDate(elem, 'writtenLongDateTime')}
+										{formatDate(elem, 'writtenLongDate')}
 									</Column>
 								</Row>
 							);
@@ -86,7 +86,7 @@ export const AppointmentHandlingTemplate = ({
 									key={i}
 									className='text-base'>
 									<Column className='text-center font-semibold'>
-										{formatDate(elem, 'writtenLongDateTime')}
+										{formatDate(elem, 'writtenLongDate')}
 									</Column>
 								</Row>
 							);
@@ -94,22 +94,27 @@ export const AppointmentHandlingTemplate = ({
 					</Section>
 
 					<Section className='mx-0 mt-1'>
-						<Text className='text-center text-xl font-semibold'>Newly created appointments</Text>
-						{createdAppointments.map((elem, i) => {
-							return (
-								<Row
-									key={i}
-									className='text-base'>
-									<Column className='text-left font-semibold'>
-										{formatDate(elem.startTime, 'writtenLongDateTime')}
-									</Column>
-									<Column className='text-center'>-</Column>
-									<Column className='text-right font-semibold'>
-										{formatDate(elem.endTime, 'writtenLongDateTime')}
-									</Column>
-								</Row>
-							);
-						})}
+						{createdAppointments.length > 0 ? (
+							<Text className='text-center text-xl font-semibold'>Newly created appointments</Text>
+						) : (
+							<Text className='text-center text-xl font-semibold'>No new appointments were created</Text>
+						)}
+						{createdAppointments.length > 0 &&
+							createdAppointments.map((elem, i) => {
+								return (
+									<Row
+										key={i}
+										className='text-base'>
+										<Column className='text-left font-semibold'>
+											{formatDate(elem.startTime, 'writtenLongDateTime')}
+										</Column>
+										<Column className='text-center'>-</Column>
+										<Column className='text-right font-semibold'>
+											{formatDate(elem.endTime, 'writtenLongDateTime')}
+										</Column>
+									</Row>
+								);
+							})}
 					</Section>
 
 					<Text className='mt-8 text-xl'>

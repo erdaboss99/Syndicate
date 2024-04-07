@@ -1,8 +1,8 @@
 import { TokenVerificationSchema } from '@/schemas';
 
 import AuthWrapper from '@/components/auth/AuthWrapper';
-import ErrorCard from '@/components/auth/ErrorCard';
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
+import ErrorCard from '@/components/general/ErrorCard';
 
 type ResetPasswordPageProps = {
 	params: { slug: string };

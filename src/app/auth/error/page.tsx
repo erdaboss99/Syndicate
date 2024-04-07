@@ -1,4 +1,4 @@
-import ErrorCard from '@/components/auth/ErrorCard';
+import ErrorCard from '@/components/general/ErrorCard';
 
 type AuthErrorPageProps = {
 	params: { slug: string };

@@ -2,7 +2,7 @@ import { TokenVerificationSchema } from '@/schemas';
 
 import AuthWrapper from '@/components/auth/AuthWrapper';
 import EmailVerificationForm from '@/components/auth/EmailVerificationForm';
-import ErrorCard from '@/components/auth/ErrorCard';
+import ErrorCard from '@/components/general/ErrorCard';
 
 type EmailVerificationPageProps = {
 	params: { slug: string };

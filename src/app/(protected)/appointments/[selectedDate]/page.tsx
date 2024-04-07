@@ -1,8 +1,8 @@
-import { database } from '@/lib/database';
-
 import { formatDate, getIntervalFromDay } from '@/lib/date';
 
 import { appointmentSelectQueryParamsSchema } from '@/schemas';
+
+import { getAvailableAppointmentsInInterval } from '@/data/appointments';
 
 import AppointmentSelectButton from '@/components/appointments/AppointmentSelectButton';
 import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';
@@ -28,19 +28,7 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 	const formattedDate = formatDate(currentDate, 'writtenLongDate');
 	const interval = getIntervalFromDay(currentDate);
 
-	const appointments = await database.appointment.findMany({
-		where: {
-			AND: [
-				{ Booking: null },
-				{
-					startTime: {
-						gte: interval.start,
-						lte: interval.end,
-					},
-				},
-			],
-		},
-	});
+	const appointments = await getAvailableAppointmentsInInterval(interval);
 
 	return (
 		<AppointmentWrapper

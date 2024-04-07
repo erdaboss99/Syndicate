@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { getCurrentUser } from '@/lib/auth';
 
-import { database } from '@/lib/database';
+import { getUserSubset } from '@/data/user';
 
 import DataTable from '@/components/data-tables/DataTable';
 import { UserColumns } from '@/components/data-tables/columns/UserColumns';
@@ -13,16 +13,14 @@ const AdminUsersPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const users = await database.user.findMany({
-		select: {
-			id: true,
-			name: true,
-			email: true,
-			role: true,
-			emailVerified: true,
-			lastSeen: true,
-			image: true,
-		},
+	const users = await getUserSubset({
+		id: true,
+		name: true,
+		email: true,
+		role: true,
+		emailVerified: true,
+		lastSeen: true,
+		image: true,
 	});
 
 	return (

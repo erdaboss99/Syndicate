@@ -62,3 +62,24 @@ export const getAutoAppointmentGenerationStatus = async () => {
 		).value;
 	return autoAppointmentGeneration.value;
 };
+
+export const getAvailableAppointmentsInInterval = async (interval: { start: Date; end: Date }) => {
+	try {
+		const appointments = await database.appointment.findMany({
+			where: {
+				AND: [
+					{ Booking: null },
+					{
+						startTime: {
+							gte: interval.start,
+							lte: interval.end,
+						},
+					},
+				],
+			},
+		});
+		return appointments;
+	} catch (error) {
+		return [];
+	}
+};

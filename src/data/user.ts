@@ -1,4 +1,5 @@
 import { database } from '@/lib/database';
+import { Prisma } from '@prisma/client';
 
 export const getUserByEmail = async (email: string) => {
 	try {
@@ -43,5 +44,16 @@ export const getUserCount = async (variant: 'all' | 'lastWeek') => {
 		}
 	} catch (error) {
 		return null;
+	}
+};
+
+export const getUserSubset = async (select: Prisma.UserSelect) => {
+	try {
+		const users = await database.user.findMany({
+			select,
+		});
+		return users;
+	} catch (error) {
+		return [];
 	}
 };

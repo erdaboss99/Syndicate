@@ -5,7 +5,7 @@ import DashboardTile from '@/components/dashboard/DashboardTile';
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import { LuClock, LuUsers } from 'react-icons/lu';
 
-const AdminDashboard = async () => {
+export const AdminDashboard = async () => {
 	const userCount = await getUserCount('all');
 	const usersRegisteredInLastWeekCount = await getUserCount('lastWeek');
 
@@ -37,4 +37,10 @@ const AdminDashboard = async () => {
 	);
 };
 
-export default AdminDashboard;
+export const EmployeeDashboard = () => {
+	return <DashboardWrapper headerTitle='Employee dashbord'>Employee</DashboardWrapper>;
+};
+
+export const UserDashboard = () => {
+	return <DashboardWrapper headerTitle='User dashbord'>User</DashboardWrapper>;
+};

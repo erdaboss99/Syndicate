@@ -1,6 +1,12 @@
 import { database } from '@/lib/database';
+
 import { formatDate, getIntervalFromDay } from '@/lib/date';
+
 import { appointmentSelectQueryParamsSchema } from '@/schemas';
+
+import AppointmentSelectButton from '@/components/appointments/AppointmentSelectButton';
+import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';
+import ErrorCard from '@/components/general/ErrorCard';
 
 const AppointmentSelectPage = async ({ params }: { params: { selectedDate: string } }) => {
 	const { selectedDate } = params;
@@ -8,11 +14,13 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 
 	if (!paramsData.success)
 		return (
-			<InfoCard
-				headerText={VALIDATION_DEFAULT_ERROR}
-				descriptionText={paramsData.error.errors[0].message}
-				buttonText={INFO_CARD_BACK_TO_APPOINTMENTS_TEXT}
-				redirectRoute='/appointment'
+			<ErrorCard
+				headerTitle='Invalid data'
+				message={paramsData.error.errors[0].message}
+				buttonLabel='Back to date selection'
+				buttonVariant='default'
+				buttonSize='lg'
+				buttonHref='/appointments'
 			/>
 		);
 
@@ -35,38 +43,28 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 	});
 
 	return (
-		<main className='flex flex-col items-center'>
-			<Card className='h-full w-fit min-w-[400px] p-3 transition-all lg:w-full lg:p-5'>
-				<CardHeader
-					data-testid='appointmentselectpage-card-header'
-					className='text-center text-2xl font-bold lg:text-3xl'>
-					{APPOINTMENT_SELECT_PAGE_CARD_HEADER_TEXT}
-				</CardHeader>
-
-				<CardDescription
-					data-testid='appointmentselectpage-card-description'
-					className='text-center text-xl lg:text-2xl'>
-					{formattedDate}
-				</CardDescription>
-
-				<CardContent
-					data-testid='appointmentselectpage-appointment-container'
-					className='mt-[5vh] flex flex-row items-center justify-center gap-5'>
-					{appointments.length > 0 &&
-						appointments.map((appointment) => (
-							<AppointmentSelectButton
-								key={appointment.id}
-								appointment={appointment}
-							/>
-						))}
-					{appointments.length <= 0 && (
-						<p data-testid='appointmentselectpage-noappointments-description'>
-							{APPOINTMENT_SELECT_PAGE_NO_APPOINTMENTS_TEXT}
-						</p>
-					)}
-				</CardContent>
-			</Card>
-		</main>
+		<AppointmentWrapper
+			headerTitle='Appointment selection'
+			headerLabel={formattedDate}
+			size='md'
+			buttonLabel='Back to date selection'
+			buttonHref='/appointments'
+			buttonSize='full'
+			buttonVariant='link'>
+			{appointments.length > 0 && (
+				<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+					{appointments.map((appointment) => (
+						<AppointmentSelectButton
+							key={appointment.id}
+							appointment={appointment}
+						/>
+					))}
+				</div>
+			)}
+			{appointments.length <= 0 && (
+				<p className='text-center text-sm md:text-base'>There are no available appointments for this day.</p>
+			)}
+		</AppointmentWrapper>
 	);
 };
 

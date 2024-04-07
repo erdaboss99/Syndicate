@@ -4,7 +4,7 @@ import DateSelectionForm from '@/components/appointments/DateSelectionForm';
 const AppointmentsPage = async () => {
 	return (
 		<AppointmentWrapper
-			headerTitle='Appointment selection'
+			headerTitle='Date selection'
 			size='md'>
 			<DateSelectionForm />
 		</AppointmentWrapper>

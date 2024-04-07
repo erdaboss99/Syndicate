@@ -5,7 +5,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { getAppointments, getAutoAppointmentGenerationStatus } from '@/data/appointments';
 
 import AppointmentSettingsForm from '@/components/appointments/AppointmentSettingsForm';
-import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';
+import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
 import { AdminAppointmentColumns } from '@/components/data-tables/columns/AdminAppointmentColumns';
 
@@ -18,9 +18,7 @@ const AdminManageAppointmentsPage = async () => {
 	const autoAppointmentGeneration = await getAutoAppointmentGenerationStatus();
 
 	return (
-		<AppointmentWrapper
-			size='lg'
-			headerTitle='Manage Appointments'>
+		<DashboardWrapper headerTitle='Manage Appointments'>
 			<div className='flex w-full flex-col space-y-8 px-4'>
 				<AppointmentSettingsForm autoAppointmentGenerationStatus={Boolean(autoAppointmentGeneration)} />
 				<DataTable
@@ -29,7 +27,7 @@ const AdminManageAppointmentsPage = async () => {
 					pagination
 				/>
 			</div>
-		</AppointmentWrapper>
+		</DashboardWrapper>
 	);
 };
 

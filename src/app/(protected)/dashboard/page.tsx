@@ -1,8 +1,6 @@
 import { getCurrentUser } from '@/lib/auth';
 
-import AdminDashboard from '@/components/dashboard/AdminDashboard';
-import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
-import UserDashboard from '@/components/dashboard/UserDashboard';
+import { AdminDashboard, EmployeeDashboard, UserDashboard } from '@/components/dashboard/DashboardVariants';
 
 const AdminDashboardPage = async () => {
 	const currentUser = await getCurrentUser();

@@ -8,6 +8,8 @@ const PASSWORD_MIN_VALIDATION = 'Password should be at least 6 characters!';
 const PASSWORD_MAX_VALIDATION = 'Password should be maximum of 25 characters!';
 const PASSWORD_MATCH_VALIDATION = 'Passwords do not match!';
 const PASSWORD_SAME_VALIDATION = 'New password cannot be the same as the old password!';
+const VALIDATION_REQUIRED_DATE_ERROR = 'Date is required!';
+const VALIDATION_YYYY_MM_DD_DATE_FORMAT_ERROR = 'Date should be in yyyy-MM-dd format!';
 
 export const LoginSchema = z.object({
 	email: z.string().email({ message: EMAIL_VALIDATION }),
@@ -80,3 +82,13 @@ export const RoleChangeSchema = z.object({
 export const AppointmentGenerationSchema = z.object({
 	autoAppointmentGeneration: z.boolean(),
 });
+
+export const DateSelectionFormSchema = z.object({
+	selectedDate: z.date({
+		required_error: VALIDATION_REQUIRED_DATE_ERROR,
+	}),
+});
+
+export const appointmentSelectQueryParamsSchema = z
+	.string()
+	.regex(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/, VALIDATION_YYYY_MM_DD_DATE_FORMAT_ERROR);

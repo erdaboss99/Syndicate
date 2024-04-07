@@ -4,6 +4,7 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { hu } from 'date-fns/locale';
 
 import { DEFAULT_TIMEZONE } from '@/constants';
+import { endOfDay, startOfDay } from 'date-fns';
 
 export const formatDate = (
 	date: Date,
@@ -36,6 +37,13 @@ export const formatDate = (
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPPp', { locale: hu });
 	}
 };
+
+export function getIntervalFromDay(date: Date) {
+	const start = startOfDay(date);
+	const end = endOfDay(date);
+
+	return { start, end };
+}
 
 export const formatDatesInObject = (object: any): any => {
 	for (let key in object) {

@@ -22,7 +22,7 @@ const AppointmentWrapper = ({
 			size={size}
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
-			<CardContent className='mt-[3vh]'>{children}</CardContent>
+			<CardContent>{children}</CardContent>
 			{buttonLabel && buttonHref && buttonVariant && buttonSize && (
 				<CardFooter className='flex items-center justify-center'>
 					<LinkButton

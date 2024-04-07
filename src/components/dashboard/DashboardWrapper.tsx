@@ -11,7 +11,7 @@ const DashboardWrapper = ({ children, headerTitle, headerLabel }: DashboardWrapp
 			size='lg'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
-			<CardContent className='mt-[3vh]'>{children}</CardContent>
+			<CardContent>{children}</CardContent>
 		</CardWrapper>
 	);
 };

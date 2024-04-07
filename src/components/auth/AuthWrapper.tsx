@@ -26,7 +26,7 @@ const AuthWrapper = ({
 			size='md'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
-			<CardContent className='mt-[3vh]'>{children}</CardContent>
+			<CardContent>{children}</CardContent>
 			{showSocialLogins && (
 				<CardFooter>
 					<SocialLogins />

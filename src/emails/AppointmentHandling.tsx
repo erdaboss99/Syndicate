@@ -105,12 +105,8 @@ export const AppointmentHandlingTemplate = ({
 									<Row
 										key={i}
 										className='text-base'>
-										<Column className='text-left font-semibold'>
-											{formatDate(elem.startTime, 'writtenLongDateTime')}
-										</Column>
-										<Column className='text-center'>-</Column>
-										<Column className='text-right font-semibold'>
-											{formatDate(elem.endTime, 'writtenLongDateTime')}
+										<Column className='text-center font-semibold'>
+											{formatDate(elem.startTime, 'writtenLongDateTimeInterval')}
 										</Column>
 									</Row>
 								);

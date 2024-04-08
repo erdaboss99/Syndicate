@@ -3,8 +3,8 @@ import { types } from 'util';
 import { formatInTimeZone } from 'date-fns-tz';
 import { hu } from 'date-fns/locale';
 
-import { DEFAULT_TIMEZONE } from '@/constants';
-import { endOfDay, startOfDay } from 'date-fns';
+import { APPOINTMENT_DURATION, DEFAULT_TIMEZONE } from '@/constants';
+import { add, endOfDay, startOfDay } from 'date-fns';
 
 export const formatDate = (
 	date: Date,
@@ -16,7 +16,8 @@ export const formatDate = (
 		| 'writtenShortDate'
 		| 'writtenLongDate'
 		| 'writtenShortDateTime'
-		| 'writtenLongDateTime',
+		| 'writtenLongDateTime'
+		| 'writtenLongDateTimeInterval',
 ) => {
 	switch (dateFormat) {
 		case 'yyyy-MM-dd':
@@ -35,6 +36,13 @@ export const formatDate = (
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPp', { locale: hu });
 		case 'writtenLongDateTime':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPPp', { locale: hu });
+		case 'writtenLongDateTimeInterval':
+			return `${formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPPp', { locale: hu })} - ${formatInTimeZone(
+				add(date, { minutes: APPOINTMENT_DURATION }),
+				DEFAULT_TIMEZONE,
+				'p',
+				{ locale: hu },
+			)}`;
 	}
 };
 

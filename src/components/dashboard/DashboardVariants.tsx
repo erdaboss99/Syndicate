@@ -17,7 +17,9 @@ export const AdminDashboard = async () => {
 	const currentlyUsedIssues = await getIssueCount('currentlyUsed');
 
 	return (
-		<DashboardWrapper headerTitle='Admin dashbord'>
+		<DashboardWrapper
+			headerTitle='Admin dashbord'
+			size='lg'>
 			<div className='grid gap-4 p-4 md:grid-cols-2'>
 				<DashboardTile
 					tileHref='/dashboard/manage-users'
@@ -50,9 +52,21 @@ export const AdminDashboard = async () => {
 };
 
 export const EmployeeDashboard = () => {
-	return <DashboardWrapper headerTitle='Employee dashbord'>Employee</DashboardWrapper>;
+	return (
+		<DashboardWrapper
+			headerTitle='Employee dashbord'
+			size='lg'>
+			Employee
+		</DashboardWrapper>
+	);
 };
 
 export const UserDashboard = () => {
-	return <DashboardWrapper headerTitle='User dashbord'>User</DashboardWrapper>;
+	return (
+		<DashboardWrapper
+			headerTitle='User dashbord'
+			size='lg'>
+			User
+		</DashboardWrapper>
+	);
 };

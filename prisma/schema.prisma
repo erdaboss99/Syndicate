@@ -81,8 +81,9 @@ model Appointment {
 }
 
 model Issue {
-    id   String @id @default(uuid())
-    name String
+    id          String @id @default(uuid())
+    name        String
+    description String
 
     bookings Booking[]
 }

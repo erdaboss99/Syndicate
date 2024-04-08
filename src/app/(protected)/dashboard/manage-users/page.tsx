@@ -26,6 +26,7 @@ const AdminManageUsersPage = async () => {
 	return (
 		<DashboardWrapper
 			headerTitle='Manage Users'
+			size='xl'
 			buttonLabel='Back to the dashboard'
 			buttonHref='/dashboard'
 			buttonSize='full'

@@ -83,3 +83,42 @@ export const getAvailableAppointmentsInInterval = async (interval: { start: Date
 		return [];
 	}
 };
+
+export const getAppointmentById = async (id: string, variant: 'onlyAvailable' | 'onlyBooked') => {
+	try {
+		switch (variant) {
+			case 'onlyAvailable':
+				const freeAppointment = await database.appointment.findFirst({
+					where: {
+						AND: [
+							{ Booking: null },
+							{
+								id,
+							},
+						],
+					},
+				});
+				return freeAppointment;
+			case 'onlyBooked':
+				const bookedAppointment = await database.appointment.findFirst({
+					where: {
+						AND: [
+							{
+								Booking: {
+									id: {
+										not: undefined,
+									},
+								},
+							},
+							{
+								id,
+							},
+						],
+					},
+				});
+				return bookedAppointment;
+		}
+	} catch (error) {
+		return null;
+	}
+};

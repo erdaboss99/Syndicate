@@ -1,17 +1,37 @@
 import CardWrapper, { type CardWrapperProps } from '@/components/general/CardWrapper';
-import { CardContent } from '@/components/ui/Card';
+import LinkButton, { type LinkButtonProps } from '@/components/general/LinkButton';
+import { CardContent, CardFooter } from '@/components/ui/Card';
 
 type DashboardWrapperProps = {
 	children: React.ReactNode;
-} & Omit<CardWrapperProps, 'children' | 'size'>;
+} & Partial<LinkButtonProps> &
+	Omit<CardWrapperProps, 'children' | 'size'>;
 
-const DashboardWrapper = ({ children, headerTitle, headerLabel }: DashboardWrapperProps) => {
+const DashboardWrapper = ({
+	children,
+	headerTitle,
+	headerLabel,
+	buttonLabel,
+	buttonHref,
+	buttonVariant,
+	buttonSize,
+}: DashboardWrapperProps) => {
 	return (
 		<CardWrapper
 			size='lg'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			<CardContent>{children}</CardContent>
+			{buttonLabel && buttonHref && buttonVariant && buttonSize && (
+				<CardFooter className='flex items-center justify-center'>
+					<LinkButton
+						buttonLabel={buttonLabel}
+						buttonHref={buttonHref}
+						buttonVariant={buttonVariant}
+						buttonSize={buttonSize}
+					/>
+				</CardFooter>
+			)}
 		</CardWrapper>
 	);
 };

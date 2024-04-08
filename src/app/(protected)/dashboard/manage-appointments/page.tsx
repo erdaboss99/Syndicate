@@ -18,7 +18,12 @@ const AdminManageAppointmentsPage = async () => {
 	const autoAppointmentGeneration = await getAutoAppointmentGenerationStatus();
 
 	return (
-		<DashboardWrapper headerTitle='Manage Appointments'>
+		<DashboardWrapper
+			headerTitle='Manage Appointments'
+			buttonLabel='Back to the dashboard'
+			buttonHref='/dashboard'
+			buttonSize='full'
+			buttonVariant='link'>
 			<div className='flex w-full flex-col space-y-8 px-4'>
 				<AppointmentSettingsForm autoAppointmentGenerationStatus={Boolean(autoAppointmentGeneration)} />
 				<DataTable

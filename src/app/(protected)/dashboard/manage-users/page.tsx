@@ -4,12 +4,12 @@ import { getCurrentUser } from '@/lib/auth';
 
 import { getUserSubset } from '@/data/user';
 
+import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
 import { UserColumns } from '@/components/data-tables/columns/UserColumns';
 import { userRoles } from '@/components/data-tables/filters';
-import CardWrapper from '@/components/general/CardWrapper';
 
-const AdminUsersPage = async () => {
+const AdminManageUsersPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
@@ -24,9 +24,12 @@ const AdminUsersPage = async () => {
 	});
 
 	return (
-		<CardWrapper
-			headerTitle='Users'
-			size='lg'>
+		<DashboardWrapper
+			headerTitle='Manage Users'
+			buttonLabel='Back to the dashboard'
+			buttonHref='/dashboard'
+			buttonSize='full'
+			buttonVariant='link'>
 			<div className='mx-auto w-[95%]'>
 				<DataTable
 					columns={UserColumns}
@@ -37,8 +40,8 @@ const AdminUsersPage = async () => {
 					pagination
 				/>
 			</div>
-		</CardWrapper>
+		</DashboardWrapper>
 	);
 };
 
-export default AdminUsersPage;
+export default AdminManageUsersPage;

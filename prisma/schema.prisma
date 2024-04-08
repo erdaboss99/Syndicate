@@ -72,7 +72,7 @@ model PasswordResetToken {
 }
 
 model Appointment {
-    id        String   @id @default(cuid())
+    id        String   @id @default(uuid())
     startTime DateTime @unique @map("start_time")
 
     Booking Booking?
@@ -81,14 +81,14 @@ model Appointment {
 }
 
 model Issue {
-    id   String @id @default(cuid())
+    id   String @id @default(uuid())
     name String
 
     bookings Booking[]
 }
 
 model Booking {
-    id            String   @id @default(cuid())
+    id            String   @id @default(uuid())
     description   String
     issueId       String   @map("issue_id")
     appointmentId String   @unique @map("appointment_id")

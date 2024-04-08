@@ -19,7 +19,7 @@ const AppointmentSelectButton = ({ appointment }: AppointmentSelectButtonProps) 
 
 	return (
 		<Button
-			onClick={() => router.push(`book/${appointment.id}`)}
+			onClick={() => router.push(`/appointments/book/${appointment.id}`)}
 			size='lg'
 			variant='outline'
 			className='font-bold'>

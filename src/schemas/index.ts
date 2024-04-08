@@ -10,6 +10,8 @@ const PASSWORD_MATCH_VALIDATION = 'Passwords do not match!';
 const PASSWORD_SAME_VALIDATION = 'New password cannot be the same as the old password!';
 const VALIDATION_REQUIRED_DATE_ERROR = 'Date is required!';
 const VALIDATION_YYYY_MM_DD_DATE_FORMAT_ERROR = 'Date should be in yyyy-MM-dd format!';
+export const VALIDATION_SHORT_BOOKING_DESCRIPTION_ERROR = 'Booking deecription should be at least 5 characters!';
+export const VALIDATION_LONG_BOOKING_DESCRIPTION_ERROR = 'Booking description should be maximum of 55 characters!';
 
 export const LoginSchema = z.object({
 	email: z.string().email({ message: EMAIL_VALIDATION }),
@@ -92,3 +94,13 @@ export const DateSelectionFormSchema = z.object({
 export const appointmentSelectQueryParamsSchema = z
 	.string()
 	.regex(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/, VALIDATION_YYYY_MM_DD_DATE_FORMAT_ERROR);
+
+export const appointmentBookQueryParamsSchema = z.string().uuid();
+
+
+export const appointmentBookFormSchema = z.object({
+	description: z
+		.string()
+		.min(5, { message: VALIDATION_SHORT_BOOKING_DESCRIPTION_ERROR })
+		.max(55, { message: VALIDATION_LONG_BOOKING_DESCRIPTION_ERROR }),
+});

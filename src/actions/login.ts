@@ -4,31 +4,33 @@ import { AuthError } from 'next-auth';
 import * as z from 'zod';
 
 import { signIn } from '@/auth';
-
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
-
-import { LoginSchema } from '@/schemas';
-
+import {
+	ACTION_CONFIRMATION_EMAIL_SENT_SUCCESS,
+	ACTION_DEFAULT_ERROR,
+	ACTION_INVALID_PAYLOAD_ERROR,
+	ACTION_LOGIN_INVALID_CREDENTIALS_ERROR,
+	ACTION_LOGIN_INVALID_EMAIL_OR_PASSWORD_ERROR,
+} from '@/constants';
 import { getUserByEmail } from '@/data/user';
-
 import { sendVerificationEmail } from '@/lib/mail';
-
 import { generateVerificationToken } from '@/lib/tokens';
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { LoginSchema } from '@/schemas';
 
 export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) => {
 	const validatedData = LoginSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { email, password } = validatedData.data;
 
 	const existingUser = await getUserByEmail(email);
 	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
-		return { error: 'Invalid credentials!' };
+		return { error: ACTION_LOGIN_INVALID_CREDENTIALS_ERROR };
 
 	if (!existingUser.emailVerified) {
 		const verificationToken = await generateVerificationToken(existingUser.email);
 		await sendVerificationEmail(existingUser.name, verificationToken.email, verificationToken.token);
-		return { success: 'Confirmation email sent!' };
+		return { success: ACTION_CONFIRMATION_EMAIL_SENT_SUCCESS };
 	}
 
 	try {
@@ -41,9 +43,9 @@ export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) 
 		if (error instanceof AuthError)
 			switch (error.type) {
 				case 'CredentialsSignin':
-					return { error: 'Invalid email or password!' };
+					return { error: ACTION_LOGIN_INVALID_EMAIL_OR_PASSWORD_ERROR };
 				default:
-					return { error: 'Something went wrong!' };
+					return { error: ACTION_DEFAULT_ERROR };
 			}
 		throw error;
 	}

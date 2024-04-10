@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import * as z from 'zod';
 
 import { editIssue } from '@/actions/issue';
-import { FORM_DEFAULT_ERROR_MESSAGE } from '@/constants';
+import { ACTION_DEFAULT_ERROR } from '@/constants';
 import { IssueEditFormSchema } from '@/schemas';
 import { Issue } from '@prisma/client';
 
@@ -50,7 +50,7 @@ const IssueEditForm = ({ issue }: IssueEditFormProps) => {
 						router.refresh();
 					}
 				})
-				.catch(() => toast.error(FORM_DEFAULT_ERROR_MESSAGE));
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
 		});
 	};
 

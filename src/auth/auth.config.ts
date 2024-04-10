@@ -3,12 +3,9 @@ import Credentials from 'next-auth/providers/credentials';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
-import { env } from '@/env.mjs';
-
-import { compare } from '@/lib/hash';
-
 import { getUserByEmail } from '@/data/user';
-
+import { env } from '@/env.mjs';
+import { compare } from '@/lib/hash';
 import { LoginSchema } from '@/schemas';
 
 export default {

@@ -3,16 +3,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { loginWithCredentials } from '@/actions/login';
-
+import { ACTION_DEFAULT_ERROR } from '@/constants';
 import { LoginSchema } from '@/schemas';
+import { toast } from 'sonner';
 
 import FormError from '@/components/general/FormError';
-import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
@@ -24,8 +24,6 @@ const LoginForm = () => {
 		searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with different provider!' : '';
 
 	const [isPending, startTransition] = useTransition();
-	const [isError, setIsError] = useState('');
-	const [isSuccess, setIsSuccess] = useState('');
 
 	const loginForm = useForm<z.infer<typeof LoginSchema>>({
 		resolver: zodResolver(LoginSchema),
@@ -36,15 +34,14 @@ const LoginForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-		setIsError('');
-		setIsSuccess('');
-
 		startTransition(() => {
-			loginWithCredentials(values).then((data) => {
-				loginForm.reset();
-				if (data?.error) setIsError(data?.error);
-				if (data?.success) setIsSuccess(data?.success);
-			});
+			loginWithCredentials(values)
+				.then((data) => {
+					loginForm.reset();
+					if (data?.error) toast.error(data?.error);
+					if (data?.success) toast.success(data?.success);
+				})
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
 		});
 	};
 
@@ -98,15 +95,10 @@ const LoginForm = () => {
 						)}
 					/>
 				</div>
-				<FormError message={isError || urlError} />
-				<FormSuccess message={isSuccess} />
+				<FormError message={urlError} />
 				<Button
 					type='submit'
 					size='lg'
-					onClick={() => {
-						setIsSuccess('');
-						setIsError('');
-					}}
 					className='w-full'
 					disabled={isPending}>
 					{isPending ? (

@@ -1,5 +1,3 @@
-import { EMAIL_VERIFICATION_TOKEN_EXPIRY } from '@/constants';
-
 import {
 	Body,
 	Container,
@@ -13,6 +11,8 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components';
+
+import { EMAIL_VERIFICATION_TOKEN_EXPIRY } from '@/constants';
 
 type EmailVerificationTemplateProps = {
 	name: string;

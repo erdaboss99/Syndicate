@@ -5,13 +5,12 @@ import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { AppointmentGenerationSchema } from '@/schemas';
-
 import { toggleAutoAppointmentGeneration } from '@/actions/appointment';
+import { AppointmentGenerationSchema } from '@/schemas';
+import { toast } from 'sonner';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/Form';
 import { Switch } from '@/components/ui/Switch';
-import { toast } from 'sonner';
 
 type AppointmentSettingsFormProps = {
 	autoAppointmentGenerationStatus: boolean;

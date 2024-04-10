@@ -1,5 +1,4 @@
 import { getCurrentUser } from '@/lib/auth';
-
 import { formatDate } from '@/lib/date';
 
 import AccountDeleteForm from '@/components/account/AccountDeleteForm';

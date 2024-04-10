@@ -1,10 +1,10 @@
 import { types } from 'util';
 
+import { add, endOfDay, startOfDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { hu } from 'date-fns/locale';
 
 import { APPOINTMENT_DURATION, DEFAULT_TIMEZONE } from '@/constants';
-import { add, endOfDay, startOfDay } from 'date-fns';
 
 export const formatDate = (
 	date: Date,

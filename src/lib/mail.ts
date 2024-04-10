@@ -1,12 +1,11 @@
 import { Resend } from 'resend';
 
 import { env } from '@/env.mjs';
+import { formatDate } from '@/lib/date';
 
 import AppointmentHandlingTemplate, { AppointmentHandlingTemplateProps } from '@/emails/AppointmentHandling';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
 import PasswordResetTemplate from '@/emails/PasswordReset';
-
-import { formatDate } from '@/lib/date';
 
 const resend = new Resend(env.RESEND_API_KEY);
 

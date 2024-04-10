@@ -10,13 +10,10 @@ import hu from 'date-fns/locale/hu';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { formatDate } from '@/lib/date';
-
 import { FURTHEST_APPOINTMENT_DATE } from '@/constants';
-
-import { DateSelectionFormSchema } from '@/schemas';
-
+import { formatDate } from '@/lib/date';
 import { cn } from '@/lib/utils';
+import { DateSelectionFormSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { Calendar } from '@/components/ui/Calendar';

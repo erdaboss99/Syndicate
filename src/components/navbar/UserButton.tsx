@@ -1,9 +1,7 @@
 import Link from 'next/link';
 
 import { getCurrentUser } from '@/lib/auth';
-
 import { type UserRole } from '@prisma/client';
-
 import { type IconType } from 'react-icons/lib';
 
 import LogoutButton from '@/components/auth/LogoutButton';

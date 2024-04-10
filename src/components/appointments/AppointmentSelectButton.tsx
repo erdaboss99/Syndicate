@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 
 import { formatDate } from '@/lib/date';
-
 import { Appointment } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';

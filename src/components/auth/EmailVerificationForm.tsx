@@ -6,19 +6,15 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { TokenVerificationSchema } from '@/schemas';
-
 import { emailVerification } from '@/actions/email-verification';
+import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
+import { TokenVerificationSchema } from '@/schemas';
+import { toast } from 'sonner';
 
-import { ACTION_REDIRECT_DELAY } from '@/constants';
-
-import FormError from '@/components/general/FormError';
-import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
-import { toast } from 'sonner';
 
 type EmailVerificationFormProps = {
 	token: string;
@@ -26,8 +22,6 @@ type EmailVerificationFormProps = {
 
 const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 	const [isPending, startTransition] = useTransition();
-	const [isError, setIsError] = useState('');
-	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
 	const router = useRouter();
@@ -40,22 +34,20 @@ const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 	});
 
 	const onSubmit = (values: z.infer<typeof TokenVerificationSchema>) => {
-		setIsError('');
-		setIsSuccess('');
-
 		startTransition(() => {
-			emailVerification(values).then((data) => {
-				emailVerificationForm.reset();
-				setIsDone(true);
-				if (data?.error) setIsError(data?.error);
-				if (data?.success) {
-					setIsSuccess(data?.success);
-					toast.info('Redirecting to login page...');
-					setTimeout(() => {
-						router.push('/auth/login');
-					}, ACTION_REDIRECT_DELAY);
-				}
-			});
+			emailVerification(values)
+				.then((data) => {
+					emailVerificationForm.reset();
+					setIsDone(true);
+					if (data?.error) toast.error(data?.error);
+					if (data?.success) {
+						toast.success(data?.success);
+						setTimeout(() => {
+							router.push('/auth/login');
+						}, ACTION_REDIRECT_DELAY);
+					}
+				})
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
 		});
 	};
 
@@ -79,15 +71,9 @@ const EmailVerificationForm = ({ token }: EmailVerificationFormProps) => {
 						</FormItem>
 					)}
 				/>
-				<FormError message={isError} />
-				<FormSuccess message={isSuccess} />
 				<Button
 					type='submit'
 					size='lg'
-					onClick={() => {
-						setIsSuccess('');
-						setIsError('');
-					}}
 					className='w-full'
 					disabled={isPending || isDone}>
 					{isPending ? (

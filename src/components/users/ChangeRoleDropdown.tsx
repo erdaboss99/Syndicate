@@ -3,13 +3,12 @@
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
-import { UserRole } from '@prisma/client';
-
 import { changeRole } from '@/actions/account';
+import { UserRole } from '@prisma/client';
+import { toast } from 'sonner';
 
 import UserRoleBadge from '@/components/general/UserBadge';
 import { DropdownMenuRadioGroup, DropdownMenuRadioItem } from '@/components/ui/DropdownMenu';
-import { toast } from 'sonner';
 
 type ChangeRoleDropdownProps = {
 	userId: string;

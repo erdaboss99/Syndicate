@@ -1,5 +1,3 @@
-import { PASSWORD_RESET_TOKEN_EXPIRY } from '@/constants';
-
 import {
 	Body,
 	Container,
@@ -13,6 +11,8 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components';
+
+import { PASSWORD_RESET_TOKEN_EXPIRY } from '@/constants';
 
 type PasswordResetTemplateProps = {
 	name: string;

@@ -4,23 +4,30 @@ import { z } from 'zod';
 
 import { TokenVerificationSchema } from '@/schemas';
 
+import {
+	ACTION_ACCOUNT_EMAIL_VERIFIED_SUCCESS,
+	ACTION_ACCOUNT_WITH_EMAIL_NOT_FOUND_ERROR,
+	ACTION_EXPIRED_TOKEN_ERROR,
+	ACTION_INVALID_TOKEN_ERROR,
+	ACTION_NON_EXISTING_TOKEN_ERROR,
+} from '@/constants';
 import { getUserByEmail } from '@/data/user';
 import { getVerificationTokenByToken } from '@/data/verificationToken';
 import { database } from '@/lib/database';
 
 export const emailVerification = async (values: z.infer<typeof TokenVerificationSchema>) => {
 	const validatedData = TokenVerificationSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid token!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_TOKEN_ERROR };
 
 	const { token } = validatedData.data;
 	const existingToken = await getVerificationTokenByToken(token);
-	if (!existingToken) return { error: 'Token does not exist!' };
+	if (!existingToken) return { error: ACTION_NON_EXISTING_TOKEN_ERROR };
 
 	const hasExpired = new Date(existingToken.expires) < new Date();
-	if (hasExpired) return { error: 'Token has expired!' };
+	if (hasExpired) return { error: ACTION_EXPIRED_TOKEN_ERROR };
 
 	const existingUser = await getUserByEmail(existingToken.email);
-	if (!existingUser) return { error: 'Email does not exist!' };
+	if (!existingUser) return { error: ACTION_ACCOUNT_WITH_EMAIL_NOT_FOUND_ERROR };
 
 	await database.user.update({
 		where: { id: existingUser.id },
@@ -32,5 +39,5 @@ export const emailVerification = async (values: z.infer<typeof TokenVerification
 
 	await database.verificationToken.delete({ where: { id: existingToken.id } });
 
-	return { success: 'Email verified!' };
+	return { success: ACTION_ACCOUNT_EMAIL_VERIFIED_SUCCESS };
 };

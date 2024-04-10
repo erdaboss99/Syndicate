@@ -5,20 +5,18 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { RequestPasswordResetSchema } from '@/schemas';
-
 import { requestPasswordReset } from '@/actions/request-password-reset';
-import FormError from '@/components/general/FormError';
-import FormSuccess from '@/components/general/FormSuccess';
+import { RequestPasswordResetSchema } from '@/schemas';
+import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
+import { ACTION_DEFAULT_ERROR } from '@/constants';
 import { LuLoader2 } from 'react-icons/lu';
 
 const RequestPasswordResetForm = () => {
 	const [isPending, startTransition] = useTransition();
-	const [isError, setIsError] = useState('');
-	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
 	const requestPasswordResetForm = useForm<z.infer<typeof RequestPasswordResetSchema>>({
@@ -29,18 +27,17 @@ const RequestPasswordResetForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof RequestPasswordResetSchema>) => {
-		setIsError('');
-		setIsSuccess('');
-
 		startTransition(() => {
-			requestPasswordReset(values).then((data) => {
-				requestPasswordResetForm.reset();
-				if (data?.error) setIsError(data?.error);
-				if (data?.success) {
-					setIsDone(true);
-					setIsSuccess(data?.success);
-				}
-			});
+			requestPasswordReset(values)
+				.then((data) => {
+					requestPasswordResetForm.reset();
+					if (data?.error) toast.error(data?.error);
+					if (data?.success) {
+						setIsDone(true);
+						toast.success(data?.success);
+					}
+				})
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
 		});
 	};
 
@@ -69,15 +66,9 @@ const RequestPasswordResetForm = () => {
 						)}
 					/>
 				</div>
-				<FormError message={isError} />
-				<FormSuccess message={isSuccess} />
 				<Button
 					type='submit'
 					size='lg'
-					onClick={() => {
-						setIsSuccess('');
-						setIsError('');
-					}}
 					className='w-full'
 					disabled={isPending || isDone}>
 					{isPending ? (

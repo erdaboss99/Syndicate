@@ -1,21 +1,22 @@
 import * as z from 'zod';
 
+import {
+	BOOKING_DESCRIPTION_MAX_VALIDATION,
+	BOOKING_DESCRIPTION_MIN_VALIDATION,
+	DATE_REQUIRED_VALIDATION,
+	DATE_YYYY_MM_DD_FORMAT_VALIDATION,
+	EMAIL_VALIDATION,
+	ISSUE_DESCRIPTION_MAX_VALIDATION,
+	ISSUE_DESCRIPTION_MIN_VALIDATION,
+	NAME_VALIDATION,
+	PASSWORD_MATCH_VALIDATION,
+	PASSWORD_MAX_VALIDATION,
+	PASSWORD_MIN_VALIDATION,
+	PASSWORD_SAME_VALIDATION,
+	PASSWORD_VALIDATION,
+	UUID_VALIDATION,
+} from '@/constants';
 import { UserRole } from '@prisma/client';
-
-const NAME_VALIDATION = 'Name is required!';
-const EMAIL_VALIDATION = 'Email should be a valid email address!';
-const PASSWORD_VALIDATION = 'Password is required!';
-const PASSWORD_MIN_VALIDATION = 'Password should be at least 6 characters!';
-const PASSWORD_MAX_VALIDATION = 'Password should be maximum of 25 characters!';
-const PASSWORD_MATCH_VALIDATION = 'Passwords do not match!';
-const PASSWORD_SAME_VALIDATION = 'New password cannot be the same as the old password!';
-const UUID_VALIDATION = 'Invalid UUID!';
-const DATE_REQUIRED_VALIDATION = 'Date is required!';
-const DATE_YYYY_MM_DD_FORMAT_VALIDATION = 'Date should be in yyyy-MM-dd format!';
-const BOOKING_DESCRIPTION_MIN_VALIDATION = 'Booking deecription should be at least 5 characters!';
-const BOOKING_DESCRIPTION_MAX_VALIDATION = 'Booking description should be maximum of 55 characters!';
-const ISSUE_DESCRIPTION_MIN_VALIDATION = 'Issue deecription should be at least 5 characters!';
-const ISSUE_DESCRIPTION_MAX_VALIDATION = 'Issue description should be maximum of 55 characters!';
 
 export const LoginSchema = z.object({
 	email: z.string().email({ message: EMAIL_VALIDATION }),

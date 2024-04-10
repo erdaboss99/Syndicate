@@ -2,18 +2,24 @@
 
 import * as z from 'zod';
 
+import {
+	ACTION_INVALID_PAYLOAD_ERROR,
+	ACTION_ISSUE_CREATED_SUCCESS,
+	ACTION_ISSUE_DELETED_SUCCESS,
+	ACTION_ISSUE_NOT_FOUND_ERROR,
+	ACTION_ISSUE_UPDATED_SUCCESS,
+	ACTION_ONLY_ADMIN_ERROR,
+} from '@/constants';
 import { getCurrentUser } from '@/lib/auth';
-
 import { database } from '@/lib/database';
-
 import { IssueCreateFormSchema, IssueDeleteFormSchema, IssueEditFormSchema } from '@/schemas';
 
 export const createIssue = async (values: z.infer<typeof IssueCreateFormSchema>) => {
 	const validatedData = IssueCreateFormSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();
-	if (user?.role !== 'ADMIN') return { error: 'Issue creation not allowed!' };
+	if (user?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
 
 	const { name, description } = validatedData.data;
 
@@ -23,15 +29,15 @@ export const createIssue = async (values: z.infer<typeof IssueCreateFormSchema>)
 			description,
 		},
 	});
-	return { success: 'Issue successfully created!' };
+	return { success: ACTION_ISSUE_CREATED_SUCCESS };
 };
 
 export const editIssue = async (values: z.infer<typeof IssueEditFormSchema>) => {
 	const validatedData = IssueEditFormSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();
-	if (user?.role !== 'ADMIN') return { error: 'Issue creation not allowed!' };
+	if (user?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
 
 	const { id, name, description } = validatedData.data;
 
@@ -40,7 +46,7 @@ export const editIssue = async (values: z.infer<typeof IssueEditFormSchema>) => 
 			id,
 		},
 	});
-	if (!existingIssue) return { error: 'Issue not found!' };
+	if (!existingIssue) return { error: ACTION_ISSUE_NOT_FOUND_ERROR };
 
 	await database.issue.update({
 		where: {
@@ -51,15 +57,15 @@ export const editIssue = async (values: z.infer<typeof IssueEditFormSchema>) => 
 			description,
 		},
 	});
-	return { success: 'Issue successfully updated!' };
+	return { success: ACTION_ISSUE_UPDATED_SUCCESS };
 };
 
 export const deleteIssue = async (values: z.infer<typeof IssueDeleteFormSchema>) => {
 	const validatedData = IssueDeleteFormSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();
-	if (user?.role !== 'ADMIN') return { error: 'Issue creation not allowed!' };
+	if (user?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
 
 	const { id } = validatedData.data;
 
@@ -69,7 +75,7 @@ export const deleteIssue = async (values: z.infer<typeof IssueDeleteFormSchema>)
 		},
 	});
 
-	if (!existingIssue) return { error: 'Issue not found!' };
+	if (!existingIssue) return { error: ACTION_ISSUE_NOT_FOUND_ERROR };
 	// TODO LINKED BOOKING CHECK
 
 	await database.issue.delete({
@@ -77,5 +83,5 @@ export const deleteIssue = async (values: z.infer<typeof IssueDeleteFormSchema>)
 			id,
 		},
 	});
-	return { success: 'Issue successfully deleted!' };
+	return { success: ACTION_ISSUE_DELETED_SUCCESS };
 };

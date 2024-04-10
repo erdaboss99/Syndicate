@@ -1,4 +1,3 @@
-import { formatDate } from '@/lib/date';
 import {
 	Body,
 	Column,
@@ -13,6 +12,8 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components';
+
+import { formatDate } from '@/lib/date';
 
 export type AppointmentHandlingTemplateProps = {
 	message: string;

@@ -2,37 +2,45 @@
 
 import * as z from 'zod';
 
-import { getCurrentUser } from '@/lib/auth';
-
-import { compare, hash } from '@/lib/hash';
-
-import { database } from '@/lib/database';
-
+import {
+	ACTION_ACCOUNT_ALREADY_USED_EMAIL_ERROR,
+	ACTION_ACCOUNT_DELETED_SUCCESS,
+	ACTION_ACCOUNT_INCORRECT_EMAIL_ERROR,
+	ACTION_ACCOUNT_INCORRECT_PASSWORD_ERROR,
+	ACTION_ACCOUNT_NOT_FOUND_ERROR,
+	ACTION_ACCOUNT_ROLE_CHANGE_SUCCESS,
+	ACTION_ACCOUNT_THIRD_PARTY_EDIT_ERROR,
+	ACTION_ACCOUNT_UPDATED_SUCCESS,
+	ACTION_INVALID_PAYLOAD_ERROR,
+	ACTION_ONLY_ADMIN_ERROR,
+} from '@/constants';
 import { getUserByEmail, getUserById } from '@/data/user';
-
+import { getCurrentUser } from '@/lib/auth';
+import { database } from '@/lib/database';
+import { compare, hash } from '@/lib/hash';
 import { AccountDeleteSchema, AccountEditSchema, RoleChangeSchema } from '@/schemas';
 
 export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => {
 	const validatedData = AccountEditSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();
 	const isOAuth = user?.provider !== 'Credentials';
-	if (isOAuth) return { error: 'User data cannot be changed in accounts created using a third-party provider!' };
+	if (isOAuth) return { error: ACTION_ACCOUNT_THIRD_PARTY_EDIT_ERROR };
 
 	const { name, email, newPassword, confirmPassword, password } = validatedData.data;
 
 	const existingUser = await getUserById(user?.id);
 	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
-		return { error: 'User no longed exists!' };
+		return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 
 	const passwordMatch = await compare(password, existingUser.password);
-	if (!passwordMatch) return { error: 'Invalid password!' };
+	if (!passwordMatch) return { error: ACTION_ACCOUNT_INCORRECT_PASSWORD_ERROR };
 
 	const emailChanged = email !== existingUser.email;
 	if (emailChanged) {
 		const emailConflicts = await getUserByEmail(email);
-		if (emailConflicts) return { error: 'Email already in use!' };
+		if (emailConflicts) return { error: ACTION_ACCOUNT_ALREADY_USED_EMAIL_ERROR };
 		await database.user.update({
 			where: {
 				id: user.id,
@@ -67,36 +75,36 @@ export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => 
 		});
 	}
 
-	return { success: 'Account informations updated! Please log in again!' };
+	return { success: ACTION_ACCOUNT_UPDATED_SUCCESS };
 };
 
 export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>) => {
 	const validatedData = AccountDeleteSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { email } = validatedData.data;
 
 	const user = await getCurrentUser();
 	const existingUser = await getUserById(user?.id!);
 
-	if (!existingUser || !existingUser.email) return { error: 'User no longed exists!' };
+	if (!existingUser || !existingUser.email) return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 
-	if (existingUser.email !== email) return { error: 'Invalid email!' };
+	if (existingUser.email !== email) return { error: ACTION_ACCOUNT_INCORRECT_EMAIL_ERROR };
 
 	await database.user.delete({ where: { id: existingUser.id } });
-	return { success: 'Account deleted!' };
+	return { success: ACTION_ACCOUNT_DELETED_SUCCESS };
 };
 
 export const changeRole = async (values: z.infer<typeof RoleChangeSchema>) => {
-	const validatedData = RoleChangeSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
-
 	const user = await getCurrentUser();
-	if (user?.role !== 'ADMIN') return { error: 'Role change not allowed!' };
+	if (user?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
+
+	const validatedData = RoleChangeSchema.safeParse(values);
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { id } = validatedData.data;
 	const existingUser = await getUserById(id);
-	if (!existingUser) return { error: 'User no longed exists!' };
+	if (!existingUser) return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 
 	const { role } = validatedData.data;
 	await database.user.update({
@@ -107,5 +115,5 @@ export const changeRole = async (values: z.infer<typeof RoleChangeSchema>) => {
 			role: role,
 		},
 	});
-	return { success: 'Role changed!' };
+	return { success: ACTION_ACCOUNT_ROLE_CHANGE_SUCCESS };
 };

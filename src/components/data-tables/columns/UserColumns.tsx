@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Suspense } from 'react';
 
 import { formatDate } from '@/lib/date';
-
 import { UserRole, type User } from '@prisma/client';
 
 import UserAvatar from '@/components/general/UserAvatar';

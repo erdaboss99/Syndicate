@@ -6,19 +6,15 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { ResetPasswordSchema } from '@/schemas';
-
 import { resetPassword } from '@/actions/reset-password';
+import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
+import { ResetPasswordSchema } from '@/schemas';
+import { toast } from 'sonner';
 
-import { ACTION_REDIRECT_DELAY } from '@/constants';
-
-import FormError from '@/components/general/FormError';
-import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
-import { toast } from 'sonner';
 
 type ResetPasswordFormProps = {
 	token: string;
@@ -26,8 +22,6 @@ type ResetPasswordFormProps = {
 
 const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 	const [isPending, startTransition] = useTransition();
-	const [isError, setIsError] = useState('');
-	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
 	const router = useRouter();
@@ -42,22 +36,20 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 	});
 
 	const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
-		setIsError('');
-		setIsSuccess('');
-
 		startTransition(() => {
-			resetPassword(values).then((data) => {
-				resetPasswordForm.reset();
-				setIsDone(true);
-				if (data?.error) setIsError(data?.error);
-				if (data?.success) {
-					setIsSuccess(data?.success);
-					toast.info('Redirecting to login page...');
-					setTimeout(() => {
-						router.push('/auth/login');
-					}, ACTION_REDIRECT_DELAY);
-				}
-			});
+			resetPassword(values)
+				.then((data) => {
+					resetPasswordForm.reset();
+					setIsDone(true);
+					if (data?.error) toast.error(data?.error);
+					if (data?.success) {
+						toast.success(data?.success);
+						setTimeout(() => {
+							router.push('/auth/login');
+						}, ACTION_REDIRECT_DELAY);
+					}
+				})
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
 		});
 	};
 
@@ -115,15 +107,9 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
 						</FormItem>
 					)}
 				/>
-				<FormError message={isError} />
-				<FormSuccess message={isSuccess} />
 				<Button
 					type='submit'
 					size='lg'
-					onClick={() => {
-						setIsSuccess('');
-						setIsError('');
-					}}
 					className='w-full'
 					disabled={isPending || isDone}>
 					{isPending ? (

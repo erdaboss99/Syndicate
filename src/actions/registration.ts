@@ -2,19 +2,21 @@
 
 import * as z from 'zod';
 
-import { hash } from '@/lib/hash';
-
+import {
+	ACTION_ACCOUNT_ALREADY_USED_EMAIL_ERROR,
+	ACTION_CONFIRMATION_EMAIL_SENT_SUCCESS,
+	ACTION_INVALID_PAYLOAD_ERROR,
+	PASSWORD_MATCH_VALIDATION,
+} from '@/constants';
 import { database } from '@/lib/database';
-
-import { RegistrationSchema } from '@/schemas';
-
-import { generateVerificationToken } from '@/lib/tokens';
-
+import { hash } from '@/lib/hash';
 import { sendVerificationEmail } from '@/lib/mail';
+import { generateVerificationToken } from '@/lib/tokens';
+import { RegistrationSchema } from '@/schemas';
 
 export const registration = async (values: z.infer<typeof RegistrationSchema>) => {
 	const validatedData = RegistrationSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid data!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { name, email, password, confirmPassword } = validatedData.data;
 
@@ -23,8 +25,8 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 			email,
 		},
 	});
-	if (existingUser) return { error: 'This email is already taken!' };
-	if (password !== confirmPassword) return { error: 'Passwords do not match!' };
+	if (existingUser) return { error: ACTION_ACCOUNT_ALREADY_USED_EMAIL_ERROR };
+	if (password !== confirmPassword) return { error: PASSWORD_MATCH_VALIDATION };
 
 	const hashedPassword = await hash(password);
 	await database.user.create({
@@ -37,5 +39,5 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 
 	const verificationToken = await generateVerificationToken(email);
 	await sendVerificationEmail(name, verificationToken.email, verificationToken.token);
-	return { success: 'Confirmation email sent!' };
+	return { success: ACTION_CONFIRMATION_EMAIL_SENT_SUCCESS };
 };

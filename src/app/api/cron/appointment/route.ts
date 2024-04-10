@@ -12,19 +12,12 @@ import {
 	FURTHEST_APPOINTMENT_DATE,
 	OPENING_HOUR,
 } from '@/constants';
-
-import { getCurrentUser } from '@/lib/auth';
-
-import { database } from '@/lib/database';
-
-import { formatDatesInObject } from '@/lib/date';
-
 import { getAutoAppointmentGenerationStatus } from '@/data/appointments';
-
 import { AppointmentHandlingTemplateProps } from '@/emails/AppointmentHandling';
-
+import { getCurrentUser } from '@/lib/auth';
+import { database } from '@/lib/database';
+import { formatDatesInObject } from '@/lib/date';
 import { sendAppointmentGenerationReport } from '@/lib/mail';
-
 import { Appointment } from '@prisma/client';
 
 export async function POST() {

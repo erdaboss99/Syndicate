@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 
-import { getCurrentUser } from '@/lib/auth';
-
 import { getAppointments, getAutoAppointmentGenerationStatus } from '@/data/appointments';
+import { getCurrentUser } from '@/lib/auth';
 
 import AppointmentSettingsForm from '@/components/appointments/AppointmentSettingsForm';
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';

@@ -1,5 +1,4 @@
 import { AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE, AUTO_APPOINTMENT_GENERATION_KEY } from '@/constants';
-
 import { database } from '@/lib/database';
 
 export const getAppointments = async () => {

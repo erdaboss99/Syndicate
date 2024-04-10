@@ -1,8 +1,6 @@
-import { formatDate, getIntervalFromDay } from '@/lib/date';
-
-import { AppointmentSelectQueryParamsSchema } from '@/schemas';
-
 import { getAvailableAppointmentsInInterval } from '@/data/appointments';
+import { formatDate, getIntervalFromDay } from '@/lib/date';
+import { AppointmentSelectQueryParamsSchema } from '@/schemas';
 
 import AppointmentSelectButton from '@/components/appointments/AppointmentSelectButton';
 import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';

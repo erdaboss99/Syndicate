@@ -7,25 +7,19 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { deleteAccount } from '@/actions/account';
-
+import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { AccountDeleteSchema } from '@/schemas';
-
-import { ACTION_REDIRECT_DELAY } from '@/constants';
+import { toast } from 'sonner';
 
 import LogoutButton from '@/components/auth/LogoutButton';
-import FormError from '@/components/general/FormError';
-import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
 import { DialogFooter } from '@/components/ui/Dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
-import { toast } from 'sonner';
 
 const AccountDeleteForm = () => {
 	const [isPending, startTransition] = useTransition();
-	const [isError, setIsError] = useState('');
-	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
 	const accountDeleteForm = useForm<z.infer<typeof AccountDeleteSchema>>({
@@ -36,26 +30,22 @@ const AccountDeleteForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof AccountDeleteSchema>) => {
-		setIsError('');
-		setIsSuccess('');
-
 		startTransition(() => {
 			deleteAccount(values)
 				.then((data) => {
 					if (data?.error) {
 						accountDeleteForm.reset();
-						setIsError(data?.error);
+						toast.error(data?.error);
 					}
 					if (data?.success) {
-						setIsSuccess(data?.success);
+						toast.success(data?.success);
 						setIsDone(true);
-						toast.info('Redirecting to login page...');
 						setTimeout(() => {
 							signOut();
 						}, ACTION_REDIRECT_DELAY);
 					}
 				})
-				.catch(() => setIsError('Something went wrong'));
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
 		});
 	};
 
@@ -83,18 +73,12 @@ const AccountDeleteForm = () => {
 						)}
 					/>
 				</div>
-				<FormError message={isError} />
-				<FormSuccess message={isSuccess} />
 				<DialogFooter>
 					{!isDone ? (
 						<Button
 							type='submit'
 							variant='destructive'
 							size='lg'
-							onClick={() => {
-								setIsSuccess('');
-								setIsError('');
-							}}
 							disabled={isPending}>
 							{isPending ? (
 								<span className='flex flex-row items-center gap-2'>

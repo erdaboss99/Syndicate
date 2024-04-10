@@ -2,20 +2,23 @@
 
 import { z } from 'zod';
 
-import { AppointmentGenerationSchema } from '@/schemas';
-
-import { database } from '@/lib/database';
-
-import { AUTO_APPOINTMENT_GENERATION_KEY } from '@/constants';
-
+import {
+	ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_SUCCESS,
+	ACTION_APPOINTMENT_AUTO_GENERATION_ENABLED_SUCCESS,
+	ACTION_INVALID_PAYLOAD_ERROR,
+	ACTION_ONLY_ADMIN_ERROR,
+	AUTO_APPOINTMENT_GENERATION_KEY,
+} from '@/constants';
 import { getCurrentUser } from '@/lib/auth';
+import { database } from '@/lib/database';
+import { AppointmentGenerationSchema } from '@/schemas';
 
 export const toggleAutoAppointmentGeneration = async (values: z.infer<typeof AppointmentGenerationSchema>) => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') return { error: 'Unauthorized!' };
+	if (currentUser?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
 
 	const validatedData = AppointmentGenerationSchema.safeParse(values);
-	if (!validatedData.success) return { error: 'Invalid payload!' };
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { autoAppointmentGeneration } = validatedData.data;
 
@@ -28,7 +31,7 @@ export const toggleAutoAppointmentGeneration = async (values: z.infer<typeof App
 
 	return {
 		success: autoAppointmentGeneration
-			? 'Auto appointment generation is enabled!'
-			: 'Auto appointment generation is disabled!',
+			? ACTION_APPOINTMENT_AUTO_GENERATION_ENABLED_SUCCESS
+			: ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_SUCCESS,
 	};
 };

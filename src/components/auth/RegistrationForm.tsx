@@ -7,23 +7,17 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { registration } from '@/actions/registration';
-
+import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { RegistrationSchema } from '@/schemas';
+import { toast } from 'sonner';
 
-import { ACTION_REDIRECT_DELAY } from '@/constants';
-
-import FormError from '@/components/general/FormError';
-import FormSuccess from '@/components/general/FormSuccess';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { LuLoader2 } from 'react-icons/lu';
-import { toast } from 'sonner';
 
 const RegistrationForm = () => {
 	const [isPending, startTransition] = useTransition();
-	const [isError, setIsError] = useState('');
-	const [isSuccess, setIsSuccess] = useState('');
 	const [isDone, setIsDone] = useState(false);
 
 	const router = useRouter();
@@ -39,27 +33,23 @@ const RegistrationForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof RegistrationSchema>) => {
-		setIsError('');
-		setIsSuccess('');
-
 		startTransition(() => {
 			registration(values)
 				.then((data) => {
 					if (data.error) {
 						registrationForm.reset();
-						setIsError(data.error);
+						toast.error(data.error);
 					}
 
 					if (data?.success) {
 						setIsDone(true);
-						setIsSuccess(data?.success);
-						toast.info('Redirecting to login page...');
+						toast.success(data?.success);
 						setTimeout(() => {
 							router.push('/auth/login');
 						}, ACTION_REDIRECT_DELAY);
 					}
 				})
-				.catch(() => setIsError('Something went wrong'));
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
 		});
 	};
 
@@ -140,15 +130,9 @@ const RegistrationForm = () => {
 						)}
 					/>
 				</div>
-				<FormError message={isError} />
-				<FormSuccess message={isSuccess} />
 				<Button
 					type='submit'
 					size='lg'
-					onClick={() => {
-						setIsSuccess('');
-						setIsError('');
-					}}
 					className='w-full'
 					disabled={isPending || isDone}>
 					{isPending ? (

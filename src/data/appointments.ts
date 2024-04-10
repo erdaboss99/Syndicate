@@ -3,7 +3,11 @@ import { database } from '@/lib/database';
 
 export const getAppointments = async () => {
 	try {
-		const appointments = await database.appointment.findMany();
+		const appointments = await database.appointment.findMany({
+			orderBy: {
+				startTime: 'asc',
+			},
+		});
 		return appointments;
 	} catch (error) {
 		return [];
@@ -76,6 +80,9 @@ export const getAvailableAppointmentsInInterval = async (interval: { start: Date
 					},
 				],
 			},
+			orderBy: {
+				startTime: 'asc',
+			},
 		});
 		return appointments;
 	} catch (error) {
@@ -96,6 +103,9 @@ export const getAppointmentById = async (id: string, variant: 'onlyAvailable' | 
 							},
 						],
 					},
+					orderBy: {
+						startTime: 'asc',
+					},
 				});
 				return freeAppointment;
 			case 'onlyBooked':
@@ -113,6 +123,9 @@ export const getAppointmentById = async (id: string, variant: 'onlyAvailable' | 
 								id,
 							},
 						],
+					},
+					orderBy: {
+						startTime: 'asc',
 					},
 				});
 				return bookedAppointment;

@@ -53,6 +53,9 @@ export async function POST() {
 					lte: intervalEnd,
 				},
 			},
+			orderBy: {
+				startTime: 'asc',
+			},
 		});
 
 		for (let i = intervalStart; i <= intervalEnd; i = add(i, { days: 1 })) {
@@ -130,6 +133,9 @@ export async function DELETE() {
 					},
 				},
 			],
+		},
+		orderBy: {
+			startTime: 'asc',
 		},
 	});
 

@@ -6,10 +6,10 @@ import { getCurrentUser } from '@/lib/auth';
 
 import { database } from '@/lib/database';
 
-import { issueCreateFormSchema, issueDeleteFormSchema, issueEditFormSchema } from '@/schemas';
+import { IssueCreateFormSchema, IssueDeleteFormSchema, IssueEditFormSchema } from '@/schemas';
 
-export const createIssue = async (values: z.infer<typeof issueCreateFormSchema>) => {
-	const validatedData = issueCreateFormSchema.safeParse(values);
+export const createIssue = async (values: z.infer<typeof IssueCreateFormSchema>) => {
+	const validatedData = IssueCreateFormSchema.safeParse(values);
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const user = await getCurrentUser();
@@ -26,8 +26,8 @@ export const createIssue = async (values: z.infer<typeof issueCreateFormSchema>)
 	return { success: 'Issue successfully created!' };
 };
 
-export const editIssue = async (values: z.infer<typeof issueEditFormSchema>) => {
-	const validatedData = issueEditFormSchema.safeParse(values);
+export const editIssue = async (values: z.infer<typeof IssueEditFormSchema>) => {
+	const validatedData = IssueEditFormSchema.safeParse(values);
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const user = await getCurrentUser();
@@ -54,8 +54,8 @@ export const editIssue = async (values: z.infer<typeof issueEditFormSchema>) => 
 	return { success: 'Issue successfully updated!' };
 };
 
-export const deleteIssue = async (values: z.infer<typeof issueDeleteFormSchema>) => {
-	const validatedData = issueDeleteFormSchema.safeParse(values);
+export const deleteIssue = async (values: z.infer<typeof IssueDeleteFormSchema>) => {
+	const validatedData = IssueDeleteFormSchema.safeParse(values);
 	if (!validatedData.success) return { error: 'Invalid data!' };
 
 	const user = await getCurrentUser();

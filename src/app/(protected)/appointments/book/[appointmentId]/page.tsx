@@ -2,14 +2,14 @@ import { redirect } from 'next/navigation';
 
 import { getAppointmentById } from '@/data/appointments';
 import { formatDate } from '@/lib/date';
-import { appointmentBookQueryParamsSchema } from '@/schemas';
+import { AppointmentBookQueryParamsSchema } from '@/schemas';
 
 import AppointmentBookForm from '@/components/appointments/AppointmentBookForm';
 import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';
 
 const AppointmentBookPage = async ({ params }: { params: { appointmentId: string } }) => {
 	const { appointmentId } = params;
-	const paramsData = appointmentBookQueryParamsSchema.safeParse(appointmentId);
+	const paramsData = AppointmentBookQueryParamsSchema.safeParse(appointmentId);
 
 	if (!paramsData.success) redirect('/appointments');
 

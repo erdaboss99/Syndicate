@@ -1,5 +1,6 @@
-import { UserRole } from '@prisma/client';
 import * as z from 'zod';
+
+import { UserRole } from '@prisma/client';
 
 const NAME_VALIDATION = 'Name is required!';
 const EMAIL_VALIDATION = 'Email should be a valid email address!';
@@ -8,12 +9,13 @@ const PASSWORD_MIN_VALIDATION = 'Password should be at least 6 characters!';
 const PASSWORD_MAX_VALIDATION = 'Password should be maximum of 25 characters!';
 const PASSWORD_MATCH_VALIDATION = 'Passwords do not match!';
 const PASSWORD_SAME_VALIDATION = 'New password cannot be the same as the old password!';
-const VALIDATION_REQUIRED_DATE_ERROR = 'Date is required!';
-const VALIDATION_YYYY_MM_DD_DATE_FORMAT_ERROR = 'Date should be in yyyy-MM-dd format!';
-const VALIDATION_SHORT_BOOKING_DESCRIPTION_ERROR = 'Booking deecription should be at least 5 characters!';
-const VALIDATION_LONG_BOOKING_DESCRIPTION_ERROR = 'Booking description should be maximum of 55 characters!';
-const VALIDATION_SHORT_ISSUE_DESCRIPTION_ERROR = 'Issue deecription should be at least 5 characters!';
-const VALIDATION_LONG_ISSUE_DESCRIPTION_ERROR = 'Issue description should be maximum of 55 characters!';
+const UUID_VALIDATION = 'Invalid UUID!';
+const DATE_REQUIRED_VALIDATION = 'Date is required!';
+const DATE_YYYY_MM_DD_FORMAT_VALIDATION = 'Date should be in yyyy-MM-dd format!';
+const BOOKING_DESCRIPTION_MIN_VALIDATION = 'Booking deecription should be at least 5 characters!';
+const BOOKING_DESCRIPTION_MAX_VALIDATION = 'Booking description should be maximum of 55 characters!';
+const ISSUE_DESCRIPTION_MIN_VALIDATION = 'Issue deecription should be at least 5 characters!';
+const ISSUE_DESCRIPTION_MAX_VALIDATION = 'Issue description should be maximum of 55 characters!';
 
 export const LoginSchema = z.object({
 	email: z.string().email({ message: EMAIL_VALIDATION }),
@@ -33,7 +35,7 @@ export const RegistrationSchema = z
 	});
 
 export const TokenVerificationSchema = z.object({
-	token: z.string().uuid(),
+	token: z.string().uuid({ message: UUID_VALIDATION }),
 });
 
 export const RequestPasswordResetSchema = z.object({
@@ -42,7 +44,7 @@ export const RequestPasswordResetSchema = z.object({
 
 export const ResetPasswordSchema = z
 	.object({
-		token: z.string().uuid(),
+		token: z.string().uuid({ message: UUID_VALIDATION }),
 		password: z.string().min(6, PASSWORD_MIN_VALIDATION).max(25, PASSWORD_MAX_VALIDATION),
 		confirmPassword: z.string().min(6, PASSWORD_MIN_VALIDATION).max(25, PASSWORD_MAX_VALIDATION),
 	})
@@ -79,7 +81,7 @@ export const AccountDeleteSchema = z.object({
 });
 
 export const RoleChangeSchema = z.object({
-	id: z.string().uuid(),
+	id: z.string().uuid({ message: UUID_VALIDATION }),
 	role: z.nativeEnum(UserRole),
 });
 
@@ -89,40 +91,40 @@ export const AppointmentGenerationSchema = z.object({
 
 export const DateSelectionFormSchema = z.object({
 	selectedDate: z.date({
-		required_error: VALIDATION_REQUIRED_DATE_ERROR,
+		required_error: DATE_REQUIRED_VALIDATION,
 	}),
 });
 
-export const appointmentSelectQueryParamsSchema = z
+export const AppointmentSelectQueryParamsSchema = z
 	.string()
-	.regex(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/, VALIDATION_YYYY_MM_DD_DATE_FORMAT_ERROR);
+	.regex(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/, DATE_YYYY_MM_DD_FORMAT_VALIDATION);
 
-export const appointmentBookQueryParamsSchema = z.string().uuid();
+export const AppointmentBookQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });
 
-export const appointmentBookFormSchema = z.object({
+export const AppointmentBookFormSchema = z.object({
 	description: z
 		.string()
-		.min(5, { message: VALIDATION_SHORT_BOOKING_DESCRIPTION_ERROR })
-		.max(55, { message: VALIDATION_LONG_BOOKING_DESCRIPTION_ERROR }),
+		.min(5, { message: BOOKING_DESCRIPTION_MIN_VALIDATION })
+		.max(55, { message: BOOKING_DESCRIPTION_MAX_VALIDATION }),
 });
 
-export const issueCreateFormSchema = z.object({
+export const IssueCreateFormSchema = z.object({
 	name: z.string().min(1, NAME_VALIDATION),
 	description: z
 		.string()
-		.min(5, { message: VALIDATION_SHORT_ISSUE_DESCRIPTION_ERROR })
-		.max(55, { message: VALIDATION_LONG_ISSUE_DESCRIPTION_ERROR }),
+		.min(5, { message: ISSUE_DESCRIPTION_MIN_VALIDATION })
+		.max(55, { message: ISSUE_DESCRIPTION_MAX_VALIDATION }),
 });
 
-export const issueEditFormSchema = z.object({
+export const IssueEditFormSchema = z.object({
 	id: z.string().uuid(),
 	name: z.string().min(1, NAME_VALIDATION),
 	description: z
 		.string()
-		.min(5, { message: VALIDATION_SHORT_ISSUE_DESCRIPTION_ERROR })
-		.max(55, { message: VALIDATION_LONG_ISSUE_DESCRIPTION_ERROR }),
+		.min(5, { message: ISSUE_DESCRIPTION_MIN_VALIDATION })
+		.max(55, { message: ISSUE_DESCRIPTION_MAX_VALIDATION }),
 });
 
-export const issueDeleteFormSchema = z.object({
-	id: z.string().uuid(),
+export const IssueDeleteFormSchema = z.object({
+	id: z.string().uuid({ message: UUID_VALIDATION }),
 });

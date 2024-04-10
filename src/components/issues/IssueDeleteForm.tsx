@@ -10,7 +10,7 @@ import * as z from 'zod';
 
 import { deleteIssue } from '@/actions/issue';
 import { FORM_DEFAULT_ERROR_MESSAGE } from '@/constants';
-import { issueDeleteFormSchema } from '@/schemas';
+import { IssueDeleteFormSchema } from '@/schemas';
 import { Issue } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
@@ -28,14 +28,14 @@ const IssueDeleteForm = ({ issue }: IssueDeleteFormProps) => {
 
 	const router = useRouter();
 
-	const issueDeleteForm = useForm<z.infer<typeof issueDeleteFormSchema>>({
-		resolver: zodResolver(issueDeleteFormSchema),
+	const issueDeleteForm = useForm<z.infer<typeof IssueDeleteFormSchema>>({
+		resolver: zodResolver(IssueDeleteFormSchema),
 		defaultValues: {
 			id: issue.id,
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof issueDeleteFormSchema>) => {
+	const onSubmit = (values: z.infer<typeof IssueDeleteFormSchema>) => {
 		startTransition(() => {
 			deleteIssue(values)
 				.then((data) => {

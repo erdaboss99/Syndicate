@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { appointmentBookFormSchema } from '@/schemas';
+import { AppointmentBookFormSchema } from '@/schemas';
 import { Appointment } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
@@ -20,14 +20,14 @@ type AppointmentBookFormProps = {
 const AppointmentBookForm = ({ appointment }: AppointmentBookFormProps) => {
 	const router = useRouter();
 
-	const form = useForm<z.infer<typeof appointmentBookFormSchema>>({
-		resolver: zodResolver(appointmentBookFormSchema),
+	const form = useForm<z.infer<typeof AppointmentBookFormSchema>>({
+		resolver: zodResolver(AppointmentBookFormSchema),
 		defaultValues: {
 			description: '',
 		},
 	});
 
-	function onSubmit(data: z.infer<typeof appointmentBookFormSchema>) {
+	function onSubmit(data: z.infer<typeof AppointmentBookFormSchema>) {
 		console.log(data);
 	}
 

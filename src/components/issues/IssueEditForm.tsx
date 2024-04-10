@@ -10,7 +10,7 @@ import * as z from 'zod';
 
 import { editIssue } from '@/actions/issue';
 import { FORM_DEFAULT_ERROR_MESSAGE } from '@/constants';
-import { issueEditFormSchema } from '@/schemas';
+import { IssueEditFormSchema } from '@/schemas';
 import { Issue } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
@@ -30,8 +30,8 @@ const IssueEditForm = ({ issue }: IssueEditFormProps) => {
 
 	const router = useRouter();
 
-	const issueEditForm = useForm<z.infer<typeof issueEditFormSchema>>({
-		resolver: zodResolver(issueEditFormSchema),
+	const issueEditForm = useForm<z.infer<typeof IssueEditFormSchema>>({
+		resolver: zodResolver(IssueEditFormSchema),
 		defaultValues: {
 			id: issue.id,
 			name: issue.name,
@@ -39,7 +39,7 @@ const IssueEditForm = ({ issue }: IssueEditFormProps) => {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof issueEditFormSchema>) => {
+	const onSubmit = (values: z.infer<typeof IssueEditFormSchema>) => {
 		startTransition(() => {
 			editIssue(values)
 				.then((data) => {

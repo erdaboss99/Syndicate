@@ -1,6 +1,6 @@
 import { formatDate, getIntervalFromDay } from '@/lib/date';
 
-import { appointmentSelectQueryParamsSchema } from '@/schemas';
+import { AppointmentSelectQueryParamsSchema } from '@/schemas';
 
 import { getAvailableAppointmentsInInterval } from '@/data/appointments';
 
@@ -10,7 +10,7 @@ import ErrorCard from '@/components/general/ErrorCard';
 
 const AppointmentSelectPage = async ({ params }: { params: { selectedDate: string } }) => {
 	const { selectedDate } = params;
-	const paramsData = appointmentSelectQueryParamsSchema.safeParse(selectedDate);
+	const paramsData = AppointmentSelectQueryParamsSchema.safeParse(selectedDate);
 
 	if (!paramsData.success)
 		return (

@@ -22,7 +22,9 @@ const DashboardTile = ({
 	TileIcon,
 }: DashboardTileProps) => {
 	return (
-		<Link href={tileHref}>
+		<Link
+			className='h-full w-full'
+			href={tileHref}>
 			<Card variant='tile'>
 				<CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
 					<CardTitle className='text-base md:text-lg'>{tileTitle}</CardTitle>

@@ -28,3 +28,5 @@ export const API_SUCCESSFUL_REQUEST_CODE = 200;
 
 // DateTime related constants
 export const DEFAULT_TIMEZONE = 'Europe/Budapest';
+
+export const FORM_DEFAULT_ERROR_MESSAGE = 'Something went wrong! Please try again later!';

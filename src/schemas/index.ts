@@ -10,8 +10,10 @@ const PASSWORD_MATCH_VALIDATION = 'Passwords do not match!';
 const PASSWORD_SAME_VALIDATION = 'New password cannot be the same as the old password!';
 const VALIDATION_REQUIRED_DATE_ERROR = 'Date is required!';
 const VALIDATION_YYYY_MM_DD_DATE_FORMAT_ERROR = 'Date should be in yyyy-MM-dd format!';
-export const VALIDATION_SHORT_BOOKING_DESCRIPTION_ERROR = 'Booking deecription should be at least 5 characters!';
-export const VALIDATION_LONG_BOOKING_DESCRIPTION_ERROR = 'Booking description should be maximum of 55 characters!';
+const VALIDATION_SHORT_BOOKING_DESCRIPTION_ERROR = 'Booking deecription should be at least 5 characters!';
+const VALIDATION_LONG_BOOKING_DESCRIPTION_ERROR = 'Booking description should be maximum of 55 characters!';
+const VALIDATION_SHORT_ISSUE_DESCRIPTION_ERROR = 'Issue deecription should be at least 5 characters!';
+const VALIDATION_LONG_ISSUE_DESCRIPTION_ERROR = 'Issue description should be maximum of 55 characters!';
 
 export const LoginSchema = z.object({
 	email: z.string().email({ message: EMAIL_VALIDATION }),
@@ -97,10 +99,30 @@ export const appointmentSelectQueryParamsSchema = z
 
 export const appointmentBookQueryParamsSchema = z.string().uuid();
 
-
 export const appointmentBookFormSchema = z.object({
 	description: z
 		.string()
 		.min(5, { message: VALIDATION_SHORT_BOOKING_DESCRIPTION_ERROR })
 		.max(55, { message: VALIDATION_LONG_BOOKING_DESCRIPTION_ERROR }),
+});
+
+export const issueCreateFormSchema = z.object({
+	name: z.string().min(1, NAME_VALIDATION),
+	description: z
+		.string()
+		.min(5, { message: VALIDATION_SHORT_ISSUE_DESCRIPTION_ERROR })
+		.max(55, { message: VALIDATION_LONG_ISSUE_DESCRIPTION_ERROR }),
+});
+
+export const issueEditFormSchema = z.object({
+	id: z.string().uuid(),
+	name: z.string().min(1, NAME_VALIDATION),
+	description: z
+		.string()
+		.min(5, { message: VALIDATION_SHORT_ISSUE_DESCRIPTION_ERROR })
+		.max(55, { message: VALIDATION_LONG_ISSUE_DESCRIPTION_ERROR }),
+});
+
+export const issueDeleteFormSchema = z.object({
+	id: z.string().uuid(),
 });

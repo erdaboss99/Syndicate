@@ -7,7 +7,7 @@ const cardVariants = cva('transition-colors md:rounded-xl md:shadow', {
 	variants: {
 		variant: {
 			default: 'bg-background text-card-foreground md:border md:bg-card',
-			tile: 'border bg-card text-card-foreground hover:bg-primary/15 md:bg-background md:text-foreground',
+			tile: 'h-full w-full border bg-card text-card-foreground hover:bg-primary/15 md:bg-background md:text-foreground',
 		},
 	},
 	defaultVariants: {

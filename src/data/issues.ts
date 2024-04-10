@@ -17,7 +17,7 @@ export const getIssueCount = async (variant: 'all' | 'currentlyUsed') => {
 					},
 					where: {
 						bookings: {
-							every: {
+							some: {
 								id: {
 									not: undefined,
 								},
@@ -29,5 +29,14 @@ export const getIssueCount = async (variant: 'all' | 'currentlyUsed') => {
 		}
 	} catch (error) {
 		return null;
+	}
+};
+
+export const getIssues = async () => {
+	try {
+		const issues = await database.issue.findMany();
+		return issues;
+	} catch (error) {
+		return [];
 	}
 };

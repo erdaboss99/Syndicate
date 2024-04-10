@@ -15,7 +15,7 @@ import {
 
 import { formatDate } from '@/lib/date';
 
-export type AppointmentHandlingTemplateProps = {
+export type AppointmentGenerationTemplateProps = {
 	message: string;
 	intervalStart: Date;
 	intervalEnd: Date;
@@ -24,17 +24,17 @@ export type AppointmentHandlingTemplateProps = {
 	createdAppointments: { startTime: Date; endTime: Date }[];
 };
 
-export const AppointmentHandlingTemplate = ({
+export const AppointmentGenerationTemplate = ({
 	message,
 	intervalStart,
 	intervalEnd,
 	workDaysInInterval,
 	weekendDaysInInterval,
 	createdAppointments,
-}: AppointmentHandlingTemplateProps) => (
+}: AppointmentGenerationTemplateProps) => (
 	<Html style={base}>
 		<Tailwind>
-			<Preview>Syndicate - Appointment Handling Report</Preview>
+			<Preview>Syndicate - Appointment Generation Report</Preview>
 			<Body className='bg-slate-100'>
 				<Container className='mx-auto my-0 px-7 pb-12 pt-5'>
 					<Img
@@ -126,7 +126,7 @@ export const AppointmentHandlingTemplate = ({
 	</Html>
 );
 
-export default AppointmentHandlingTemplate;
+export default AppointmentGenerationTemplate;
 
 const base = {
 	fontFamily:

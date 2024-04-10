@@ -13,11 +13,12 @@ import {
 	OPENING_HOUR,
 } from '@/constants';
 import { getAutoAppointmentGenerationStatus } from '@/data/appointments';
-import { AppointmentHandlingTemplateProps } from '@/emails/AppointmentHandling';
+import { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
+import { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { formatDatesInObject } from '@/lib/date';
-import { sendAppointmentGenerationReport } from '@/lib/mail';
+import { sendAppointmentDeletionReport, sendAppointmentGenerationReport } from '@/lib/mail';
 import { Appointment } from '@prisma/client';
 
 export async function POST() {
@@ -78,7 +79,8 @@ export async function POST() {
 				}
 			}
 		}
-		const reportEmailParams: AppointmentHandlingTemplateProps = {
+
+		const reportEmailParams: AppointmentGenerationTemplateProps = {
 			message: `${createdAppointments.length} new appointments were created.`,
 			intervalStart: intervalStart,
 			intervalEnd: intervalEnd,
@@ -86,7 +88,6 @@ export async function POST() {
 			weekendDaysInInterval: weekendDaysInInterval,
 			createdAppointments: createdAppointments,
 		};
-
 		await sendAppointmentGenerationReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
@@ -119,38 +120,21 @@ export async function DELETE() {
 	const currentTime = new Date();
 	const intervalStart = startOfDay(currentTime);
 
-	const expiredAppointments = await database.appointment.findMany({
+	const expiredUnbookedAppointments = await database.appointment.findMany({
 		where: {
-			startTime: {
-				lte: intervalStart,
-			},
-		},
-		select: {
-			id: true,
-			startTime: true,
-			Booking: {
-				select: {
-					id: true,
-					description: true,
-					User: {
-						select: {
-							id: true,
-							name: true,
-							email: true,
-							role: true,
-						},
+			AND: [
+				{ Booking: null },
+				{
+					startTime: {
+						lte: intervalStart,
 					},
 				},
-			},
+			],
 		},
 	});
 
-	const expiredBookedAppointments = expiredAppointments.filter((appointment) => appointment.Booking !== null);
-	const expiredUnbookedAppointments = expiredAppointments.filter((appointment) => appointment.Booking === null);
-
 	const deletedAppointments: Appointment[] = [];
 	for (const appointment of expiredUnbookedAppointments) {
-		console.log(appointment);
 		deletedAppointments.push(
 			await database.appointment.delete({
 				where: {
@@ -159,14 +143,20 @@ export async function DELETE() {
 			}),
 		);
 	}
-
-	const responseObject = formatDatesInObject({
-		message: `${deletedAppointments.length} appointments were deleted due to expiration, ${expiredBookedAppointments.length} appointments were not deleted because they were booked.`,
-		currentDate: currentTime,
-		intervalStart: intervalStart,
-		expiredBookedAppointments: expiredBookedAppointments,
-		deletedAppointments: deletedAppointments,
+	const purgedAppointments = deletedAppointments.map((appointment) => {
+		return {
+			startTime: appointment.startTime,
+			endTime: add(appointment.startTime, { minutes: APPOINTMENT_DURATION }),
+		};
 	});
 
-	return new Response(JSON.stringify(responseObject), { status: API_SUCCESSFUL_MODIFICATION_CODE });
+	const reportEmailParams: AppointmentDeletionTemplateProps = {
+		message: `${deletedAppointments.length} appointments were deleted due to expiration.`,
+		deletedAppointments: purgedAppointments,
+	};
+	await sendAppointmentDeletionReport(reportEmailParams);
+
+	return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
+		status: API_SUCCESSFUL_MODIFICATION_CODE,
+	});
 }

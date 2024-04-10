@@ -3,7 +3,8 @@ import { Resend } from 'resend';
 import { env } from '@/env.mjs';
 import { formatDate } from '@/lib/date';
 
-import AppointmentHandlingTemplate, { AppointmentHandlingTemplateProps } from '@/emails/AppointmentHandling';
+import AppointmentDeletionTemplate, { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
+import AppointmentGenerationTemplate, { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
 import PasswordResetTemplate from '@/emails/PasswordReset';
 
@@ -42,7 +43,7 @@ export const sendAppointmentGenerationReport = async ({
 	workDaysInInterval,
 	weekendDaysInInterval,
 	createdAppointments,
-}: AppointmentHandlingTemplateProps) => {
+}: AppointmentGenerationTemplateProps) => {
 	const sender = env.EMAIL_FROM;
 	const recipient = env.REPORT_RECIPIENT;
 	const currentTime = formatDate(new Date(), 'yyyy-MM-dd');
@@ -51,13 +52,32 @@ export const sendAppointmentGenerationReport = async ({
 		from: sender,
 		to: [recipient],
 		subject: `Syndicate - Appointment generation report ${currentTime}`,
-		react: AppointmentHandlingTemplate({
+		react: AppointmentGenerationTemplate({
 			message,
 			intervalStart,
 			intervalEnd,
 			workDaysInInterval,
 			weekendDaysInInterval,
 			createdAppointments,
+		}),
+	});
+};
+
+export const sendAppointmentDeletionReport = async ({
+	message,
+	deletedAppointments,
+}: AppointmentDeletionTemplateProps) => {
+	const sender = env.EMAIL_FROM;
+	const recipient = env.REPORT_RECIPIENT;
+	const currentTime = formatDate(new Date(), 'yyyy-MM-dd');
+
+	await resend.emails.send({
+		from: sender,
+		to: [recipient],
+		subject: `Syndicate - Appointment deletion report ${currentTime}`,
+		react: AppointmentDeletionTemplate({
+			message,
+			deletedAppointments,
 		}),
 	});
 };

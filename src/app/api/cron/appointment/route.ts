@@ -1,12 +1,8 @@
 import { add, endOfDay, isWeekend, startOfDay } from 'date-fns';
 
 import {
-	API_AUTHENTICATION_ERROR_CODE,
-	API_FORBIDDEN_ERROR_CODE,
-	API_FORBIDDEN_ONLY_ADMIN_ROUTE_ERROR_MESSAGE,
-	API_ONLY_AUTHENTICATED_ERROR_MESSAGE,
-	API_SUCCESSFUL_MODIFICATION_CODE,
-	API_SUCCESSFUL_REQUEST_CODE,
+	ACTION_ONLY_ADMIN_ERROR,
+	ACTION_ONLY_AUTHENTICATED_ERROR,
 	APPOINTMENT_DURATION,
 	CLOSING_HOUR,
 	FURTHEST_APPOINTMENT_DATE,
@@ -25,14 +21,14 @@ export async function POST() {
 	const currentUser = await getCurrentUser();
 
 	if (!currentUser) {
-		return new Response(JSON.stringify({ message: API_ONLY_AUTHENTICATED_ERROR_MESSAGE }), {
-			status: API_AUTHENTICATION_ERROR_CODE,
+		return new Response(JSON.stringify({ message: ACTION_ONLY_AUTHENTICATED_ERROR }), {
+			status: 401,
 		});
 	}
 
 	if (currentUser.role !== 'ADMIN')
-		return new Response(JSON.stringify({ message: API_FORBIDDEN_ONLY_ADMIN_ROUTE_ERROR_MESSAGE }), {
-			status: API_FORBIDDEN_ERROR_CODE,
+		return new Response(JSON.stringify({ message: ACTION_ONLY_ADMIN_ERROR }), {
+			status: 403,
 		});
 
 	const autoAppointmentGeneration = await getAutoAppointmentGenerationStatus();
@@ -94,7 +90,7 @@ export async function POST() {
 		await sendAppointmentGenerationReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
-			status: API_SUCCESSFUL_MODIFICATION_CODE,
+			status: 201,
 		});
 	}
 
@@ -102,7 +98,7 @@ export async function POST() {
 		JSON.stringify({
 			message: 'Automatic appointment generation is disabled.',
 		}),
-		{ status: API_SUCCESSFUL_REQUEST_CODE },
+		{ status: 200 },
 	);
 }
 
@@ -110,14 +106,14 @@ export async function DELETE() {
 	const currentUser = await getCurrentUser();
 
 	if (!currentUser) {
-		return new Response(JSON.stringify({ message: API_ONLY_AUTHENTICATED_ERROR_MESSAGE }), {
-			status: API_AUTHENTICATION_ERROR_CODE,
+		return new Response(JSON.stringify({ message: ACTION_ONLY_AUTHENTICATED_ERROR }), {
+			status: 401,
 		});
 	}
 
 	if (currentUser.role !== 'ADMIN')
-		return new Response(JSON.stringify({ message: API_FORBIDDEN_ONLY_ADMIN_ROUTE_ERROR_MESSAGE }), {
-			status: API_FORBIDDEN_ERROR_CODE,
+		return new Response(JSON.stringify({ message: ACTION_ONLY_ADMIN_ERROR }), {
+			status: 403,
 		});
 
 	const currentTime = new Date();
@@ -163,6 +159,6 @@ export async function DELETE() {
 	await sendAppointmentDeletionReport(reportEmailParams);
 
 	return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
-		status: API_SUCCESSFUL_MODIFICATION_CODE,
+		status: 201,
 	});
 }

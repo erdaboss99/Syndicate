@@ -8,7 +8,7 @@ type DataTableToolbarProps<TData> = {
 	dataTable: Table<TData>;
 	search?: string;
 	filter?: {
-		columnKey: keyof TData;
+		columnKey: string;
 		title?: string;
 		options: {
 			label: string;

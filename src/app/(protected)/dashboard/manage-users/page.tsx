@@ -6,7 +6,8 @@ import { getCurrentUser } from '@/lib/auth';
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
 import { UserColumns } from '@/components/data-tables/columns/UserColumns';
-import { userRoles } from '@/components/data-tables/filters';
+
+import { UserRole } from '@prisma/client';
 
 const AdminManageUsersPage = async () => {
 	const currentUser = await getCurrentUser();
@@ -22,6 +23,11 @@ const AdminManageUsersPage = async () => {
 		image: true,
 	});
 
+	const filterOptions = Object.values(UserRole).map((role) => ({
+		value: role,
+		label: role[0].toUpperCase() + role.slice(1).toLowerCase(),
+	}));
+
 	return (
 		<DashboardWrapper
 			headerTitle='Manage Users'
@@ -35,7 +41,7 @@ const AdminManageUsersPage = async () => {
 					columns={UserColumns}
 					data={users}
 					search='email'
-					filter={{ title: 'Role', columnKey: 'role', options: userRoles }}
+					filter={{ title: 'Role', columnKey: 'role', options: filterOptions }}
 					visibility
 					pagination
 				/>

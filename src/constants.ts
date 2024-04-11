@@ -38,9 +38,11 @@ export const BOOKING_DESCRIPTION_MIN_VALIDATION = 'Booking description should be
 export const BOOKING_DESCRIPTION_MAX_VALIDATION = 'Booking description should be maximum of 55 characters!';
 export const ISSUE_DESCRIPTION_MIN_VALIDATION = 'Issue description should be at least 5 characters!';
 export const ISSUE_DESCRIPTION_MAX_VALIDATION = 'Issue description should be maximum of 55 characters!';
+export const ISSUE_SELECTION_REQUIRED_VALIDATION = 'Issue selection is required!';
 
 export const ACTION_REDIRECT_DELAY = 2500; // in milliseconds
 export const ACTION_ONLY_ADMIN_ERROR = 'This feature is only available for users with admin role!';
+export const ACTION_ONLY_AUTHENTICATED_ERROR = 'This feature is only available for authenticated users!';
 export const ACTION_DEFAULT_ERROR = 'Something went wrong! Please try again later!';
 export const ACTION_INVALID_PAYLOAD_ERROR = 'Invalid data!';
 

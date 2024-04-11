@@ -8,6 +8,7 @@ import {
 	EMAIL_VALIDATION,
 	ISSUE_DESCRIPTION_MAX_VALIDATION,
 	ISSUE_DESCRIPTION_MIN_VALIDATION,
+	ISSUE_SELECTION_REQUIRED_VALIDATION,
 	NAME_VALIDATION,
 	PASSWORD_MATCH_VALIDATION,
 	PASSWORD_MAX_VALIDATION,
@@ -103,6 +104,8 @@ export const AppointmentSelectQueryParamsSchema = z
 export const AppointmentBookQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });
 
 export const AppointmentBookFormSchema = z.object({
+	appointmentId: z.string().uuid({ message: UUID_VALIDATION }),
+	issueId: z.string().min(1, ISSUE_SELECTION_REQUIRED_VALIDATION).uuid({ message: UUID_VALIDATION }),
 	description: z
 		.string()
 		.min(5, { message: BOOKING_DESCRIPTION_MIN_VALIDATION })

@@ -3,50 +3,109 @@
 import { useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
+import { createBooking } from '@/actions/booking';
+import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { AppointmentBookFormSchema } from '@/schemas';
-import { type Appointment } from '@prisma/client';
+import { type Appointment, type Issue } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
+import { LuLoader2 } from 'react-icons/lu';
 
 type AppointmentBookFormProps = {
 	appointment: Appointment;
+	issues: Issue[];
 };
 
-const AppointmentBookForm = ({ appointment }: AppointmentBookFormProps) => {
+const AppointmentBookForm = ({ appointment, issues }: AppointmentBookFormProps) => {
+	const [isPending, startTransition] = useTransition();
+	const [isDone, setIsDone] = useState(false);
+
 	const router = useRouter();
 
-	const form = useForm<z.infer<typeof AppointmentBookFormSchema>>({
+	const appointmentBookForm = useForm<z.infer<typeof AppointmentBookFormSchema>>({
 		resolver: zodResolver(AppointmentBookFormSchema),
 		defaultValues: {
+			appointmentId: appointment.id,
+			issueId: '',
 			description: '',
 		},
 	});
 
-	function onSubmit(data: z.infer<typeof AppointmentBookFormSchema>) {
-		console.log(data);
-	}
+	const onSubmit = (values: z.infer<typeof AppointmentBookFormSchema>) => {
+		startTransition(() => {
+			createBooking(values)
+				.then((data) => {
+					if (data?.error) toast.error(data?.error);
+
+					if (data?.success) {
+						setIsDone(true);
+						toast.success(data?.success);
+						setTimeout(() => {
+							router.push('/dashboard');
+						}, ACTION_REDIRECT_DELAY);
+					}
+				})
+				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
+		});
+	};
 
 	return (
-		<Form {...form}>
+		<Form {...appointmentBookForm}>
 			<form
 				className='space-y-6'
-				onSubmit={form.handleSubmit(onSubmit)}>
+				onSubmit={appointmentBookForm.handleSubmit(onSubmit)}>
 				<div className='flex flex-col items-center justify-center gap-5'>
 					<FormField
-						control={form.control}
+						control={appointmentBookForm.control}
+						name='issueId'
+						render={({ field }) => (
+							<FormItem className='w-full'>
+								<FormLabel>Issue</FormLabel>
+								<Select
+									onValueChange={field.onChange}
+									disabled={isPending || isDone}
+									defaultValue={field.value}>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder='Select the issue of the booking' />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										{issues.map((issue) => (
+											<SelectItem
+												key={issue.id}
+												value={issue.id}>
+												{issue.name}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+								<FormDescription>
+									{issues.find((issue) => issue.id === field.value)?.description}
+								</FormDescription>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={appointmentBookForm.control}
 						name='description'
 						render={({ field }) => (
 							<FormItem className='w-full'>
 								<FormLabel>Description</FormLabel>
 								<FormControl>
 									<Textarea
-										className='resize-none'
 										{...field}
+										className='resize-none'
+										disabled={isPending || isDone}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -55,10 +114,18 @@ const AppointmentBookForm = ({ appointment }: AppointmentBookFormProps) => {
 					/>
 				</div>
 				<Button
+					type='submit'
 					size='lg'
 					className='w-full'
-					type='submit'>
-					Book appointment
+					disabled={isPending || isDone}>
+					{isPending ? (
+						<span className='flex flex-row items-center gap-2'>
+							<LuLoader2 className='animate-spin ' />
+							Processing...
+						</span>
+					) : (
+						'Book appointment'
+					)}
 				</Button>
 			</form>
 		</Form>

@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Suspense } from 'react';
 
 import { formatDate } from '@/lib/date';
-import { Appointment } from '@prisma/client';
+import { type Appointment } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
 import { LuArrowUpDown } from 'react-icons/lu';

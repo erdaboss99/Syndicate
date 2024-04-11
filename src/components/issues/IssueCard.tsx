@@ -1,4 +1,4 @@
-import { Issue } from '@prisma/client';
+import { type Issue } from '@prisma/client';
 
 import IssueCreateForm from '@/components/issues/IssueCreateForm';
 import IssueDeleteForm from '@/components/issues/IssueDeleteForm';

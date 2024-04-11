@@ -19,7 +19,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { formatDatesInObject } from '@/lib/date';
 import { sendAppointmentDeletionReport, sendAppointmentGenerationReport } from '@/lib/mail';
-import { Appointment } from '@prisma/client';
+import { type Appointment } from '@prisma/client';
 
 export async function POST() {
 	const currentUser = await getCurrentUser();

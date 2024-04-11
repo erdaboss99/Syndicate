@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { AppointmentBookFormSchema } from '@/schemas';
-import { Appointment } from '@prisma/client';
+import { type Appointment } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';

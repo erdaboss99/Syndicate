@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getAppointments, getAutoAppointmentGenerationStatus } from '@/data/appointment';
+import { getAppointmentSubset, getAutoAppointmentGenerationStatus } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
 
 import AppointmentSettingsForm from '@/components/appointments/AppointmentSettingsForm';
@@ -12,7 +12,7 @@ const AdminManageAppointmentsPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const appointments = await getAppointments();
+	const appointments = await getAppointmentSubset({ id: true, startTime: true, Booking: true });
 
 	const autoAppointmentGeneration = await getAutoAppointmentGenerationStatus();
 

@@ -4,12 +4,13 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Suspense } from 'react';
 
 import { formatDate } from '@/lib/date';
-import { type Appointment } from '@prisma/client';
+import { type Appointment, type Booking } from '@prisma/client';
 
+import AppointmentBadge from '@/components/general/AppointmentBadge';
 import { Button } from '@/components/ui/Button';
 import { LuArrowUpDown } from 'react-icons/lu';
 
-export type AppointmentDataTableFields = Appointment;
+export type AppointmentDataTableFields = Appointment & { Booking: Pick<Booking, 'id'> | null };
 
 export const AppointmentColumns: ColumnDef<AppointmentDataTableFields>[] = [
 	{
@@ -28,9 +29,30 @@ export const AppointmentColumns: ColumnDef<AppointmentDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.getValue('startTime')), 'writtenLongDateTime')}
+						{formatDate(new Date(row.original.startTime), 'writtenLongDateTime')}
 					</Suspense>
 				</time>
+			);
+		},
+	},
+	{
+		accessorKey: 'Booking.id',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+					Status
+					<LuArrowUpDown className='ml-2 h-4 w-4' />
+				</Button>
+			);
+		},
+		cell: ({ row }) => {
+			return (
+				<AppointmentBadge
+					bookingId={row.original.Booking?.id}
+					badgeVariant='outline'
+				/>
 			);
 		},
 	},

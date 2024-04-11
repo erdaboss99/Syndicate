@@ -1,5 +1,6 @@
 import { AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE, AUTO_APPOINTMENT_GENERATION_KEY } from '@/constants';
 import { database } from '@/lib/database';
+import { Prisma } from '@prisma/client';
 
 export const getAppointments = async () => {
 	try {
@@ -7,6 +8,17 @@ export const getAppointments = async () => {
 			orderBy: {
 				startTime: 'asc',
 			},
+		});
+		return appointments;
+	} catch (error) {
+		return [];
+	}
+};
+
+export const getAppointmentSubset = async (select: Prisma.AppointmentSelect) => {
+	try {
+		const appointments = await database.appointment.findMany({
+			select,
 		});
 		return appointments;
 	} catch (error) {

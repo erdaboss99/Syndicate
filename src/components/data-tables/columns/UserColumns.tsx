@@ -20,9 +20,7 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 		enableHiding: false,
 		header: 'Avatar',
 		cell: ({ row }) => {
-			const user = row.original;
-
-			return <UserAvatar src={user?.image!} />;
+			return <UserAvatar src={row.original.image!} />;
 		},
 	},
 	{
@@ -64,17 +62,15 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			const role = row.getValue('role') as UserRole;
-
 			return (
 				<UserRoleBadge
-					role={role}
+					role={row.original.role as UserRole}
 					badgeVariant='outline'
 				/>
 			);
 		},
 		filterFn: (row, _, id) => {
-			return id.includes(row.getValue('role'));
+			return id.includes(row.original.role);
 		},
 	},
 	{
@@ -90,12 +86,12 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			if (row.getValue('emailVerified') === null) return <div className='font-medium'>Not yet verified</div>;
+			if (row.original.emailVerified === null) return <div className='font-medium'>Not yet verified</div>;
 
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.getValue('emailVerified')), 'writtenShortDate')}
+						{formatDate(new Date(row.original.emailVerified), 'writtenShortDate')}
 					</Suspense>
 				</time>
 			);
@@ -117,7 +113,7 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.getValue('lastSeen')), 'writtenShortDateTime')}
+						{formatDate(new Date(row.original.lastSeen), 'writtenShortDateTime')}
 					</Suspense>
 				</time>
 			);
@@ -127,9 +123,7 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 		id: 'actions',
 		enableHiding: false,
 		cell: ({ row }) => {
-			const user = row.original;
-
-			return <UserTableAction user={user} />;
+			return <UserTableAction user={row.original} />;
 		},
 	},
 ];

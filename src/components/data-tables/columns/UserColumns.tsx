@@ -9,15 +9,12 @@ import { UserRole, type User } from '@prisma/client';
 import UserAvatar from '@/components/general/UserAvatar';
 import UserRoleBadge from '@/components/general/UserBadge';
 import { Button } from '@/components/ui/Button';
-import UsersTableAction from '@/components/users/UsersTableAction';
+import UserTableAction from '@/components/users/UserTableAction';
 import { LuArrowUpDown } from 'react-icons/lu';
 
-export type UsersDataTableFields = Pick<
-	User,
-	'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'lastSeen' | 'image'
->;
+export type UserDataTableFields = Pick<User, 'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'lastSeen' | 'image'>;
 
-export const UserColumns: ColumnDef<UsersDataTableFields>[] = [
+export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 	{
 		accessorKey: 'image',
 		enableHiding: false,
@@ -132,7 +129,7 @@ export const UserColumns: ColumnDef<UsersDataTableFields>[] = [
 		cell: ({ row }) => {
 			const user = row.original;
 
-			return <UsersTableAction user={user} />;
+			return <UserTableAction user={user} />;
 		},
 	},
 ];

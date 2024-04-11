@@ -1,4 +1,4 @@
-import { UsersDataTableFields } from '@/components/data-tables/columns/UserColumns';
+import { UserDataTableFields } from '@/components/data-tables/columns/UserColumns';
 import CopyToClipboard from '@/components/general/CopyToClipboardButton';
 import { Button } from '@/components/ui/Button';
 import {
@@ -15,11 +15,11 @@ import {
 import ChangeRoleDropdown from '@/components/users/ChangeRoleDropdown';
 import { LuMoreHorizontal } from 'react-icons/lu';
 
-type UsersTableActionProps = {
-	user: UsersDataTableFields;
+type UserTableActionProps = {
+	user: UserDataTableFields;
 };
 
-const UsersTableAction = ({ user }: UsersTableActionProps) => {
+const UserTableAction = ({ user }: UserTableActionProps) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -50,4 +50,4 @@ const UsersTableAction = ({ user }: UsersTableActionProps) => {
 	);
 };
 
-export default UsersTableAction;
+export default UserTableAction;

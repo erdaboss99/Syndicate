@@ -9,9 +9,9 @@ import { type Appointment } from '@prisma/client';
 import { Button } from '@/components/ui/Button';
 import { LuArrowUpDown } from 'react-icons/lu';
 
-export type AdminAppointmentDataTableFields = Appointment;
+export type AppointmentDataTableFields = Appointment;
 
-export const AdminAppointmentColumns: ColumnDef<AdminAppointmentDataTableFields>[] = [
+export const AppointmentColumns: ColumnDef<AppointmentDataTableFields>[] = [
 	{
 		accessorKey: 'startTime',
 		header: ({ column }) => {

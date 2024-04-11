@@ -6,6 +6,7 @@ import {
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ISSUE_CREATED_SUCCESS,
 	ACTION_ISSUE_DELETED_SUCCESS,
+	ACTION_ISSUE_DELETE_LINKED_BOOKING_ERROR,
 	ACTION_ISSUE_NOT_FOUND_ERROR,
 	ACTION_ISSUE_UPDATED_SUCCESS,
 	ACTION_ONLY_ADMIN_ERROR,
@@ -73,10 +74,14 @@ export const deleteIssue = async (values: z.infer<typeof IssueDeleteFormSchema>)
 		where: {
 			id,
 		},
+		include: {
+			bookings: true,
+		},
 	});
 
 	if (!existingIssue) return { error: ACTION_ISSUE_NOT_FOUND_ERROR };
-	// TODO LINKED BOOKING CHECK
+
+	if (existingIssue.bookings.length !== 0) return { error: ACTION_ISSUE_DELETE_LINKED_BOOKING_ERROR };
 
 	await database.issue.delete({
 		where: {

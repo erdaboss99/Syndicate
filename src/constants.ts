@@ -77,3 +77,4 @@ export const ACTION_ISSUE_NOT_FOUND_ERROR = 'Issue not found!';
 export const ACTION_ISSUE_CREATED_SUCCESS = 'Issue successfully created!';
 export const ACTION_ISSUE_UPDATED_SUCCESS = 'Issue successfully updated!';
 export const ACTION_ISSUE_DELETED_SUCCESS = 'Issue successfully deleted!';
+export const ACTION_ISSUE_DELETE_LINKED_BOOKING_ERROR = 'Issue has linked bookings, therefore cannot be deleted!';

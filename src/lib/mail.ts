@@ -5,6 +5,7 @@ import { formatDate } from '@/lib/date';
 
 import AppointmentDeletionTemplate, { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
 import AppointmentGenerationTemplate, { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
+import BookingConfirmationTemplate, { type BookingConfirmationTemplateProps } from '@/emails/BookingConfirmation';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
 import PasswordResetTemplate from '@/emails/PasswordReset';
 
@@ -78,6 +79,32 @@ export const sendAppointmentDeletionReport = async ({
 		react: AppointmentDeletionTemplate({
 			message,
 			deletedAppointments,
+		}),
+	});
+};
+
+export const sendBookingConfirmationEmail = async ({
+	name,
+	appointment,
+	email,
+	issueName,
+	issueDescription,
+	confirmationDate,
+}: BookingConfirmationTemplateProps) => {
+	const sender = env.EMAIL_FROM;
+	const recipient = email;
+
+	await resend.emails.send({
+		from: sender,
+		to: [recipient],
+		subject: 'Syndicate - Booking confirmation',
+		react: BookingConfirmationTemplate({
+			name,
+			appointment,
+			email,
+			issueName,
+			issueDescription,
+			confirmationDate,
 		}),
 	});
 };

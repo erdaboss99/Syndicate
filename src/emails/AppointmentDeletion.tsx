@@ -38,14 +38,10 @@ export const AppointmentDeletionTemplate = ({ message, deletedAppointments }: Ap
 						<Text className='text-lg'>{message}</Text>
 					</Section>
 
-					<Section className='mx-0 mt-1'>
-						{deletedAppointments.length > 0 ? (
+					{deletedAppointments.length > 0 && (
+						<Section className='mx-0 mt-1'>
 							<Text className='text-center text-xl font-semibold'>Deleted appointments</Text>
-						) : (
-							<Text className='text-center text-xl font-semibold'>No appointments were deleted</Text>
-						)}
-						{deletedAppointments.length > 0 &&
-							deletedAppointments.map((elem, i) => {
+							{deletedAppointments.map((elem, i) => {
 								return (
 									<Row
 										key={i}
@@ -56,7 +52,8 @@ export const AppointmentDeletionTemplate = ({ message, deletedAppointments }: Ap
 									</Row>
 								);
 							})}
-					</Section>
+						</Section>
+					)}
 
 					<Text className='mt-8 text-xl'>
 						Best regards,

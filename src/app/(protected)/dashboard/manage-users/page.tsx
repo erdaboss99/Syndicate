@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 
-import { getCurrentUser } from '@/lib/auth';
-
 import { getUserSubset } from '@/data/user';
+import { getCurrentUser } from '@/lib/auth';
 
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';

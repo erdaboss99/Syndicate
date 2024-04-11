@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
-import { getAppointmentById } from '@/data/appointments';
-import { getIssues } from '@/data/issues';
+import { getAppointmentById } from '@/data/appointment';
+import { getIssues } from '@/data/issue';
 import { formatDate } from '@/lib/date';
 import { AppointmentBookQueryParamsSchema } from '@/schemas';
 

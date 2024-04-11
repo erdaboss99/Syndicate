@@ -4,7 +4,7 @@ import { getCurrentUser } from '@/lib/auth';
 
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import { IssueCard, NewIssueCard } from '@/components/issues/IssueCard';
-import { getIssues } from '@/data/issues';
+import { getIssues } from '@/data/issue';
 import { type Issue } from '@prisma/client';
 
 const AdminManageIssuesPage = async () => {

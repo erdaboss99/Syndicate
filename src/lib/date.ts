@@ -1,6 +1,6 @@
 import { types } from 'util';
 
-import { add, endOfDay, startOfDay } from 'date-fns';
+import { add, endOfDay, endOfWeek, startOfDay, startOfWeek } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { hu } from 'date-fns/locale';
 
@@ -46,12 +46,18 @@ export const formatDate = (
 	}
 };
 
-export function getIntervalFromDay(date: Date) {
+export const getIntervalFromDay = (date: Date) => {
 	const start = startOfDay(date);
 	const end = endOfDay(date);
 
 	return { start, end };
-}
+};
+
+export const getWeekIntervalFromDay = (date: Date) => {
+	const start = startOfWeek(date, { locale: hu });
+	const end = endOfWeek(date, { locale: hu });
+	return { start, end };
+};
 
 export const formatDatesInObject = (object: any): any => {
 	for (let key in object) {

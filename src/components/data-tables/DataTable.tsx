@@ -21,7 +21,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 type DataTableProps<TData, TValue> = {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
-	search?: keyof TData;
+	search?: string;
 	filter?: {
 		columnKey: keyof TData;
 		title?: string;

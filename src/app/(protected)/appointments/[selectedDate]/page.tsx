@@ -1,4 +1,4 @@
-import { getAvailableAppointmentsInInterval } from '@/data/appointments';
+import { getAvailableAppointmentsInInterval } from '@/data/appointment';
 import { formatDate, getIntervalFromDay } from '@/lib/date';
 import { AppointmentSelectQueryParamsSchema } from '@/schemas';
 

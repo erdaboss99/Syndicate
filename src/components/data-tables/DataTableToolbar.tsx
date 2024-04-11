@@ -6,7 +6,7 @@ import DataTableVisibility from '@/components/data-tables/DataTableVisibility';
 
 type DataTableToolbarProps<TData> = {
 	dataTable: Table<TData>;
-	search?: keyof TData;
+	search?: string;
 	filter?: {
 		columnKey: keyof TData;
 		title?: string;

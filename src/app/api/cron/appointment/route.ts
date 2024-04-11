@@ -8,7 +8,7 @@ import {
 	FURTHEST_APPOINTMENT_DATE,
 	OPENING_HOUR,
 } from '@/constants';
-import { getAutoAppointmentGenerationStatus } from '@/data/appointments';
+import { getAutoAppointmentGenerationStatus } from '@/data/appointment';
 import { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
 import { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
 import { getCurrentUser } from '@/lib/auth';

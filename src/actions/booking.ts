@@ -2,7 +2,11 @@
 
 import { z } from 'zod';
 
-import { ACTION_INVALID_PAYLOAD_ERROR, ACTION_ONLY_AUTHENTICATED_ERROR } from '@/constants';
+import {
+	ACTION_BOOKING_CREATED_SUCCESS,
+	ACTION_INVALID_PAYLOAD_ERROR,
+	ACTION_ONLY_AUTHENTICATED_ERROR,
+} from '@/constants';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { sendBookingConfirmationEmail } from '@/lib/mail';
@@ -25,6 +29,7 @@ export const createBooking = async (values: z.infer<typeof AppointmentBookFormSc
 			description: description,
 		},
 		select: {
+			description: true,
 			Appointment: {
 				select: {
 					startTime: true,
@@ -46,13 +51,14 @@ export const createBooking = async (values: z.infer<typeof AppointmentBookFormSc
 	});
 
 	await sendBookingConfirmationEmail({
-		name: createdBooking.User.name!,
-		appointment: createdBooking.Appointment.startTime,
-		email: createdBooking.User.email!,
+		userName: createdBooking.User.name!,
+		userEmail: createdBooking.User.email!,
+		appointmentStartTime: createdBooking.Appointment.startTime,
+		bookingDescription: createdBooking.description,
 		issueName: createdBooking.Issue.name,
 		issueDescription: createdBooking.Issue.description,
-		confirmationDate: new Date(),
+		bookingConfirmationDate: new Date(),
 	});
 
-	return { success: 'Booking created successfully!' };
+	return { success: ACTION_BOOKING_CREATED_SUCCESS };
 };

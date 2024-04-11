@@ -84,27 +84,29 @@ export const sendAppointmentDeletionReport = async ({
 };
 
 export const sendBookingConfirmationEmail = async ({
-	name,
-	appointment,
-	email,
+	userName,
+	userEmail,
+	appointmentStartTime,
+	bookingDescription,
 	issueName,
 	issueDescription,
-	confirmationDate,
+	bookingConfirmationDate,
 }: BookingConfirmationTemplateProps) => {
 	const sender = env.EMAIL_FROM;
-	const recipient = email;
+	const recipient = userEmail;
 
 	await resend.emails.send({
 		from: sender,
 		to: [recipient],
 		subject: 'Syndicate - Booking confirmation',
 		react: BookingConfirmationTemplate({
-			name,
-			appointment,
-			email,
+			userName,
+			userEmail,
+			appointmentStartTime,
+			bookingDescription,
 			issueName,
 			issueDescription,
-			confirmationDate,
+			bookingConfirmationDate,
 		}),
 	});
 };

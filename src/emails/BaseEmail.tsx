@@ -10,7 +10,7 @@ export const BaseEmailTemplate = ({ previewSuffix, children }: BaseEmailTemplate
 		<Tailwind>
 			<Preview>{`Syndicate - ${previewSuffix}`}</Preview>
 
-			<Body className='bg-slate-100'>
+			<Body>
 				<Container className='mx-auto my-0 px-7 pb-12 pt-5'>
 					<Img
 						src='https://syndicate.erdelyiroland.com/syndicate.png'

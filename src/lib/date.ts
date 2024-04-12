@@ -12,6 +12,7 @@ export const formatDate = (
 		| 'yyyy-MM-dd'
 		| 'numericShortDay'
 		| 'longMonthAndYear'
+		| 'shortDateTime'
 		| 'onlyTime'
 		| 'writtenShortDate'
 		| 'writtenLongDate'
@@ -26,6 +27,8 @@ export const formatDate = (
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'd', { locale: hu });
 		case 'longMonthAndYear':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'MMMM yyyy', { locale: hu });
+		case 'shortDateTime':
+			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'Pp', { locale: hu });
 		case 'onlyTime':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'p', { locale: hu });
 		case 'writtenShortDate':

@@ -5,20 +5,20 @@ import { PASSWORD_RESET_TOKEN_EXPIRY } from '@/constants';
 import BaseEmailTemplate from '@/emails/BaseEmail';
 
 type PasswordResetTemplateProps = {
-	name: string;
-	resetLink: string;
+	userName: string;
+	passwordResetLink: string;
 };
 
-export const PasswordResetTemplate = ({ name, resetLink }: PasswordResetTemplateProps) => (
+export const PasswordResetTemplate = ({ userName, passwordResetLink }: PasswordResetTemplateProps) => (
 	<BaseEmailTemplate previewSuffix={'Password reset'}>
-		<Heading className='mt-12 text-3xl font-bold'>Dear {name},</Heading>
+		<Heading className='mt-12 text-3xl font-bold'>Dear {userName},</Heading>
 
 		<Section className='mx-0 my-6'>
 			<Text className='text-xl'>Please click on the link below to reset your password!</Text>
 
 			<Link
 				className='my-4 text-xl'
-				href={resetLink}>
+				href={passwordResetLink}>
 				Reset my password
 			</Link>
 

@@ -38,3 +38,8 @@ next-env.d.ts
 
 # Cron Jobs response dir
 /cron/response
+
+# Docker
+compose.yml
+.dockerignore
+Dockerfile

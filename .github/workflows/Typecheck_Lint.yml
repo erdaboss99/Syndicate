@@ -22,9 +22,12 @@ jobs:
               run: |
                   echo "${{ secrets.POSTGRES_PRISMA_URL }}" >> .env
                   echo "${{ secrets.AUTH_SECRET }}" >> .env
+                  echo "${{ secrets.NEXTAUTH_URL }}" >> .env
                   echo "${{ secrets.BASE_URL }}" >> .env
-                  echo "${{ secrets.RESEND_API_KEY }}" >> .env
-                  echo "${{ secrets.EMAIL_FROM }}" >> .env
+                  echo "${{ secrets.MAIL_FROM }}" >> .env
+                  echo "${{ secrets.MAIL_SERVICE }}" >> .env
+                  echo "${{ secrets.MAIL_USER }}" >> .env
+                  echo "${{ secrets.MAIL_PASSWORD }}" >> .env
                   echo "${{ secrets.REPORT_RECIPIENT }}" >> .env
                   echo "${{ secrets.GH_CLIENT_ID }}" >> .env
                   echo "${{ secrets.GH_CLIENT_SECRET }}" >> .env

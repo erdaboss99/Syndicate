@@ -1,4 +1,5 @@
-import { Resend } from 'resend';
+import { render } from '@react-email/render';
+import nodemailer from 'nodemailer';
 
 import { env } from '@/env.mjs';
 import { formatDate } from '@/lib/date';
@@ -9,31 +10,46 @@ import BookingConfirmationTemplate, { type BookingConfirmationTemplateProps } fr
 import EmailVerificationTemplate from '@/emails/EmailVerification';
 import PasswordResetTemplate from '@/emails/PasswordReset';
 
-const resend = new Resend(env.RESEND_API_KEY);
-
-export const sendPasswordResetEmail = async (name: string, email: string, token: string) => {
-	const resetLink = `${env.BASE_URL}/auth/reset-password?token=${token}`;
-	const sender = env.EMAIL_FROM;
-	const recipient = email;
-
-	await resend.emails.send({
-		from: sender,
-		to: [recipient],
-		subject: 'Syndicate - Reset your password',
-		react: PasswordResetTemplate({ name: name, resetLink: resetLink }),
+const initTransporter = () => {
+	return nodemailer.createTransport({
+		service: env.MAIL_SERVICE,
+		auth: {
+			user: env.MAIL_USER,
+			pass: env.MAIL_PASSWORD,
+		},
 	});
 };
 
-export const sendVerificationEmail = async (name: string, email: string, token: string) => {
-	const confirmationLink = `${env.BASE_URL}/auth/email-verification?token=${token}`;
-	const sender = env.EMAIL_FROM;
-	const recipient = email;
+const sendEmail = async (options: { recipients: string[]; emailSubject: string; emailHTML: string }) => {
+	const { recipients, emailSubject, emailHTML } = options;
+	const transporter = initTransporter();
 
-	await resend.emails.send({
-		from: sender,
-		to: [recipient],
-		subject: 'Syndicate - Confirm your email address',
-		react: EmailVerificationTemplate({ name: name, confirmationLink: confirmationLink }),
+	await transporter.sendMail({ from: env.MAIL_FROM, to: recipients, subject: emailSubject, html: emailHTML });
+
+	transporter.close();
+};
+
+export const sendPasswordResetEmail = async (userName: string, userEmail: string, passwordResetToken: string) => {
+	const passwordResetLink = `${env.BASE_URL}/auth/reset-password?token=${passwordResetToken}`;
+
+	const passwordResetEmail = render(PasswordResetTemplate({ userName, passwordResetLink }));
+
+	await sendEmail({
+		recipients: [userEmail],
+		emailSubject: 'Syndicate - Reset your password',
+		emailHTML: passwordResetEmail,
+	});
+};
+
+export const sendVerificationEmail = async (userName: string, userEmail: string, emailVerificationToken: string) => {
+	const emailVerificationLink = `${env.BASE_URL}/auth/email-verification?token=${emailVerificationToken}`;
+
+	const verificationEmail = render(EmailVerificationTemplate({ userName, emailVerificationLink }));
+
+	await sendEmail({
+		recipients: [userEmail],
+		emailSubject: 'Syndicate - Confirm your email address',
+		emailHTML: verificationEmail,
 	});
 };
 
@@ -45,15 +61,11 @@ export const sendAppointmentGenerationReport = async ({
 	weekendDaysInInterval,
 	createdAppointments,
 }: AppointmentGenerationTemplateProps) => {
-	const sender = env.EMAIL_FROM;
 	const recipient = env.REPORT_RECIPIENT;
 	const currentTime = formatDate(new Date(), 'yyyy-MM-dd');
 
-	await resend.emails.send({
-		from: sender,
-		to: [recipient],
-		subject: `Syndicate - Appointment generation report ${currentTime}`,
-		react: AppointmentGenerationTemplate({
+	const appointmentGenerationEmail = render(
+		AppointmentGenerationTemplate({
 			message,
 			intervalStart,
 			intervalEnd,
@@ -61,6 +73,12 @@ export const sendAppointmentGenerationReport = async ({
 			weekendDaysInInterval,
 			createdAppointments,
 		}),
+	);
+
+	await sendEmail({
+		recipients: [recipient],
+		emailSubject: `Syndicate - Appointment generation report ${currentTime}`,
+		emailHTML: appointmentGenerationEmail,
 	});
 };
 
@@ -68,18 +86,20 @@ export const sendAppointmentDeletionReport = async ({
 	message,
 	deletedAppointments,
 }: AppointmentDeletionTemplateProps) => {
-	const sender = env.EMAIL_FROM;
 	const recipient = env.REPORT_RECIPIENT;
 	const currentTime = formatDate(new Date(), 'yyyy-MM-dd');
 
-	await resend.emails.send({
-		from: sender,
-		to: [recipient],
-		subject: `Syndicate - Appointment deletion report ${currentTime}`,
-		react: AppointmentDeletionTemplate({
+	const appointmentDeletionEmail = render(
+		AppointmentDeletionTemplate({
 			message,
 			deletedAppointments,
 		}),
+	);
+
+	await sendEmail({
+		recipients: [recipient],
+		emailSubject: `Syndicate - Appointment deletion report ${currentTime}`,
+		emailHTML: appointmentDeletionEmail,
 	});
 };
 
@@ -92,14 +112,8 @@ export const sendBookingConfirmationEmail = async ({
 	issueDescription,
 	bookingConfirmationDate,
 }: BookingConfirmationTemplateProps) => {
-	const sender = env.EMAIL_FROM;
-	const recipient = userEmail;
-
-	await resend.emails.send({
-		from: sender,
-		to: [recipient],
-		subject: 'Syndicate - Booking confirmation',
-		react: BookingConfirmationTemplate({
+	const bookingConfirmationEmail = render(
+		BookingConfirmationTemplate({
 			userName,
 			userEmail,
 			appointmentStartTime,
@@ -108,5 +122,11 @@ export const sendBookingConfirmationEmail = async ({
 			issueDescription,
 			bookingConfirmationDate,
 		}),
+	);
+
+	await sendEmail({
+		recipients: [userEmail],
+		emailSubject: 'Syndicate - Booking confirmation',
+		emailHTML: bookingConfirmationEmail,
 	});
 };

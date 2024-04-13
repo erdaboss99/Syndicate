@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/date';
 import AppointmentDeletionTemplate, { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
 import AppointmentGenerationTemplate, { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
 import BookingConfirmationTemplate, { type BookingConfirmationTemplateProps } from '@/emails/BookingConfirmation';
+import BookingDeletionTemplate, { type BookingDeletionTemplateProps } from '@/emails/BookingDeletion';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
 import PasswordResetTemplate from '@/emails/PasswordReset';
 
@@ -90,6 +91,17 @@ export const sendAppointmentDeletionReport = async ({
 		emailTemplate: AppointmentDeletionTemplate({
 			message,
 			deletedAppointments,
+		}),
+	});
+};
+
+export const sendBookingDeletionReport = async ({ message, deletedBookings }: BookingDeletionTemplateProps) => {
+	await sendEmail({
+		recipients: [env.REPORT_RECIPIENT],
+		emailSubject: `Syndicate - Booking deletion report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
+		emailTemplate: BookingDeletionTemplate({
+			message,
+			deletedBookings,
 		}),
 	});
 };

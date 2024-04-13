@@ -12,14 +12,14 @@ import { toast } from 'sonner';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/Form';
 import { Switch } from '@/components/ui/Switch';
 
-type AppointmentSettingsFormProps = {
+type AppointmentAutoGenerationFormProps = {
 	autoAppointmentGenerationStatus: boolean;
 };
 
-const AppointmentSettingsForm = ({ autoAppointmentGenerationStatus }: AppointmentSettingsFormProps) => {
+const AppointmentAutoGenerationForm = ({ autoAppointmentGenerationStatus }: AppointmentAutoGenerationFormProps) => {
 	const [isPending, startTransition] = useTransition();
 
-	const appointmentSettingsForm = useForm<z.infer<typeof AppointmentGenerationSchema>>({
+	const appointmentAutoGenerationForm = useForm<z.infer<typeof AppointmentGenerationSchema>>({
 		resolver: zodResolver(AppointmentGenerationSchema),
 		defaultValues: {
 			autoAppointmentGeneration: autoAppointmentGenerationStatus,
@@ -36,13 +36,13 @@ const AppointmentSettingsForm = ({ autoAppointmentGenerationStatus }: Appointmen
 	}
 
 	return (
-		<Form {...appointmentSettingsForm}>
+		<Form {...appointmentAutoGenerationForm}>
 			<form
-				onSubmit={appointmentSettingsForm.handleSubmit(onSubmit)}
+				onSubmit={appointmentAutoGenerationForm.handleSubmit(onSubmit)}
 				className='w-full'>
 				<div className='space-y-4'>
 					<FormField
-						control={appointmentSettingsForm.control}
+						control={appointmentAutoGenerationForm.control}
 						name='autoAppointmentGeneration'
 						render={({ field }) => (
 							<FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
@@ -67,4 +67,4 @@ const AppointmentSettingsForm = ({ autoAppointmentGenerationStatus }: Appointmen
 	);
 };
 
-export default AppointmentSettingsForm;
+export default AppointmentAutoGenerationForm;

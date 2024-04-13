@@ -1,6 +1,8 @@
 import { add, endOfDay, isWeekend, startOfDay } from 'date-fns';
 
 import {
+	ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_INFO,
+	ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_INFO,
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 	APPOINTMENT_DURATION,
@@ -8,7 +10,12 @@ import {
 	FURTHEST_APPOINTMENT_DATE,
 	OPENING_HOUR,
 } from '@/constants';
-import { getAutoAppointmentGenerationStatus } from '@/data/appointment';
+import {
+	getAppointmentsInInterval,
+	getAutoAppointmentDeletionStatus,
+	getAutoAppointmentGenerationStatus,
+	getExpiredAppointments,
+} from '@/data/appointment';
 import { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
 import { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
 import { getCurrentUser } from '@/lib/auth';
@@ -42,16 +49,9 @@ export async function POST() {
 		const weekendDaysInInterval: Date[] = [];
 		const createdAppointments: { startTime: Date; endTime: Date }[] = [];
 
-		const existingAppointments = await database.appointment.findMany({
-			where: {
-				startTime: {
-					gte: intervalStart,
-					lte: intervalEnd,
-				},
-			},
-			orderBy: {
-				startTime: 'asc',
-			},
+		const existingAppointments = await getAppointmentsInInterval({
+			interval: { start: intervalStart, end: intervalEnd },
+			status: 'all',
 		});
 
 		for (let i = intervalStart; i <= intervalEnd; i = add(i, { days: 1 })) {
@@ -96,7 +96,7 @@ export async function POST() {
 
 	return new Response(
 		JSON.stringify({
-			message: 'Automatic appointment generation is disabled.',
+			message: ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_INFO,
 		}),
 		{ status: 200 },
 	);
@@ -116,49 +116,43 @@ export async function DELETE() {
 			status: 403,
 		});
 
-	const currentTime = new Date();
-	const intervalStart = startOfDay(currentTime);
+	const autoAppointmentDeletion = await getAutoAppointmentDeletionStatus();
 
-	const expiredUnbookedAppointments = await database.appointment.findMany({
-		where: {
-			AND: [
-				{ Booking: null },
-				{
-					startTime: {
-						lte: intervalStart,
+	if (Boolean(autoAppointmentDeletion)) {
+		const expiredUnbookedAppointments = await getExpiredAppointments({ status: 'unbooked' });
+
+		const deletedAppointments: Appointment[] = [];
+		for (const appointment of expiredUnbookedAppointments) {
+			deletedAppointments.push(
+				await database.appointment.delete({
+					where: {
+						id: appointment.id,
 					},
-				},
-			],
-		},
-		orderBy: {
-			startTime: 'asc',
-		},
-	});
+				}),
+			);
+		}
+		const purgedAppointments = deletedAppointments.map((appointment) => {
+			return {
+				startTime: appointment.startTime,
+				endTime: add(appointment.startTime, { minutes: APPOINTMENT_DURATION }),
+			};
+		});
 
-	const deletedAppointments: Appointment[] = [];
-	for (const appointment of expiredUnbookedAppointments) {
-		deletedAppointments.push(
-			await database.appointment.delete({
-				where: {
-					id: appointment.id,
-				},
-			}),
-		);
-	}
-	const purgedAppointments = deletedAppointments.map((appointment) => {
-		return {
-			startTime: appointment.startTime,
-			endTime: add(appointment.startTime, { minutes: APPOINTMENT_DURATION }),
+		const reportEmailParams: AppointmentDeletionTemplateProps = {
+			message: `${deletedAppointments.length} appointments were deleted due to expiration.`,
+			deletedAppointments: purgedAppointments,
 		};
-	});
+		await sendAppointmentDeletionReport(reportEmailParams);
 
-	const reportEmailParams: AppointmentDeletionTemplateProps = {
-		message: `${deletedAppointments.length} appointments were deleted due to expiration.`,
-		deletedAppointments: purgedAppointments,
-	};
-	await sendAppointmentDeletionReport(reportEmailParams);
+		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
+			status: 201,
+		});
+	}
 
-	return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
-		status: 201,
-	});
+	return new Response(
+		JSON.stringify({
+			message: ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_INFO,
+		}),
+		{ status: 200 },
+	);
 }

@@ -1,6 +1,27 @@
+import { AUTO_BOOKING_DELETION_DEFAULT_VALUE, AUTO_BOOKING_DELETION_KEY } from '@/constants';
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
 import { Prisma } from '@prisma/client';
+
+export const getBookings = async () => {
+	try {
+		const bookings = await database.booking.findMany();
+		return bookings;
+	} catch (error) {
+		return [];
+	}
+};
+
+export const getBookingSubset = async (select: Prisma.BookingSelect) => {
+	try {
+		const bookings = await database.booking.findMany({
+			select,
+		});
+		return bookings;
+	} catch (error) {
+		return [];
+	}
+};
 
 export const getBookingCount = async (variant: 'all' | 'forThisWeek') => {
 	try {
@@ -34,22 +55,39 @@ export const getBookingCount = async (variant: 'all' | 'forThisWeek') => {
 	}
 };
 
-export const getBookings = async () => {
+export const getExpiredBookings = async () => {
+	const currentTime = new Date();
 	try {
-		const bookings = await database.booking.findMany();
-		return bookings;
+		const expiredBookings = await database.booking.findMany({
+			where: {
+				Appointment: {
+					startTime: {
+						lte: currentTime,
+					},
+				},
+			},
+		});
+		return expiredBookings;
 	} catch (error) {
 		return [];
 	}
 };
 
-export const getBookingSubset = async (select: Prisma.BookingSelect) => {
-	try {
-		const bookings = await database.booking.findMany({
-			select,
-		});
-		return bookings;
-	} catch (error) {
-		return [];
-	}
+export const getAutoBookingDeletionStatus = async () => {
+	const autoExpiredBookingDeletion = await database.configuration.findUnique({
+		where: {
+			name: AUTO_BOOKING_DELETION_KEY,
+		},
+	});
+
+	if (!autoExpiredBookingDeletion)
+		return (
+			await database.configuration.create({
+				data: {
+					name: AUTO_BOOKING_DELETION_KEY,
+					value: AUTO_BOOKING_DELETION_DEFAULT_VALUE,
+				},
+			})
+		).value;
+	return autoExpiredBookingDeletion.value;
 };

@@ -91,6 +91,14 @@ export const AppointmentGenerationSchema = z.object({
 	autoAppointmentGeneration: z.boolean(),
 });
 
+export const AppointmentDeletionSchema = z.object({
+	autoAppointmentDeletion: z.boolean(),
+});
+
+export const BookingDeletionSchema = z.object({
+	autoBookingDeletion: z.boolean(),
+});
+
 export const DateSelectionFormSchema = z.object({
 	selectedDate: z.date({
 		required_error: DATE_REQUIRED_VALIDATION,

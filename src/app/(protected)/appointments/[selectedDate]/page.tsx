@@ -1,4 +1,4 @@
-import { getAvailableAppointmentsInInterval } from '@/data/appointment';
+import { getAppointmentsInInterval } from '@/data/appointment';
 import { formatDate, getIntervalFromDay } from '@/lib/date';
 import { AppointmentSelectQueryParamsSchema } from '@/schemas';
 
@@ -26,7 +26,7 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 	const formattedDate = formatDate(currentDate, 'writtenLongDate');
 	const interval = getIntervalFromDay(currentDate);
 
-	const appointments = await getAvailableAppointmentsInInterval(interval);
+	const appointments = await getAppointmentsInInterval({ interval, status: 'available' });
 
 	return (
 		<AppointmentWrapper

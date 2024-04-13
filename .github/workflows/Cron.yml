@@ -1,4 +1,4 @@
-name: Appointment Handling
+name: Cron
 on:
     schedule:
         - cron: '0 1 * * *'

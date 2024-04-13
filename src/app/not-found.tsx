@@ -1,8 +1,9 @@
+import LinkButton from '@/components/general/LinkButton';
 import { Separator } from '@/components/ui/Separator';
 
 const NotFoundPage = () => {
 	return (
-		<div className='flex h-fit w-full flex-col items-center justify-center space-y-4 md:w-[800px]'>
+		<div className='flex h-fit w-full flex-col items-center justify-center space-y-16 md:w-[800px]'>
 			<h1 className='ml-[0.7em] py-4 font-fanwood-text text-3xl uppercase tracking-[0.7em] md:text-5xl'>
 				syndicate
 			</h1>
@@ -15,6 +16,12 @@ const NotFoundPage = () => {
 				/>
 				<h2>Page not found!</h2>
 			</div>
+			<LinkButton
+				buttonLabel='Back to home'
+				buttonHref='/'
+				buttonSize='full'
+				buttonVariant='link'
+			/>
 		</div>
 	);
 };

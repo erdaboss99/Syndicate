@@ -30,6 +30,10 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 
 	return (
 		<AppointmentWrapper
+			navigationTree={[
+				{ nodeLabel: 'Date selection', nodeHref: 'appointments' },
+				{ nodeLabel: 'Appointment selection', nodeHref: paramsData.data },
+			]}
 			headerTitle='Appointment selection'
 			headerLabel={formattedDate}
 			size='md'

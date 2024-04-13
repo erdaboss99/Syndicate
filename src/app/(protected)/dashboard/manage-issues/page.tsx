@@ -15,6 +15,10 @@ const AdminManageIssuesPage = async () => {
 
 	return (
 		<DashboardWrapper
+			navigationTree={[
+				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
+				{ nodeLabel: 'Manage issues', nodeHref: 'manage-issues' },
+			]}
 			headerTitle='Manage issues'
 			size='xl'
 			buttonLabel='Back to the dashboard'

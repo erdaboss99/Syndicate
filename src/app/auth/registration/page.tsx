@@ -4,6 +4,7 @@ import RegistrationForm from '@/components/auth/RegistrationForm';
 const RegistrationPage = () => {
 	return (
 		<AuthWrapper
+			navigationTree={null}
 			headerTitle='Registration'
 			headerLabel='Create an account'
 			buttonLabel='Already have an account?'

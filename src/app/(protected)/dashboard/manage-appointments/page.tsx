@@ -18,8 +18,12 @@ const AdminManageAppointmentsPage = async () => {
 
 	return (
 		<DashboardWrapper
-			headerTitle='Manage Appointments'
+			headerTitle='Manage appointments'
 			size='xl'
+			navigationTree={[
+				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
+				{ nodeLabel: 'Manage appointments', nodeHref: 'manage-appointments' },
+			]}
 			buttonLabel='Back to the dashboard'
 			buttonHref='/dashboard'
 			buttonSize='full'

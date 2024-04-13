@@ -2,12 +2,13 @@ import CardWrapper, { type CardWrapperProps } from '@/components/general/CardWra
 import LinkButton, { type LinkButtonProps } from '@/components/general/LinkButton';
 import { CardContent, CardFooter } from '@/components/ui/Card';
 
-type DashboardWrapperProps = {
+export type DashboardWrapperProps = {
 	children: React.ReactNode;
 } & Partial<LinkButtonProps> &
 	Omit<CardWrapperProps, 'children'>;
 
 const DashboardWrapper = ({
+	navigationTree,
 	children,
 	headerTitle,
 	headerLabel,
@@ -20,6 +21,7 @@ const DashboardWrapper = ({
 	return (
 		<CardWrapper
 			size={size}
+			navigationTree={navigationTree}
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			<CardContent>{children}</CardContent>

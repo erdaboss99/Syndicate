@@ -21,6 +21,11 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 
 	return (
 		<AppointmentWrapper
+			navigationTree={[
+				{ nodeLabel: 'Date selection', nodeHref: 'appointments' },
+				{ nodeLabel: 'Appointment selection', nodeHref: formatDate(appointment.startTime, 'yyyy-MM-dd') },
+				{ nodeLabel: 'Book appointment', nodeHref: paramsData.data },
+			]}
 			headerTitle='Book appointment'
 			headerLabel={formattedDate}
 			size='md'

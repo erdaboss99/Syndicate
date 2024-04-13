@@ -25,6 +25,7 @@ const EmailVerificationPage = ({ searchParams }: EmailVerificationPageProps) => 
 
 	return (
 		<AuthWrapper
+			navigationTree={null}
 			headerTitle='Confirming your email'
 			buttonLabel='Back to login'
 			buttonHref='/auth/login'

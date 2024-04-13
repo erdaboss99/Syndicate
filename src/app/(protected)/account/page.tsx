@@ -15,7 +15,9 @@ const AccountPage = async () => {
 
 	const isOAuth = user?.provider !== 'Credentials';
 	return (
-		<AccountWrapper headerTitle='Account information'>
+		<AccountWrapper
+			navigationTree={[{ nodeLabel: 'Account', nodeHref: 'account' }]}
+			headerTitle='Account information'>
 			<div className='space-y-6'>
 				<CardContent>
 					<div className='space-y-4'>

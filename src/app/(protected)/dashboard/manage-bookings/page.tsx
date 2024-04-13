@@ -43,7 +43,11 @@ const AdminManageBookingsPage = async () => {
 
 	return (
 		<DashboardWrapper
-			headerTitle='Manage Bookings'
+			navigationTree={[
+				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
+				{ nodeLabel: 'Manage bookings', nodeHref: 'manage-bookings' },
+			]}
+			headerTitle='Manage bookings'
 			size='xl'
 			buttonLabel='Back to the dashboard'
 			buttonHref='/dashboard'

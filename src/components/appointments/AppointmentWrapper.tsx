@@ -8,6 +8,7 @@ type AppointmentWrapperProps = {
 	Omit<CardWrapperProps, 'children'>;
 
 const AppointmentWrapper = ({
+	navigationTree,
 	children,
 	headerTitle,
 	headerLabel,
@@ -19,6 +20,7 @@ const AppointmentWrapper = ({
 }: AppointmentWrapperProps) => {
 	return (
 		<CardWrapper
+			navigationTree={navigationTree}
 			size={size}
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>

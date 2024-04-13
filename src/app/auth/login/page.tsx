@@ -4,6 +4,7 @@ import LoginForm from '@/components/auth/LoginForm';
 const LoginPage = () => {
 	return (
 		<AuthWrapper
+			navigationTree={null}
 			headerTitle='Login'
 			headerLabel='Welcome back!'
 			buttonLabel="Don't have an account?"

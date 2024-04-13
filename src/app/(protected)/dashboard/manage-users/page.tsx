@@ -30,7 +30,11 @@ const AdminManageUsersPage = async () => {
 
 	return (
 		<DashboardWrapper
-			headerTitle='Manage Users'
+			navigationTree={[
+				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
+				{ nodeLabel: 'Manage users', nodeHref: 'manage-users' },
+			]}
+			headerTitle='Manage users'
 			size='xl'
 			buttonLabel='Back to the dashboard'
 			buttonHref='/dashboard'

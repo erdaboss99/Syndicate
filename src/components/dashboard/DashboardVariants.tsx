@@ -4,8 +4,21 @@ import { getIssueCount } from '@/data/issue';
 import { getUserCount } from '@/data/user';
 
 import DashboardTile from '@/components/dashboard/DashboardTile';
-import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
+import DashboardWrapper, { type DashboardWrapperProps } from '@/components/dashboard/DashboardWrapper';
 import { LuCalendarClock, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
+
+type BaseDashboardProps = Pick<DashboardWrapperProps, 'children' | 'headerTitle' | 'size'>;
+
+const BaseDashboard = ({ children, headerTitle, size }: BaseDashboardProps) => {
+	return (
+		<DashboardWrapper
+			navigationTree={[{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' }]}
+			headerTitle={headerTitle}
+			size={size}>
+			{children}
+		</DashboardWrapper>
+	);
+};
 
 export const AdminDashboard = async () => {
 	const allUserCount = await getUserCount('all');
@@ -21,7 +34,7 @@ export const AdminDashboard = async () => {
 	const thisWeekBookingCount = await getBookingCount('forThisWeek');
 
 	return (
-		<DashboardWrapper
+		<BaseDashboard
 			headerTitle='Admin dashbord'
 			size='lg'>
 			<div className='grid gap-4 p-4 md:grid-cols-2'>
@@ -59,26 +72,26 @@ export const AdminDashboard = async () => {
 					TileIcon={LuCalendarClock}
 				/>
 			</div>
-		</DashboardWrapper>
+		</BaseDashboard>
 	);
 };
 
 export const EmployeeDashboard = () => {
 	return (
-		<DashboardWrapper
+		<BaseDashboard
 			headerTitle='Employee dashbord'
 			size='lg'>
 			Employee
-		</DashboardWrapper>
+		</BaseDashboard>
 	);
 };
 
 export const UserDashboard = () => {
 	return (
-		<DashboardWrapper
+		<BaseDashboard
 			headerTitle='User dashbord'
 			size='lg'>
 			User
-		</DashboardWrapper>
+		</BaseDashboard>
 	);
 };

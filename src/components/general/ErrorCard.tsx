@@ -8,7 +8,7 @@ type ErrorCardProps = {
 	headerLabel?: string;
 	message?: string;
 } & LinkButtonProps &
-	Omit<CardWrapperProps, 'children' | 'size'>;
+	Omit<CardWrapperProps, 'children' | 'size' | 'navigationTree'>;
 
 const ErrorCard = ({
 	headerTitle,
@@ -21,6 +21,7 @@ const ErrorCard = ({
 }: ErrorCardProps) => {
 	return (
 		<CardWrapper
+			navigationTree={null}
 			size='md'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>

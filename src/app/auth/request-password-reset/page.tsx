@@ -4,6 +4,7 @@ import RequestPasswordResetForm from '@/components/auth/RequestPasswordResetForm
 const RequestPasswordResetPage = () => {
 	return (
 		<AuthWrapper
+			navigationTree={null}
 			headerTitle='Request new password'
 			buttonLabel='Back to login'
 			buttonHref='/auth/login'

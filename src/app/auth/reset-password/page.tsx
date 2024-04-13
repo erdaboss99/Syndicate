@@ -25,6 +25,7 @@ const ResetPasswordPage = ({ searchParams }: ResetPasswordPageProps) => {
 
 	return (
 		<AuthWrapper
+			navigationTree={null}
 			headerTitle='Enter a new password'
 			buttonLabel='Back to login'
 			buttonHref='/auth/login'

@@ -12,6 +12,7 @@ export type AuthWrapperProps = {
 	Omit<CardWrapperProps, 'children' | 'size'>;
 
 const AuthWrapper = ({
+	navigationTree,
 	children,
 	headerTitle,
 	buttonLabel,
@@ -23,6 +24,7 @@ const AuthWrapper = ({
 }: AuthWrapperProps) => {
 	return (
 		<CardWrapper
+			navigationTree={navigationTree}
 			size='md'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>

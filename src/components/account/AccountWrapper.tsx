@@ -4,9 +4,10 @@ type AccountWrapperProps = {
 	children: React.ReactNode;
 } & Omit<CardWrapperProps, 'children' | 'size'>;
 
-const AccountWrapper = ({ children, headerTitle, headerLabel }: AccountWrapperProps) => {
+const AccountWrapper = ({ navigationTree, children, headerTitle, headerLabel }: AccountWrapperProps) => {
 	return (
 		<CardWrapper
+			navigationTree={navigationTree}
 			size='sm'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>

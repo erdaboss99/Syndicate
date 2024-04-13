@@ -1,6 +1,4 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { formatDate } from '@/lib/date';
 import { type Appointment } from '@prisma/client';
@@ -12,18 +10,19 @@ type AppointmentSelectButtonProps = {
 };
 
 const AppointmentSelectButton = ({ appointment }: AppointmentSelectButtonProps) => {
-	const router = useRouter();
-
 	const formattedDate = formatDate(appointment.startTime, 'onlyTime');
+	const appointmentBookPath = `/appointments/${formatDate(appointment.startTime, 'yyyy-MM-dd')}/${appointment.id}`;
 
 	return (
 		<Button
-			onClick={() => router.push(`/appointments/book/${appointment.id}`)}
 			size='lg'
 			variant='outline'
-			className='font-bold'>
-			{formattedDate}
-			<time dateTime={appointment.startTime.toISOString()} />
+			className='font-bold'
+			asChild>
+			<Link href={appointmentBookPath}>
+				{formattedDate}
+				<time dateTime={appointment.startTime.toISOString()} />
+			</Link>
 		</Button>
 	);
 };

@@ -4,7 +4,7 @@ export const hash = async (data: string) => {
 	return hashedData;
 };
 
-export const compare = async (data: string, hashedData: string) => {
-	const match = await bcrypt.compare(data, hashedData);
+export const compare = async (options: { data: string; hashedData: string }) => {
+	const match = await bcrypt.compare(options.data, options.hashedData);
 	return match;
 };

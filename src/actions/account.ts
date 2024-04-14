@@ -34,7 +34,7 @@ export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => 
 	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
 		return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 
-	const passwordMatch = await compare(password, existingUser.password);
+	const passwordMatch = await compare({ data: password, hashedData: existingUser.password });
 	if (!passwordMatch) return { error: ACTION_ACCOUNT_INCORRECT_PASSWORD_ERROR };
 
 	const emailChanged = email !== existingUser.email;

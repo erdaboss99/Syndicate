@@ -19,7 +19,7 @@ export default {
 
 					if (!existingUser || !existingUser.password) return null;
 
-					const passwordMatch = await compare(password, existingUser.password);
+					const passwordMatch = await compare({ data: password, hashedData: existingUser.password });
 					if (passwordMatch) return existingUser;
 				}
 				return null;

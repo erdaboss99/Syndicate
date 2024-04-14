@@ -8,6 +8,7 @@ import { LoginProviders } from '@/auth/next-auth';
 import { JWT_TOKEN_EXPIRY } from '@/constants';
 import { getAccountByUserId } from '@/data/account';
 import { getUserById } from '@/data/user';
+import { getLoginProvider } from '@/lib/auth';
 import { database } from '@/lib/database';
 
 export const {
@@ -62,17 +63,7 @@ export const {
 			if (!existingUser) return token;
 
 			const existingAccount = await getAccountByUserId(existingUser.id);
-			switch (existingAccount?.provider) {
-				case 'google':
-					token.provider = 'Google';
-					break;
-				case 'github':
-					token.provider = 'GitHub';
-					break;
-				default:
-					token.provider = 'Credentials';
-					break;
-			}
+			token.provider = getLoginProvider(existingAccount?.provider);
 			token.createdAt = existingUser.createdAt.toISOString();
 			token.name = existingUser.name;
 			token.email = existingUser.email;

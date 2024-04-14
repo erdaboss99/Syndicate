@@ -48,7 +48,7 @@ model User {
     createdAt     DateTime  @default(now()) @map("created_at")
 
     accounts Account[]
-    Booking  Booking[]
+    bookings Booking[]
 }
 
 model VerificationToken {

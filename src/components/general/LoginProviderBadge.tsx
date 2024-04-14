@@ -1,4 +1,4 @@
-import { LoginProviders } from '@/auth/next-auth';
+import { type LoginProviders } from '@/auth/next-auth';
 
 import { Badge, type BadgeProps } from '@/components/ui/Badge';
 import { GrGoogle } from 'react-icons/gr';

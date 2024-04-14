@@ -1,10 +1,11 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
 import { Suspense } from 'react';
 
-import { formatDate } from '@/lib/date';
 import { type Appointment, type Booking } from '@prisma/client';
+import { ColumnDef } from '@tanstack/react-table';
+
+import { formatDate } from '@/lib/date';
 
 import AppointmentBadge from '@/components/general/AppointmentBadge';
 import { Button } from '@/components/ui/Button';

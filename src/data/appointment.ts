@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import {
 	AUTO_EXPIRED_APPOINTMENT_DELETION_DEFAULT_VALUE,
 	AUTO_EXPIRED_APPOINTMENT_DELETION_KEY,
@@ -5,7 +7,6 @@ import {
 	AUTO_NEW_APPOINTMENT_GENERATION_KEY,
 } from '@/constants';
 import { database } from '@/lib/database';
-import { Prisma } from '@prisma/client';
 
 export const getAppointmentById = async (options: { id: string; status: 'AVAILABLE' | 'BOOKED' }) => {
 	try {

@@ -1,5 +1,7 @@
 'use client';
 
+import { useMemo, useState } from 'react';
+
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -12,7 +14,6 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
 
 import DataTablePagination from '@/components/data-tables/DataTablePagination';
 import DataTableToolbar from '@/components/data-tables/DataTableToolbar';

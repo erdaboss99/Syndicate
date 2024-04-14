@@ -1,7 +1,8 @@
 import Link from 'next/link';
 
-import { formatDate } from '@/lib/date';
 import { type Appointment } from '@prisma/client';
+
+import { formatDate } from '@/lib/date';
 
 import { Button } from '@/components/ui/Button';
 

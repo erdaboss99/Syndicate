@@ -1,9 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
+import { type Appointment, type Issue } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -11,7 +12,6 @@ import * as z from 'zod';
 import { createBooking } from '@/actions/booking';
 import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { AppointmentBookFormSchema } from '@/schemas';
-import { type Appointment, type Issue } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';

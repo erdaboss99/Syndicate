@@ -1,10 +1,11 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
 import { Suspense } from 'react';
 
-import { formatDate } from '@/lib/date';
 import { UserRole, type User } from '@prisma/client';
+import { ColumnDef } from '@tanstack/react-table';
+
+import { formatDate } from '@/lib/date';
 
 import UserAvatar from '@/components/general/UserAvatar';
 import UserRoleBadge from '@/components/general/UserBadge';

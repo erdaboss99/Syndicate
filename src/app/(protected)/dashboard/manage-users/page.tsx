@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation';
 
+import { UserRole } from '@prisma/client';
+
 import { getUserSubset } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
 
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
 import { UserColumns } from '@/components/data-tables/columns/UserColumns';
-
-import { UserRole } from '@prisma/client';
 
 const AdminManageUsersPage = async () => {
 	const currentUser = await getCurrentUser();

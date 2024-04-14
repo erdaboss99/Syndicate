@@ -1,5 +1,7 @@
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import NextAuth from 'next-auth';
+
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { type UserRole } from '@prisma/client';
 
 import authConfig from '@/auth/auth.config';
 import { LoginProviders } from '@/auth/next-auth';
@@ -7,7 +9,6 @@ import { JWT_TOKEN_EXPIRY } from '@/constants';
 import { getAccountByUserId } from '@/data/account';
 import { getUserById } from '@/data/user';
 import { database } from '@/lib/database';
-import { type UserRole } from '@prisma/client';
 
 export const {
 	handlers: { GET, POST },

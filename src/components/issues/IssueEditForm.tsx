@@ -1,9 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
+import { type Issue } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -11,7 +12,6 @@ import * as z from 'zod';
 import { editIssue } from '@/actions/issue';
 import { ACTION_DEFAULT_ERROR } from '@/constants';
 import { IssueEditFormSchema } from '@/schemas';
-import { type Issue } from '@prisma/client';
 
 import { Button } from '@/components/ui/Button';
 import { DialogFooter } from '@/components/ui/Dialog';

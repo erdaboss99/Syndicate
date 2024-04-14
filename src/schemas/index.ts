@@ -1,3 +1,4 @@
+import { UserRole } from '@prisma/client';
 import * as z from 'zod';
 
 import {
@@ -17,7 +18,6 @@ import {
 	PASSWORD_VALIDATION,
 	UUID_VALIDATION,
 } from '@/constants';
-import { UserRole } from '@prisma/client';
 
 export const LoginSchema = z.object({
 	email: z.string().email({ message: EMAIL_VALIDATION }),

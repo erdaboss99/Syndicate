@@ -1,3 +1,4 @@
+import { type Appointment } from '@prisma/client';
 import { add, endOfDay, isWeekend, startOfDay } from 'date-fns';
 
 import {
@@ -22,7 +23,6 @@ import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { formatDatesInObject } from '@/lib/date';
 import { sendExpiredAppointmentDeletionReport, sendNewAppointmentGenerationReport } from '@/lib/mail';
-import { type Appointment } from '@prisma/client';
 
 export async function POST() {
 	const currentUser = await getCurrentUser();

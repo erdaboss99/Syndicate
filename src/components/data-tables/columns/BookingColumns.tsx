@@ -1,10 +1,11 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
 import { Suspense } from 'react';
 
-import { formatDate } from '@/lib/date';
 import { type Appointment, type Booking, type Issue, type User } from '@prisma/client';
+import { ColumnDef } from '@tanstack/react-table';
+
+import { formatDate } from '@/lib/date';
 
 import { Button } from '@/components/ui/Button';
 import { LuArrowUpDown } from 'react-icons/lu';

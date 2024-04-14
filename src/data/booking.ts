@@ -1,7 +1,8 @@
+import { Prisma } from '@prisma/client';
+
 import { AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE, AUTO_EXPIRED_BOOKING_DELETION_KEY } from '@/constants';
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
-import { Prisma } from '@prisma/client';
 
 export const getBookingSubset = async (select: Prisma.BookingSelect) => {
 	try {

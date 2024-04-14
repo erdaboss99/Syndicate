@@ -19,7 +19,7 @@ jobs:
                   cd cron
                   ./cron.sh -e '${{secrets.ADMIN_EMAIL}}' -p '${{secrets.ADMIN_PASSWORD}}' -u '${{secrets.PRODUCTION_URL}}'
 
-            - uses: actions/upload-artifact@v3
+            - uses: actions/upload-artifact@v4
               if: always()
               with:
                   name: cron-response

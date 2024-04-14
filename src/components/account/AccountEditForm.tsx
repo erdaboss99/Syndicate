@@ -4,13 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signOut } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
 import { editAccount } from '@/actions/account';
 import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { AccountEditSchema } from '@/schemas';
-import { toast } from 'sonner';
 
 import LogoutButton from '@/components/auth/LogoutButton';
 import { Button } from '@/components/ui/Button';

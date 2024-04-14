@@ -4,18 +4,18 @@ import { Card, CardDescription, CardHeader } from '@/components/ui/Card';
 export type CardWrapperProps = {
 	navigationTree: BreadcrumbNode[] | null;
 	children: React.ReactNode;
-	size: 'sm' | 'md' | 'lg' | 'xl';
+	size: 'SM' | 'MD' | 'LG' | 'XL';
 	headerTitle: string;
 	headerLabel?: string;
 };
 
 const CardWrapper = ({ navigationTree, children, size, headerTitle, headerLabel }: CardWrapperProps) => {
 	const containerSize =
-		size === 'sm'
+		size === 'SM'
 			? 'md:w-[500px]'
-			: size === 'md'
+			: size === 'MD'
 				? 'md:w-[700px]'
-				: size === 'lg'
+				: size === 'LG'
 					? 'md:w-[950px]'
 					: 'md:w-full md:max-w-[1200px]';
 	return (

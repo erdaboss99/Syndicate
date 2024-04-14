@@ -4,30 +4,33 @@ import { formatDate } from '@/lib/date';
 
 import BaseEmailTemplate from '@/emails/BaseEmail';
 
-export type AppointmentDeletionTemplateProps = {
+export type ExpiredAppointmentDeletionTemplateProps = {
 	message: string;
-	deletedAppointments: { startTime: Date; endTime: Date }[];
+	deletedExpiredAppointments: { startTime: Date; endTime: Date }[];
 };
 
-export const AppointmentDeletionTemplate = ({ message, deletedAppointments }: AppointmentDeletionTemplateProps) => (
+export const ExpiredAppointmentDeletionTemplate = ({
+	message,
+	deletedExpiredAppointments,
+}: ExpiredAppointmentDeletionTemplateProps) => (
 	<BaseEmailTemplate previewSuffix={'Appointment Deletion Report'}>
 		<Heading className='mt-12 text-3xl font-bold'>Dear Administrator,</Heading>
 
 		<Section className='mx-0 mt-6'>
-			<Text className='text-xl'>Here is the daily automatic appointment deletion report.</Text>
+			<Text className='text-xl'>Here is the daily automatic expired appointment deletion report.</Text>
 			<Text className='text-lg'>{message}</Text>
 		</Section>
 
-		{deletedAppointments.length > 0 && (
+		{deletedExpiredAppointments.length > 0 && (
 			<Section className='mx-0 mt-1'>
-				<Text className='text-center text-xl font-semibold'>Deleted appointments</Text>
-				{deletedAppointments.map((elem, i) => {
+				<Text className='text-center text-xl font-semibold'>Deleted expired appointments</Text>
+				{deletedExpiredAppointments.map((appointment, i) => {
 					return (
 						<Row
 							key={i}
 							className='text-base'>
 							<Column className='text-center font-semibold'>
-								{formatDate(elem.startTime, 'writtenLongDateTimeInterval')}
+								{formatDate(appointment.startTime, 'writtenLongDateTimeInterval')}
 							</Column>
 						</Row>
 					);
@@ -37,4 +40,4 @@ export const AppointmentDeletionTemplate = ({ message, deletedAppointments }: Ap
 	</BaseEmailTemplate>
 );
 
-export default AppointmentDeletionTemplate;
+export default ExpiredAppointmentDeletionTemplate;

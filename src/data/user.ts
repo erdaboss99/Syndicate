@@ -19,18 +19,18 @@ export const getUserById = async (id: string) => {
 	}
 };
 
-export const getUserCount = async (variant: 'all' | 'lastWeek') => {
+export const getUserCount = async (options: { variant: 'ALL' | 'LASTWEEK' }) => {
 	try {
-		switch (variant) {
-			case 'all':
+		switch (options.variant) {
+			case 'ALL':
 				const userCount = await database.user.aggregate({
 					_count: {
 						id: true,
 					},
 				});
 				return userCount._count.id;
-			case 'lastWeek':
-				const registeredInLastWeek = await database.user.aggregate({
+			case 'LASTWEEK':
+				const registeredInLastWeekCount = await database.user.aggregate({
 					_count: {
 						id: true,
 					},
@@ -40,7 +40,7 @@ export const getUserCount = async (variant: 'all' | 'lastWeek') => {
 						},
 					},
 				});
-				return registeredInLastWeek._count.id;
+				return registeredInLastWeekCount._count.id;
 		}
 	} catch (error) {
 		return null;
@@ -49,10 +49,10 @@ export const getUserCount = async (variant: 'all' | 'lastWeek') => {
 
 export const getUserSubset = async (select: Prisma.UserSelect) => {
 	try {
-		const users = await database.user.findMany({
+		const userSubset = await database.user.findMany({
 			select,
 		});
-		return users;
+		return userSubset;
 	} catch (error) {
 		return [];
 	}

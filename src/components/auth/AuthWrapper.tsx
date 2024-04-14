@@ -25,7 +25,7 @@ const AuthWrapper = ({
 	return (
 		<CardWrapper
 			navigationTree={navigationTree}
-			size='md'
+			size='MD'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			<CardContent>{children}</CardContent>

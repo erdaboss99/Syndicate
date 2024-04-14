@@ -22,7 +22,7 @@ const ErrorCard = ({
 	return (
 		<CardWrapper
 			navigationTree={null}
-			size='md'
+			size='MD'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			<CardContent>

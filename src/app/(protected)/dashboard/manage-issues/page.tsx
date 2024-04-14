@@ -20,7 +20,7 @@ const AdminManageIssuesPage = async () => {
 				{ nodeLabel: 'Manage issues', nodeHref: 'manage-issues' },
 			]}
 			headerTitle='Manage issues'
-			size='xl'
+			size='XL'
 			buttonLabel='Back to the dashboard'
 			buttonHref='/dashboard'
 			buttonSize='full'

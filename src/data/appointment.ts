@@ -1,22 +1,22 @@
 import {
-	AUTO_APPOINTMENT_DELETION_DEFAULT_VALUE,
-	AUTO_APPOINTMENT_DELETION_KEY,
-	AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE,
-	AUTO_APPOINTMENT_GENERATION_KEY,
+	AUTO_EXPIRED_APPOINTMENT_DELETION_DEFAULT_VALUE,
+	AUTO_EXPIRED_APPOINTMENT_DELETION_KEY,
+	AUTO_NEW_APPOINTMENT_GENERATION_DEFAULT_VALUE,
+	AUTO_NEW_APPOINTMENT_GENERATION_KEY,
 } from '@/constants';
 import { database } from '@/lib/database';
 import { Prisma } from '@prisma/client';
 
-export const getAppointmentById = async (id: string, variant: 'onlyAvailable' | 'onlyBooked') => {
+export const getAppointmentById = async (options: { id: string; status: 'AVAILABLE' | 'BOOKED' }) => {
 	try {
-		switch (variant) {
-			case 'onlyAvailable':
-				const freeAppointment = await database.appointment.findFirst({
+		switch (options.status) {
+			case 'AVAILABLE':
+				const availableAppointment = await database.appointment.findFirst({
 					where: {
 						AND: [
 							{ Booking: null },
 							{
-								id,
+								id: options.id,
 							},
 						],
 					},
@@ -24,8 +24,8 @@ export const getAppointmentById = async (id: string, variant: 'onlyAvailable' | 
 						startTime: 'asc',
 					},
 				});
-				return freeAppointment;
-			case 'onlyBooked':
+				return availableAppointment;
+			case 'BOOKED':
 				const bookedAppointment = await database.appointment.findFirst({
 					where: {
 						AND: [
@@ -37,7 +37,7 @@ export const getAppointmentById = async (id: string, variant: 'onlyAvailable' | 
 								},
 							},
 							{
-								id,
+								id: options.id,
 							},
 						],
 					},
@@ -52,35 +52,22 @@ export const getAppointmentById = async (id: string, variant: 'onlyAvailable' | 
 	}
 };
 
-export const getAppointments = async () => {
-	try {
-		const appointments = await database.appointment.findMany({
-			orderBy: {
-				startTime: 'asc',
-			},
-		});
-		return appointments;
-	} catch (error) {
-		return [];
-	}
-};
-
 export const getAppointmentSubset = async (select: Prisma.AppointmentSelect) => {
 	try {
-		const appointments = await database.appointment.findMany({
+		const appointmentSubset = await database.appointment.findMany({
 			select,
 		});
-		return appointments;
+		return appointmentSubset;
 	} catch (error) {
 		return [];
 	}
 };
 
-export const getAppointmentCount = async (variant: 'booked' | 'available') => {
+export const getAppointmentCount = async (options: { status: 'BOOKED' | 'AVAILABLE' }) => {
 	try {
-		switch (variant) {
-			case 'booked':
-				const bookedAppointments = await database.appointment.aggregate({
+		switch (options.status) {
+			case 'BOOKED':
+				const bookedAppointmentCount = await database.appointment.aggregate({
 					_count: {
 						id: true,
 					},
@@ -92,9 +79,9 @@ export const getAppointmentCount = async (variant: 'booked' | 'available') => {
 						},
 					},
 				});
-				return bookedAppointments._count.id;
-			case 'available':
-				const availableAppointments = await database.appointment.aggregate({
+				return bookedAppointmentCount._count.id;
+			case 'AVAILABLE':
+				const availableAppointmentCount = await database.appointment.aggregate({
 					_count: {
 						id: true,
 					},
@@ -102,7 +89,7 @@ export const getAppointmentCount = async (variant: 'booked' | 'available') => {
 						Booking: null,
 					},
 				});
-				return availableAppointments._count.id;
+				return availableAppointmentCount._count.id;
 		}
 	} catch (error) {
 		return null;
@@ -111,11 +98,11 @@ export const getAppointmentCount = async (variant: 'booked' | 'available') => {
 
 export const getAppointmentsInInterval = async (options: {
 	interval: { start: Date; end: Date };
-	status: 'available' | 'booked' | 'all';
+	status: 'AVAILABLE' | 'BOOKED' | 'ALL';
 }) => {
 	try {
 		switch (options.status) {
-			case 'available':
+			case 'AVAILABLE':
 				const availableAppointmentsInInterval = await database.appointment.findMany({
 					where: {
 						AND: [
@@ -133,7 +120,7 @@ export const getAppointmentsInInterval = async (options: {
 					},
 				});
 				return availableAppointmentsInInterval;
-			case 'booked':
+			case 'BOOKED':
 				const bookedAppointmentsInInterval = await database.appointment.findMany({
 					where: {
 						AND: [
@@ -157,7 +144,7 @@ export const getAppointmentsInInterval = async (options: {
 					},
 				});
 				return bookedAppointmentsInInterval;
-			case 'all':
+			case 'ALL':
 				const allAppointmentsInInterval = await database.appointment.findMany({
 					where: {
 						startTime: {
@@ -176,11 +163,11 @@ export const getAppointmentsInInterval = async (options: {
 	}
 };
 
-export const getExpiredAppointments = async (options: { status: 'unbooked' | 'booked' }) => {
+export const getExpiredAppointments = async (options: { status: 'UNBOOKED' | 'BOOKED' }) => {
 	const currentTime = new Date();
 	try {
 		switch (options.status) {
-			case 'unbooked':
+			case 'UNBOOKED':
 				const expiredUnbookedAppointments = await database.appointment.findMany({
 					where: {
 						AND: [
@@ -197,7 +184,7 @@ export const getExpiredAppointments = async (options: { status: 'unbooked' | 'bo
 					},
 				});
 				return expiredUnbookedAppointments;
-			case 'booked':
+			case 'BOOKED':
 				const expiredBookedAppointments = await database.appointment.findMany({
 					where: {
 						AND: [
@@ -226,40 +213,40 @@ export const getExpiredAppointments = async (options: { status: 'unbooked' | 'bo
 	}
 };
 
-export const getAutoAppointmentGenerationStatus = async () => {
-	const autoAppointmentGeneration = await database.configuration.findUnique({
+export const getAutoNewAppointmentGenerationStatus = async () => {
+	const autoNewAppointmentGenerationStatus = await database.configuration.findUnique({
 		where: {
-			name: AUTO_APPOINTMENT_GENERATION_KEY,
+			name: AUTO_NEW_APPOINTMENT_GENERATION_KEY,
 		},
 	});
 
-	if (!autoAppointmentGeneration)
+	if (!autoNewAppointmentGenerationStatus)
 		return (
 			await database.configuration.create({
 				data: {
-					name: AUTO_APPOINTMENT_GENERATION_KEY,
-					value: AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE,
+					name: AUTO_NEW_APPOINTMENT_GENERATION_KEY,
+					value: AUTO_NEW_APPOINTMENT_GENERATION_DEFAULT_VALUE,
 				},
 			})
 		).value;
-	return autoAppointmentGeneration.value;
+	return autoNewAppointmentGenerationStatus.value;
 };
 
-export const getAutoAppointmentDeletionStatus = async () => {
-	const autoAppointmentDeletion = await database.configuration.findUnique({
+export const getAutoExpiredAppointmentDeletionStatus = async () => {
+	const autoExpiredAppointmentDeletionStatus = await database.configuration.findUnique({
 		where: {
-			name: AUTO_APPOINTMENT_DELETION_KEY,
+			name: AUTO_EXPIRED_APPOINTMENT_DELETION_KEY,
 		},
 	});
 
-	if (!autoAppointmentDeletion)
+	if (!autoExpiredAppointmentDeletionStatus)
 		return (
 			await database.configuration.create({
 				data: {
-					name: AUTO_APPOINTMENT_DELETION_KEY,
-					value: AUTO_APPOINTMENT_DELETION_DEFAULT_VALUE,
+					name: AUTO_EXPIRED_APPOINTMENT_DELETION_KEY,
+					value: AUTO_EXPIRED_APPOINTMENT_DELETION_DEFAULT_VALUE,
 				},
 			})
 		).value;
-	return autoAppointmentDeletion.value;
+	return autoExpiredAppointmentDeletionStatus.value;
 };

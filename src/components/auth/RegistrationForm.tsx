@@ -1,15 +1,16 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
 import { registration } from '@/actions/registration';
 import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { RegistrationSchema } from '@/schemas';
-import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';

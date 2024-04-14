@@ -4,23 +4,23 @@ import { formatDate } from '@/lib/date';
 
 import BaseEmailTemplate from '@/emails/BaseEmail';
 
-export type AppointmentGenerationTemplateProps = {
+export type NewAppointmentGenerationTemplateProps = {
 	message: string;
 	intervalStart: Date;
 	intervalEnd: Date;
 	workDaysInInterval: Date[];
 	weekendDaysInInterval: Date[];
-	createdAppointments: { startTime: Date; endTime: Date }[];
+	generatedNewAppointments: { startTime: Date; endTime: Date }[];
 };
 
-export const AppointmentGenerationTemplate = ({
+export const NewAppointmentGenerationTemplate = ({
 	message,
 	intervalStart,
 	intervalEnd,
 	workDaysInInterval,
 	weekendDaysInInterval,
-	createdAppointments,
-}: AppointmentGenerationTemplateProps) => (
+	generatedNewAppointments,
+}: NewAppointmentGenerationTemplateProps) => (
 	<BaseEmailTemplate previewSuffix={'Appointment Generation Report'}>
 		<Heading className='mt-12 text-3xl font-bold'>Dear Administrator,</Heading>
 
@@ -40,12 +40,12 @@ export const AppointmentGenerationTemplate = ({
 
 		<Section className='mx-0 mt-1'>
 			<Text className='text-center text-xl font-semibold'>Affected workdays in the given interval</Text>
-			{workDaysInInterval.map((elem, i) => {
+			{workDaysInInterval.map((day, i) => {
 				return (
 					<Row
 						key={i}
 						className='text-base'>
-						<Column className='text-center font-semibold'>{formatDate(elem, 'writtenLongDate')}</Column>
+						<Column className='text-center font-semibold'>{formatDate(day, 'writtenLongDate')}</Column>
 					</Row>
 				);
 			})}
@@ -53,31 +53,31 @@ export const AppointmentGenerationTemplate = ({
 
 		<Section className='mx-0 mt-1'>
 			<Text className='text-center text-xl font-semibold'>Skipped weekend days in the given interval</Text>
-			{weekendDaysInInterval.map((elem, i) => {
+			{weekendDaysInInterval.map((day, i) => {
 				return (
 					<Row
 						key={i}
 						className='text-base'>
-						<Column className='text-center font-semibold'>{formatDate(elem, 'writtenLongDate')}</Column>
+						<Column className='text-center font-semibold'>{formatDate(day, 'writtenLongDate')}</Column>
 					</Row>
 				);
 			})}
 		</Section>
 
 		<Section className='mx-0 mt-1'>
-			{createdAppointments.length > 0 ? (
-				<Text className='text-center text-xl font-semibold'>Newly created appointments</Text>
+			{generatedNewAppointments.length > 0 ? (
+				<Text className='text-center text-xl font-semibold'>Newly generated appointments</Text>
 			) : (
-				<Text className='text-center text-xl font-semibold'>No new appointments were created</Text>
+				<Text className='text-center text-xl font-semibold'>No new appointments were generated</Text>
 			)}
-			{createdAppointments.length > 0 &&
-				createdAppointments.map((elem, i) => {
+			{generatedNewAppointments.length > 0 &&
+				generatedNewAppointments.map((appointment, i) => {
 					return (
 						<Row
 							key={i}
 							className='text-base'>
 							<Column className='text-center font-semibold'>
-								{formatDate(elem.startTime, 'writtenLongDateTimeInterval')}
+								{formatDate(appointment.startTime, 'writtenLongDateTimeInterval')}
 							</Column>
 						</Row>
 					);
@@ -86,4 +86,4 @@ export const AppointmentGenerationTemplate = ({
 	</BaseEmailTemplate>
 );
 
-export default AppointmentGenerationTemplate;
+export default NewAppointmentGenerationTemplate;

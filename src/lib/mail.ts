@@ -4,11 +4,17 @@ import nodemailer from 'nodemailer';
 import { env } from '@/env.mjs';
 import { formatDate } from '@/lib/date';
 
-import AppointmentDeletionTemplate, { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
-import AppointmentGenerationTemplate, { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
 import BookingConfirmationTemplate, { type BookingConfirmationTemplateProps } from '@/emails/BookingConfirmation';
-import BookingDeletionTemplate, { type BookingDeletionTemplateProps } from '@/emails/BookingDeletion';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
+import ExpiredAppointmentDeletionTemplate, {
+	type ExpiredAppointmentDeletionTemplateProps,
+} from '@/emails/ExpiredAppointmentDeletionTemplate';
+import ExpiredBookingDeletionTemplate, {
+	type ExpiredBookingDeletionTemplateProps,
+} from '@/emails/ExpiredBookingDeletion';
+import NewAppointmentGenerationTemplate, {
+	type NewAppointmentGenerationTemplateProps,
+} from '@/emails/NewAppointmentGeneration';
 import PasswordResetTemplate from '@/emails/PasswordReset';
 
 type EmailTemplate = Parameters<typeof render>[0];
@@ -59,49 +65,52 @@ export const sendVerificationEmail = async (userName: string, userEmail: string,
 	});
 };
 
-export const sendAppointmentGenerationReport = async ({
+export const sendNewAppointmentGenerationReport = async ({
 	message,
 	intervalStart,
 	intervalEnd,
 	workDaysInInterval,
 	weekendDaysInInterval,
-	createdAppointments,
-}: AppointmentGenerationTemplateProps) => {
+	generatedNewAppointments,
+}: NewAppointmentGenerationTemplateProps) => {
 	await sendEmail({
 		recipients: [env.REPORT_RECIPIENT],
-		emailSubject: `Syndicate - Appointment generation report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
-		emailTemplate: AppointmentGenerationTemplate({
+		emailSubject: `Syndicate - New appointment generation report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
+		emailTemplate: NewAppointmentGenerationTemplate({
 			message,
 			intervalStart,
 			intervalEnd,
 			workDaysInInterval,
 			weekendDaysInInterval,
-			createdAppointments,
+			generatedNewAppointments,
 		}),
 	});
 };
 
-export const sendAppointmentDeletionReport = async ({
+export const sendExpiredAppointmentDeletionReport = async ({
 	message,
-	deletedAppointments,
-}: AppointmentDeletionTemplateProps) => {
+	deletedExpiredAppointments,
+}: ExpiredAppointmentDeletionTemplateProps) => {
 	await sendEmail({
 		recipients: [env.REPORT_RECIPIENT],
-		emailSubject: `Syndicate - Appointment deletion report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
-		emailTemplate: AppointmentDeletionTemplate({
+		emailSubject: `Syndicate - Expired appointment deletion report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
+		emailTemplate: ExpiredAppointmentDeletionTemplate({
 			message,
-			deletedAppointments,
+			deletedExpiredAppointments,
 		}),
 	});
 };
 
-export const sendBookingDeletionReport = async ({ message, deletedBookings }: BookingDeletionTemplateProps) => {
+export const sendExpiredBookingDeletionReport = async ({
+	message,
+	deletedExpiredBookings,
+}: ExpiredBookingDeletionTemplateProps) => {
 	await sendEmail({
 		recipients: [env.REPORT_RECIPIENT],
-		emailSubject: `Syndicate - Booking deletion report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
-		emailTemplate: BookingDeletionTemplate({
+		emailSubject: `Syndicate - Expired booking deletion report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
+		emailTemplate: ExpiredBookingDeletionTemplate({
 			message,
-			deletedBookings,
+			deletedExpiredBookings,
 		}),
 	});
 };

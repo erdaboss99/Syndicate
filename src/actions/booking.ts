@@ -3,41 +3,18 @@
 import { z } from 'zod';
 
 import {
-	ACTION_BOOKING_AUTO_DELETION_DISABLED_SUCCESS,
-	ACTION_BOOKING_AUTO_DELETION_ENABLED_SUCCESS,
+	ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_SUCCESS,
+	ACTION_AUTO_EXPIRED_BOOKING_DELETION_ENABLED_SUCCESS,
 	ACTION_BOOKING_CREATED_SUCCESS,
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
-	AUTO_BOOKING_DELETION_KEY,
+	AUTO_EXPIRED_BOOKING_DELETION_KEY,
 } from '@/constants';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { sendBookingConfirmationEmail } from '@/lib/mail';
-import { AppointmentBookFormSchema, BookingDeletionSchema } from '@/schemas';
-
-export const toggleAutoBookingDeletion = async (values: z.infer<typeof BookingDeletionSchema>) => {
-	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
-
-	const validatedData = BookingDeletionSchema.safeParse(values);
-	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
-
-	const { autoBookingDeletion } = validatedData.data;
-
-	await database.configuration.update({
-		where: { name: AUTO_BOOKING_DELETION_KEY },
-		data: {
-			value: autoBookingDeletion ? 1 : 0,
-		},
-	});
-
-	return {
-		success: autoBookingDeletion
-			? ACTION_BOOKING_AUTO_DELETION_ENABLED_SUCCESS
-			: ACTION_BOOKING_AUTO_DELETION_DISABLED_SUCCESS,
-	};
-};
+import { AppointmentBookFormSchema, AutoExpiredBookingDeletionSchema } from '@/schemas';
 
 export const createBooking = async (values: z.infer<typeof AppointmentBookFormSchema>) => {
 	const currentUser = await getCurrentUser();
@@ -88,4 +65,27 @@ export const createBooking = async (values: z.infer<typeof AppointmentBookFormSc
 	});
 
 	return { success: ACTION_BOOKING_CREATED_SUCCESS };
+};
+
+export const toggleAutoBookingDeletion = async (values: z.infer<typeof AutoExpiredBookingDeletionSchema>) => {
+	const currentUser = await getCurrentUser();
+	if (currentUser?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
+
+	const validatedData = AutoExpiredBookingDeletionSchema.safeParse(values);
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
+
+	const { autoExpiredBookingDeletionStatus } = validatedData.data;
+
+	await database.configuration.update({
+		where: { name: AUTO_EXPIRED_BOOKING_DELETION_KEY },
+		data: {
+			value: autoExpiredBookingDeletionStatus ? 1 : 0,
+		},
+	});
+
+	return {
+		success: autoExpiredBookingDeletionStatus
+			? ACTION_AUTO_EXPIRED_BOOKING_DELETION_ENABLED_SUCCESS
+			: ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_SUCCESS,
+	};
 };

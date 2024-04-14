@@ -6,7 +6,7 @@ const AppointmentsPage = async () => {
 		<AppointmentWrapper
 			navigationTree={[{ nodeLabel: 'Date selection', nodeHref: 'appointments' }]}
 			headerTitle='Date selection'
-			size='md'>
+			size='MD'>
 			<DateSelectionForm />
 		</AppointmentWrapper>
 	);

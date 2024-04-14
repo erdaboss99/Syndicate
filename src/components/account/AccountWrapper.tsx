@@ -8,7 +8,7 @@ const AccountWrapper = ({ navigationTree, children, headerTitle, headerLabel }: 
 	return (
 		<CardWrapper
 			navigationTree={navigationTree}
-			size='sm'
+			size='SM'
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			{children}

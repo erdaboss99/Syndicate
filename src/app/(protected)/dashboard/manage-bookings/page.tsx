@@ -48,7 +48,7 @@ const AdminManageBookingsPage = async () => {
 				{ nodeLabel: 'Manage bookings', nodeHref: 'manage-bookings' },
 			]}
 			headerTitle='Manage bookings'
-			size='xl'
+			size='XL'
 			buttonLabel='Back to the dashboard'
 			buttonHref='/dashboard'
 			buttonSize='full'

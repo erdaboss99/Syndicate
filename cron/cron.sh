@@ -44,41 +44,41 @@ CSRF_COOKIE=$(echo "$CSRF_RESPONSE" | grep -m1 "$CSRF_TOKEN" | sed 's/set-cookie
 AUTH_RESPONSE=$(curl -i --silent -H "cookie: ${CSRF_COOKIE}" -d "email=${EMAIL}&password=${PASSWORD}&csrfToken=${CSRF_TOKEN}" "$BASE_URL"/api/auth/callback/credentials)
 AUTH_COOKIE=$(echo "$AUTH_RESPONSE" | grep -m1 "authjs.session-token" | sed 's/set-cookie: //g' | tr -d "[:blank:]" | tr -d '\n' | cut -d ";" -f1)
 
-BOOKING_DELETION_RESPONSE=$(curl -i --silent -X DELETE -H 'Content-Type: application/json' -H "cookie: ${AUTH_COOKIE}" "$BASE_URL"/api/cron/booking)
-BOOKING_DELETION_RESPONSE_CODE=$(echo "$BOOKING_DELETION_RESPONSE" | grep -m1 "HTTP" | cut -d ' ' -f2)
-BOOKING_DELETION_MESSAGE=$(echo "$BOOKING_DELETION_RESPONSE" | grep -o '"message":"[^"]*"' | cut -d '"' -f4)
-BOOKING_DELETION_RESPONSE_DATA=$(echo "$BOOKING_DELETION_RESPONSE" | sed -n '/^{/,/}$/p')
+EXPIRED_BOOKING_DELETION_RESPONSE=$(curl -i --silent -X DELETE -H 'Content-Type: application/json' -H "cookie: ${AUTH_COOKIE}" "$BASE_URL"/api/cron/booking)
+EXPIRED_BOOKING_DELETION_RESPONSE_CODE=$(echo "$EXPIRED_BOOKING_DELETION_RESPONSE" | grep -m1 "HTTP" | cut -d ' ' -f2)
+EXPIRED_BOOKING_DELETION_MESSAGE=$(echo "$EXPIRED_BOOKING_DELETION_RESPONSE" | grep -o '"message":"[^"]*"' | cut -d '"' -f4)
+EXPIRED_BOOKING_DELETION_RESPONSE_DATA=$(echo "$EXPIRED_BOOKING_DELETION_RESPONSE" | sed -n '/^{/,/}$/p')
 
-printf 'Booking Deletion Cron Job results:\n - Response code: [%s]\n - Response Message: [%s]\n' "$BOOKING_DELETION_RESPONSE_CODE" "$BOOKING_DELETION_MESSAGE"
+printf 'Expired booking deletion cron job results:\n - Response code: [%s]\n - Response message: [%s]\n' "$EXPIRED_BOOKING_DELETION_RESPONSE_CODE" "$EXPIRED_BOOKING_DELETION_MESSAGE"
 
-APPOINTMENT_DELETION_RESPONSE=$(curl -i --silent -X DELETE -H 'Content-Type: application/json' -H "cookie: ${AUTH_COOKIE}" "$BASE_URL"/api/cron/appointment)
-APPOINTMENT_DELETION_RESPONSE_CODE=$(echo "$APPOINTMENT_DELETION_RESPONSE" | grep -m1 "HTTP" | cut -d ' ' -f2)
-APPOINTMENT_DELETION_MESSAGE=$(echo "$APPOINTMENT_DELETION_RESPONSE" | grep -o '"message":"[^"]*"' | cut -d '"' -f4)
-APPOINTMENT_DELETION_RESPONSE_DATA=$(echo "$APPOINTMENT_DELETION_RESPONSE" | sed -n '/^{/,/}$/p')
+EXPIRED_APPOINTMENT_DELETION_RESPONSE=$(curl -i --silent -X DELETE -H 'Content-Type: application/json' -H "cookie: ${AUTH_COOKIE}" "$BASE_URL"/api/cron/appointment)
+EXPIRED_APPOINTMENT_DELETION_RESPONSE_CODE=$(echo "$EXPIRED_APPOINTMENT_DELETION_RESPONSE" | grep -m1 "HTTP" | cut -d ' ' -f2)
+EXPIRED_APPOINTMENT_DELETION_MESSAGE=$(echo "$EXPIRED_APPOINTMENT_DELETION_RESPONSE" | grep -o '"message":"[^"]*"' | cut -d '"' -f4)
+EXPIRED_APPOINTMENT_DELETION_RESPONSE_DATA=$(echo "$EXPIRED_APPOINTMENT_DELETION_RESPONSE" | sed -n '/^{/,/}$/p')
 
-printf 'Appointment Deletion Cron Job results:\n - Response code: [%s]\n - Response Message: [%s]\n' "$APPOINTMENT_DELETION_RESPONSE_CODE" "$APPOINTMENT_DELETION_MESSAGE"
+printf 'Expired appointment deletion cron job results:\n - Response code: [%s]\n - Response message: [%s]\n' "$EXPIRED_APPOINTMENT_DELETION_RESPONSE_CODE" "$EXPIRED_APPOINTMENT_DELETION_MESSAGE"
 
-APPOINTMENT_GENERATION_RESPONSE=$(curl -i --silent -X POST -H 'Content-Type: application/json' -H "cookie: ${AUTH_COOKIE}" "$BASE_URL"/api/cron/appointment)
-APPOINTMENT_GENERATION_RESPONSE_CODE=$(echo "$APPOINTMENT_GENERATION_RESPONSE" | grep -m1 "HTTP" | cut -d ' ' -f2)
-APPOINTMENT_GENERATION_MESSAGE=$(echo "$APPOINTMENT_GENERATION_RESPONSE" | grep -o '"message":"[^"]*"' | cut -d '"' -f4)
-APPOINTMENT_GENERATION_RESPONSE_DATA=$(echo "$APPOINTMENT_GENERATION_RESPONSE" | sed -n '/^{/,/}$/p')
+NEW_APPOINTMENT_GENERATION_RESPONSE=$(curl -i --silent -X POST -H 'Content-Type: application/json' -H "cookie: ${AUTH_COOKIE}" "$BASE_URL"/api/cron/appointment)
+NEW_APPOINTMENT_GENERATION_RESPONSE_CODE=$(echo "$NEW_APPOINTMENT_GENERATION_RESPONSE" | grep -m1 "HTTP" | cut -d ' ' -f2)
+NEW_APPOINTMENT_GENERATION_MESSAGE=$(echo "$NEW_APPOINTMENT_GENERATION_RESPONSE" | grep -o '"message":"[^"]*"' | cut -d '"' -f4)
+NEW_APPOINTMENT_GENERATION_RESPONSE_DATA=$(echo "$NEW_APPOINTMENT_GENERATION_RESPONSE" | sed -n '/^{/,/}$/p')
 
-printf 'Appointment Generation Cron Job results:\n - Response code: [%s]\n - Response Message: [%s]\n' "$APPOINTMENT_GENERATION_RESPONSE_CODE" "$APPOINTMENT_GENERATION_MESSAGE"
+printf 'New appointment generation cron job results:\n - Response code: [%s]\n - Response message: [%s]\n' "$NEW_APPOINTMENT_GENERATION_RESPONSE_CODE" "$NEW_APPOINTMENT_GENERATION_MESSAGE"
 
 if [ "$VERBOSE" = true ]; then
 	echo "$CSRF_RESPONSE" >${ARTIFACT_FOLDER}csrf_response.txt
 	echo "$AUTH_RESPONSE" >${ARTIFACT_FOLDER}auth_response.txt
-	echo "$BOOKING_DELETION_RESPONSE" >${ARTIFACT_FOLDER}booking_deletion_response.txt
-	echo "$APPOINTMENT_DELETION_RESPONSE" >${ARTIFACT_FOLDER}appointment_deletion_response.txt
-	echo "$APPOINTMENT_GENERATION_RESPONSE" >${ARTIFACT_FOLDER}appointment_generation_response.txt
+	echo "$EXPIRED_BOOKING_DELETION_RESPONSE" >${ARTIFACT_FOLDER}expired_booking_deletion_response.txt
+	echo "$EXPIRED_APPOINTMENT_DELETION_RESPONSE" >${ARTIFACT_FOLDER}expired_appointment_deletion_response.txt
+	echo "$NEW_APPOINTMENT_GENERATION_RESPONSE" >${ARTIFACT_FOLDER}new_appointment_generation_response.txt
 fi
 
 if [[ "$COOKIEDATA" == true ]]; then
-	printf '{"CSRF_TOKEN": "%s", "CSRF_COOKIE": "%s", "AUTH_COOKIE": "%s", "BOOKING_DELETION_RESPONSE_CODE": %s, "BOOKING_DELETION_RESPONSE_DATA": %s, "APPOINTMENT_DELETION_RESPONSE_CODE": %s, "APPOINTMENT_DELETION_RESPONSE_DATA": %s, "APPOINTMENT_GENERATION_RESPONSE_CODE": %s, "APPOINTMENT_GENERATION_RESPONSE_DATA": %s}' \
-		"$CSRF_TOKEN" "$CSRF_COOKIE" "$AUTH_COOKIE" "$BOOKING_DELETION_RESPONSE_CODE" "$BOOKING_DELETION_RESPONSE_DATA" "$APPOINTMENT_DELETION_RESPONSE_CODE" "$APPOINTMENT_DELETION_RESPONSE_DATA" "$APPOINTMENT_GENERATION_RESPONSE_CODE" "$APPOINTMENT_GENERATION_RESPONSE_DATA" >${ARTIFACT_FOLDER}response.json
+	printf '{"csrfToken": "%s", "csrfCookie": "%s", "authCookie": "%s", "expiredBookingDeletionResponseCode": %s, "expiredBookingDeletionResponseData": %s, "expiredAppointmentDeletionResponseCode": %s, "expiredAppointmentDeletionResponseData": %s, "newAppointmentGenerationResponseCode": %s, "newAppointmentGenerationResponseData": %s}' \
+		"$CSRF_TOKEN" "$CSRF_COOKIE" "$AUTH_COOKIE" "$EXPIRED_BOOKING_DELETION_RESPONSE_CODE" "$EXPIRED_BOOKING_DELETION_RESPONSE_DATA" "$EXPIRED_APPOINTMENT_DELETION_RESPONSE_CODE" "$EXPIRED_APPOINTMENT_DELETION_RESPONSE_DATA" "$NEW_APPOINTMENT_GENERATION_RESPONSE_CODE" "$NEW_APPOINTMENT_GENERATION_RESPONSE_DATA" >${ARTIFACT_FOLDER}response.json
 	exit 0
 fi
 
-printf '{"BOOKING_DELETION_RESPONSE_CODE": %s, "BOOKING_DELETION_RESPONSE_DATA":%s, "APPOINTMENT_DELETION_RESPONSE_CODE": %s, "APPOINTMENT_DELETION_RESPONSE_DATA":%s, "APPOINTMENT_GENERATION_RESPONSE_CODE": %s, "APPOINTMENT_GENERATION_RESPONSE_DATA":%s}' \
-	"$BOOKING_DELETION_RESPONSE_CODE" "$BOOKING_DELETION_RESPONSE_DATA" "$APPOINTMENT_DELETION_RESPONSE_CODE" "$APPOINTMENT_DELETION_RESPONSE_DATA" "$APPOINTMENT_GENERATION_RESPONSE_CODE" "$APPOINTMENT_GENERATION_RESPONSE_DATA" >${ARTIFACT_FOLDER}response.json
+printf '{"expiredBookingDeletionResponseCode": %s, "expiredBookingDeletionResponseData":%s, "expiredAppointmentDeletionResponseCode": %s, "expiredAppointmentDeletionResponseData":%s, "newAppointmentGenerationResponseCode": %s, "newAppointmentGenerationResponseData":%s}' \
+	"$EXPIRED_BOOKING_DELETION_RESPONSE_CODE" "$EXPIRED_BOOKING_DELETION_RESPONSE_DATA" "$EXPIRED_APPOINTMENT_DELETION_RESPONSE_CODE" "$EXPIRED_APPOINTMENT_DELETION_RESPONSE_DATA" "$NEW_APPOINTMENT_GENERATION_RESPONSE_CODE" "$NEW_APPOINTMENT_GENERATION_RESPONSE_DATA" >${ARTIFACT_FOLDER}response.json
 exit 0

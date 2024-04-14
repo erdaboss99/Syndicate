@@ -1,14 +1,14 @@
 import {
-	ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_INFO,
+	ACTION_AUTO_EXPIRED_APPOINTMENT_DELETION_DISABLED_INFO,
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 } from '@/constants';
 import { getAutoBookingDeletionStatus, getExpiredBookings } from '@/data/booking';
-import { type BookingDeletionTemplateProps } from '@/emails/BookingDeletion';
+import { type ExpiredBookingDeletionTemplateProps } from '@/emails/ExpiredBookingDeletion';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { formatDatesInObject } from '@/lib/date';
-import { sendBookingDeletionReport } from '@/lib/mail';
+import { sendExpiredBookingDeletionReport } from '@/lib/mail';
 
 export async function DELETE() {
 	const currentUser = await getCurrentUser();
@@ -58,7 +58,7 @@ export async function DELETE() {
 				}),
 			);
 		}
-		const purgedBookings = deletedBookings.map((booking) => {
+		const deletedExpiredBookings = deletedBookings.map((booking) => {
 			return {
 				userName: booking.User.name!,
 				userEmail: booking.User.email!,
@@ -68,11 +68,11 @@ export async function DELETE() {
 			};
 		});
 
-		const reportEmailParams: BookingDeletionTemplateProps = {
+		const reportEmailParams: ExpiredBookingDeletionTemplateProps = {
 			message: `${deletedBookings.length} bookings were deleted due to expiration.`,
-			deletedBookings: purgedBookings,
+			deletedExpiredBookings,
 		};
-		await sendBookingDeletionReport(reportEmailParams);
+		await sendExpiredBookingDeletionReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
 			status: 201,
@@ -80,7 +80,7 @@ export async function DELETE() {
 	}
 	return new Response(
 		JSON.stringify({
-			message: ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_INFO,
+			message: ACTION_AUTO_EXPIRED_APPOINTMENT_DELETION_DISABLED_INFO,
 		}),
 		{ status: 200 },
 	);

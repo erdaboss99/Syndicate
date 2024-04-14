@@ -87,16 +87,16 @@ export const RoleChangeSchema = z.object({
 	role: z.nativeEnum(UserRole),
 });
 
-export const AppointmentGenerationSchema = z.object({
-	autoAppointmentGeneration: z.boolean(),
+export const AutoNewAppointmentGenerationSchema = z.object({
+	autoNewAppointmentGenerationStatus: z.boolean(),
 });
 
-export const AppointmentDeletionSchema = z.object({
-	autoAppointmentDeletion: z.boolean(),
+export const AutoExpiredAppointmentDeletionSchema = z.object({
+	autoExpiredAppointmentDeletionStatus: z.boolean(),
 });
 
-export const BookingDeletionSchema = z.object({
-	autoBookingDeletion: z.boolean(),
+export const AutoExpiredBookingDeletionSchema = z.object({
+	autoExpiredBookingDeletionStatus: z.boolean(),
 });
 
 export const DateSelectionFormSchema = z.object({

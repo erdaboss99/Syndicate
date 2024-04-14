@@ -26,7 +26,7 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 	const formattedDate = formatDate(currentDate, 'writtenLongDate');
 	const interval = getIntervalFromDay(currentDate);
 
-	const appointments = await getAppointmentsInInterval({ interval, status: 'available' });
+	const appointments = await getAppointmentsInInterval({ interval, status: 'AVAILABLE' });
 
 	return (
 		<AppointmentWrapper
@@ -36,7 +36,7 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 			]}
 			headerTitle='Appointment selection'
 			headerLabel={formattedDate}
-			size='md'
+			size='MD'
 			buttonLabel='Back to date selection'
 			buttonHref='/appointments'
 			buttonSize='full'

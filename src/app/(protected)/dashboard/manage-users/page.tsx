@@ -35,7 +35,7 @@ const AdminManageUsersPage = async () => {
 				{ nodeLabel: 'Manage users', nodeHref: 'manage-users' },
 			]}
 			headerTitle='Manage users'
-			size='xl'
+			size='XL'
 			buttonLabel='Back to the dashboard'
 			buttonHref='/dashboard'
 			buttonSize='full'

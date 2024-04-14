@@ -1,8 +1,8 @@
 import { add, endOfDay, isWeekend, startOfDay } from 'date-fns';
 
 import {
-	ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_INFO,
-	ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_INFO,
+	ACTION_AUTO_EXPIRED_APPOINTMENT_DELETION_DISABLED_INFO,
+	ACTION_AUTO_NEW_APPOINTMENT_GENERATION_DISABLED_INFO,
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 	APPOINTMENT_DURATION,
@@ -12,16 +12,16 @@ import {
 } from '@/constants';
 import {
 	getAppointmentsInInterval,
-	getAutoAppointmentDeletionStatus,
-	getAutoAppointmentGenerationStatus,
+	getAutoExpiredAppointmentDeletionStatus,
+	getAutoNewAppointmentGenerationStatus,
 	getExpiredAppointments,
 } from '@/data/appointment';
-import { type AppointmentDeletionTemplateProps } from '@/emails/AppointmentDeletion';
-import { type AppointmentGenerationTemplateProps } from '@/emails/AppointmentGeneration';
+import { type ExpiredAppointmentDeletionTemplateProps } from '@/emails/ExpiredAppointmentDeletionTemplate';
+import { type NewAppointmentGenerationTemplateProps } from '@/emails/NewAppointmentGeneration';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { formatDatesInObject } from '@/lib/date';
-import { sendAppointmentDeletionReport, sendAppointmentGenerationReport } from '@/lib/mail';
+import { sendExpiredAppointmentDeletionReport, sendNewAppointmentGenerationReport } from '@/lib/mail';
 import { type Appointment } from '@prisma/client';
 
 export async function POST() {
@@ -38,20 +38,20 @@ export async function POST() {
 			status: 403,
 		});
 
-	const autoAppointmentGeneration = await getAutoAppointmentGenerationStatus();
+	const autoAppointmentGenerationStatus = await getAutoNewAppointmentGenerationStatus();
 
-	if (Boolean(autoAppointmentGeneration)) {
+	if (Boolean(autoAppointmentGenerationStatus)) {
 		const currentTime = new Date();
 		const intervalStart = startOfDay(currentTime);
 		const intervalEnd = endOfDay(add(startOfDay(currentTime), { days: FURTHEST_APPOINTMENT_DATE }));
 
 		const workDaysInInterval: Date[] = [];
 		const weekendDaysInInterval: Date[] = [];
-		const createdAppointments: { startTime: Date; endTime: Date }[] = [];
+		const generatedNewAppointments: { startTime: Date; endTime: Date }[] = [];
 
 		const existingAppointments = await getAppointmentsInInterval({
 			interval: { start: intervalStart, end: intervalEnd },
-			status: 'all',
+			status: 'ALL',
 		});
 
 		for (let i = intervalStart; i <= intervalEnd; i = add(i, { days: 1 })) {
@@ -71,7 +71,7 @@ export async function POST() {
 							startTime: j,
 						},
 					});
-					createdAppointments.push({
+					generatedNewAppointments.push({
 						startTime: currentAppointment.startTime,
 						endTime: add(currentAppointment.startTime, { minutes: APPOINTMENT_DURATION }),
 					});
@@ -79,15 +79,15 @@ export async function POST() {
 			}
 		}
 
-		const reportEmailParams: AppointmentGenerationTemplateProps = {
-			message: `${createdAppointments.length} new appointments were created.`,
-			intervalStart: intervalStart,
-			intervalEnd: intervalEnd,
-			workDaysInInterval: workDaysInInterval,
-			weekendDaysInInterval: weekendDaysInInterval,
-			createdAppointments: createdAppointments,
+		const reportEmailParams: NewAppointmentGenerationTemplateProps = {
+			message: `${generatedNewAppointments.length} new appointments were created.`,
+			intervalStart,
+			intervalEnd,
+			workDaysInInterval,
+			weekendDaysInInterval,
+			generatedNewAppointments,
 		};
-		await sendAppointmentGenerationReport(reportEmailParams);
+		await sendNewAppointmentGenerationReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
 			status: 201,
@@ -96,7 +96,7 @@ export async function POST() {
 
 	return new Response(
 		JSON.stringify({
-			message: ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_INFO,
+			message: ACTION_AUTO_NEW_APPOINTMENT_GENERATION_DISABLED_INFO,
 		}),
 		{ status: 200 },
 	);
@@ -116,10 +116,10 @@ export async function DELETE() {
 			status: 403,
 		});
 
-	const autoAppointmentDeletion = await getAutoAppointmentDeletionStatus();
+	const autoAppointmentDeletionStatus = await getAutoExpiredAppointmentDeletionStatus();
 
-	if (Boolean(autoAppointmentDeletion)) {
-		const expiredUnbookedAppointments = await getExpiredAppointments({ status: 'unbooked' });
+	if (Boolean(autoAppointmentDeletionStatus)) {
+		const expiredUnbookedAppointments = await getExpiredAppointments({ status: 'UNBOOKED' });
 
 		const deletedAppointments: Appointment[] = [];
 		for (const appointment of expiredUnbookedAppointments) {
@@ -131,18 +131,18 @@ export async function DELETE() {
 				}),
 			);
 		}
-		const purgedAppointments = deletedAppointments.map((appointment) => {
+		const deletedExpiredAppointments = deletedAppointments.map((appointment) => {
 			return {
 				startTime: appointment.startTime,
 				endTime: add(appointment.startTime, { minutes: APPOINTMENT_DURATION }),
 			};
 		});
 
-		const reportEmailParams: AppointmentDeletionTemplateProps = {
+		const reportEmailParams: ExpiredAppointmentDeletionTemplateProps = {
 			message: `${deletedAppointments.length} appointments were deleted due to expiration.`,
-			deletedAppointments: purgedAppointments,
+			deletedExpiredAppointments,
 		};
-		await sendAppointmentDeletionReport(reportEmailParams);
+		await sendExpiredAppointmentDeletionReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
 			status: 201,
@@ -151,7 +151,7 @@ export async function DELETE() {
 
 	return new Response(
 		JSON.stringify({
-			message: ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_INFO,
+			message: ACTION_AUTO_EXPIRED_APPOINTMENT_DELETION_DISABLED_INFO,
 		}),
 		{ status: 200 },
 	);

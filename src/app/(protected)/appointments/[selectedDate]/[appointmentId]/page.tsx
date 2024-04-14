@@ -13,8 +13,9 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 	const paramsData = AppointmentBookQueryParamsSchema.safeParse(appointmentId);
 	if (!paramsData.success) redirect('/appointments');
 
-	const appointment = await getAppointmentById(paramsData.data, 'onlyAvailable');
+	const appointment = await getAppointmentById({ id: paramsData.data, status: 'AVAILABLE' });
 	if (!appointment) redirect('/appointments');
+
 	const formattedDate = formatDate(appointment.startTime, 'writtenLongDateTimeInterval');
 
 	const issues = await getIssues();
@@ -28,7 +29,7 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 			]}
 			headerTitle='Book appointment'
 			headerLabel={formattedDate}
-			size='md'
+			size='MD'
 			buttonLabel='Back to date selection'
 			buttonHref='/appointments'
 			buttonSize='full'

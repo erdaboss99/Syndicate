@@ -1,17 +1,17 @@
 import { database } from '@/lib/database';
 
-export const getIssueCount = async (variant: 'all' | 'currentlyUsed') => {
+export const getIssueCount = async (options: { status: 'ALL' | 'USED' }) => {
 	try {
-		switch (variant) {
-			case 'all':
-				const allIssues = await database.issue.aggregate({
+		switch (options.status) {
+			case 'ALL':
+				const allIssueCount = await database.issue.aggregate({
 					_count: {
 						id: true,
 					},
 				});
-				return allIssues._count.id;
-			case 'currentlyUsed':
-				const currentlyUsedIssues = await database.issue.aggregate({
+				return allIssueCount._count.id;
+			case 'USED':
+				const usedIssueCount = await database.issue.aggregate({
 					_count: {
 						id: true,
 					},
@@ -25,7 +25,7 @@ export const getIssueCount = async (variant: 'all' | 'currentlyUsed') => {
 						},
 					},
 				});
-				return currentlyUsedIssues._count.id;
+				return usedIssueCount._count.id;
 		}
 	} catch (error) {
 		return null;

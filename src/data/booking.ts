@@ -1,54 +1,45 @@
-import { AUTO_BOOKING_DELETION_DEFAULT_VALUE, AUTO_BOOKING_DELETION_KEY } from '@/constants';
+import { AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE, AUTO_EXPIRED_BOOKING_DELETION_KEY } from '@/constants';
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
 import { Prisma } from '@prisma/client';
 
-export const getBookings = async () => {
-	try {
-		const bookings = await database.booking.findMany();
-		return bookings;
-	} catch (error) {
-		return [];
-	}
-};
-
 export const getBookingSubset = async (select: Prisma.BookingSelect) => {
 	try {
-		const bookings = await database.booking.findMany({
+		const bookingSubset = await database.booking.findMany({
 			select,
 		});
-		return bookings;
+		return bookingSubset;
 	} catch (error) {
 		return [];
 	}
 };
 
-export const getBookingCount = async (variant: 'all' | 'forThisWeek') => {
+export const getBookingCount = async (options: { status: 'ALL' | 'WEEKLY' }) => {
 	try {
-		switch (variant) {
-			case 'all':
-				const allBookings = await database.booking.aggregate({
+		switch (options.status) {
+			case 'ALL':
+				const allBookingCount = await database.booking.aggregate({
 					_count: {
 						id: true,
 					},
 				});
-				return allBookings._count.id;
-			case 'forThisWeek':
-				const thisWeekInterval = getWeekIntervalFromDay(new Date());
-				const thisWeekBookings = await database.booking.aggregate({
+				return allBookingCount._count.id;
+			case 'WEEKLY':
+				const thisWeeksInterval = getWeekIntervalFromDay(new Date());
+				const thisWeeksBookingCount = await database.booking.aggregate({
 					_count: {
 						id: true,
 					},
 					where: {
 						Appointment: {
 							startTime: {
-								gte: thisWeekInterval.start,
-								lte: thisWeekInterval.end,
+								gte: thisWeeksInterval.start,
+								lte: thisWeeksInterval.end,
 							},
 						},
 					},
 				});
-				return thisWeekBookings._count.id;
+				return thisWeeksBookingCount._count.id;
 		}
 	} catch (error) {
 		return null;
@@ -76,7 +67,7 @@ export const getExpiredBookings = async () => {
 export const getAutoBookingDeletionStatus = async () => {
 	const autoExpiredBookingDeletion = await database.configuration.findUnique({
 		where: {
-			name: AUTO_BOOKING_DELETION_KEY,
+			name: AUTO_EXPIRED_BOOKING_DELETION_KEY,
 		},
 	});
 
@@ -84,8 +75,8 @@ export const getAutoBookingDeletionStatus = async () => {
 		return (
 			await database.configuration.create({
 				data: {
-					name: AUTO_BOOKING_DELETION_KEY,
-					value: AUTO_BOOKING_DELETION_DEFAULT_VALUE,
+					name: AUTO_EXPIRED_BOOKING_DELETION_KEY,
+					value: AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE,
 				},
 			})
 		).value;

@@ -3,32 +3,32 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { toggleAutoAppointmentGeneration } from '@/actions/appointment';
-import { AppointmentGenerationSchema } from '@/schemas';
-import { toast } from 'sonner';
+import { toggleAutoBookingDeletion } from '@/actions/booking';
+import { AutoExpiredBookingDeletionSchema } from '@/schemas';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/Form';
 import { Switch } from '@/components/ui/Switch';
 
-type AppointmentAutoGenerationFormProps = {
-	autoAppointmentGenerationStatus: boolean;
+type AutoExpiredBookingDeletionFormProps = {
+	autoExpiredBookingDeletionStatus: boolean;
 };
 
-const AppointmentAutoGenerationForm = ({ autoAppointmentGenerationStatus }: AppointmentAutoGenerationFormProps) => {
+const AutoExpiredBookingDeletionForm = ({ autoExpiredBookingDeletionStatus }: AutoExpiredBookingDeletionFormProps) => {
 	const [isPending, startTransition] = useTransition();
 
-	const appointmentAutoGenerationForm = useForm<z.infer<typeof AppointmentGenerationSchema>>({
-		resolver: zodResolver(AppointmentGenerationSchema),
+	const autoExpiredBookingDeletionForm = useForm<z.infer<typeof AutoExpiredBookingDeletionSchema>>({
+		resolver: zodResolver(AutoExpiredBookingDeletionSchema),
 		defaultValues: {
-			autoAppointmentGeneration: autoAppointmentGenerationStatus,
+			autoExpiredBookingDeletionStatus,
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof AppointmentGenerationSchema>) {
+	function onSubmit(values: z.infer<typeof AutoExpiredBookingDeletionSchema>) {
 		startTransition(() => {
-			toggleAutoAppointmentGeneration(values).then((data) => {
+			toggleAutoBookingDeletion(values).then((data) => {
 				if (data?.error) toast.error(data?.error);
 				if (data?.success) toast.success(data?.success);
 			});
@@ -36,19 +36,19 @@ const AppointmentAutoGenerationForm = ({ autoAppointmentGenerationStatus }: Appo
 	}
 
 	return (
-		<Form {...appointmentAutoGenerationForm}>
+		<Form {...autoExpiredBookingDeletionForm}>
 			<form
-				onSubmit={appointmentAutoGenerationForm.handleSubmit(onSubmit)}
+				onSubmit={autoExpiredBookingDeletionForm.handleSubmit(onSubmit)}
 				className='w-full'>
 				<div className='space-y-4'>
 					<FormField
-						control={appointmentAutoGenerationForm.control}
-						name='autoAppointmentGeneration'
+						control={autoExpiredBookingDeletionForm.control}
+						name='autoExpiredBookingDeletionStatus'
 						render={({ field }) => (
 							<FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
 								<div className='space-y-0.5'>
-									<FormLabel>Automatic appointment generation</FormLabel>
-									<FormDescription>Automatically generate appointments.</FormDescription>
+									<FormLabel>Automatic expired booking deletion</FormLabel>
+									<FormDescription>Automatically delete expired bookings.</FormDescription>
 								</div>
 								<FormControl>
 									<Switch
@@ -67,4 +67,4 @@ const AppointmentAutoGenerationForm = ({ autoAppointmentGenerationStatus }: Appo
 	);
 };
 
-export default AppointmentAutoGenerationForm;
+export default AutoExpiredBookingDeletionForm;

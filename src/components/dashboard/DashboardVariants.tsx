@@ -1,18 +1,18 @@
 import {
 	getAppointmentCount,
-	getAutoAppointmentDeletionStatus,
-	getAutoAppointmentGenerationStatus,
+	getAutoExpiredAppointmentDeletionStatus,
+	getAutoNewAppointmentGenerationStatus,
 } from '@/data/appointment';
 import { getAutoBookingDeletionStatus, getBookingCount } from '@/data/booking';
 import { getIssueCount } from '@/data/issue';
 import { getUserCount } from '@/data/user';
 
-import AppointmentAutoDeletionForm from '@/components/appointments/AppointmentAutoDeletionForm';
-import AppointmentAutoGenerationForm from '@/components/appointments/AppointmentAutoGenerationForm';
+import AutoExpiredAppointmentDeletionForm from '@/components/appointments/AutoExpiredAppointmentDeletionForm';
+import AutoNewAppointmentGenerationForm from '@/components/appointments/AutoNewAppointmentGenerationForm';
+import AutoExpiredBookingDeletionForm from '@/components/bookings/AutoExpiredBookingDeletionForm';
 import DashboardTile from '@/components/dashboard/DashboardTile';
 import DashboardWrapper, { type DashboardWrapperProps } from '@/components/dashboard/DashboardWrapper';
 import { LuCalendarClock, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
-import BookingAutoDeletionForm from '../bookings/AppointmentAutoDeletionForm';
 
 type BaseDashboardProps = Pick<DashboardWrapperProps, 'children' | 'headerTitle' | 'size'>;
 
@@ -28,30 +28,36 @@ const BaseDashboard = ({ children, headerTitle, size }: BaseDashboardProps) => {
 };
 
 export const AdminDashboard = async () => {
-	const autoAppointmentGeneration = await getAutoAppointmentGenerationStatus();
-	const autoAppointmentDeletion = await getAutoAppointmentDeletionStatus();
-	const autoBookingDeletion = await getAutoBookingDeletionStatus();
+	const autoNewAppointmentGenerationStatus = await getAutoNewAppointmentGenerationStatus();
+	const autoExpiredAppointmentDeletionStatus = await getAutoExpiredAppointmentDeletionStatus();
+	const autoExpiredBookingDeletionStatus = await getAutoBookingDeletionStatus();
 
-	const allUserCount = await getUserCount('all');
-	const usersRegisteredInLastWeekCount = await getUserCount('lastWeek');
+	const allUserCount = await getUserCount({ variant: 'ALL' });
+	const usersRegisteredInLastWeekCount = await getUserCount({ variant: 'LASTWEEK' });
 
-	const bookedAppointmentCount = await getAppointmentCount('booked');
-	const availableAppointmentCount = await getAppointmentCount('available');
+	const bookedAppointmentCount = await getAppointmentCount({ status: 'BOOKED' });
+	const availableAppointmentCount = await getAppointmentCount({ status: 'AVAILABLE' });
 
-	const allIssueCount = await getIssueCount('all');
-	const currentlyUsedIssueCount = await getIssueCount('currentlyUsed');
+	const allIssueCount = await getIssueCount({ status: 'ALL' });
+	const currentlyUsedIssueCount = await getIssueCount({ status: 'USED' });
 
-	const allBookingCount = await getBookingCount('all');
-	const thisWeekBookingCount = await getBookingCount('forThisWeek');
+	const allBookingCount = await getBookingCount({ status: 'ALL' });
+	const thisWeekBookingCount = await getBookingCount({ status: 'WEEKLY' });
 
 	return (
 		<BaseDashboard
 			headerTitle='Admin dashbord'
-			size='lg'>
+			size='LG'>
 			<div className='grid gap-2 p-4 md:grid-cols-2'>
-				<AppointmentAutoGenerationForm autoAppointmentGenerationStatus={Boolean(autoAppointmentGeneration)} />
-				<AppointmentAutoDeletionForm autoAppointmentDeletionStatus={Boolean(autoAppointmentDeletion)} />
-				<BookingAutoDeletionForm autoBookingDeletionStatus={Boolean(autoBookingDeletion)} />
+				<AutoNewAppointmentGenerationForm
+					autoNewAppointmentGenerationStatus={Boolean(autoNewAppointmentGenerationStatus)}
+				/>
+				<AutoExpiredAppointmentDeletionForm
+					autoExpiredAppointmentDeletionStatus={Boolean(autoExpiredAppointmentDeletionStatus)}
+				/>
+				<AutoExpiredBookingDeletionForm
+					autoExpiredBookingDeletionStatus={Boolean(autoExpiredBookingDeletionStatus)}
+				/>
 			</div>
 			<div className='grid gap-4 p-4 md:grid-cols-2'>
 				<DashboardTile
@@ -95,7 +101,7 @@ export const EmployeeDashboard = () => {
 	return (
 		<BaseDashboard
 			headerTitle='Employee dashbord'
-			size='lg'>
+			size='LG'>
 			Employee
 		</BaseDashboard>
 	);
@@ -105,7 +111,7 @@ export const UserDashboard = () => {
 	return (
 		<BaseDashboard
 			headerTitle='User dashbord'
-			size='lg'>
+			size='LG'>
 			User
 		</BaseDashboard>
 	);

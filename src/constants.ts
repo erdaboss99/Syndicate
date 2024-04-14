@@ -4,14 +4,14 @@ export const PASSWORD_RESET_TOKEN_EXPIRY = 5; // in minutes
 
 export const JWT_TOKEN_EXPIRY = 1; // in days
 
-export const AUTO_APPOINTMENT_GENERATION_KEY = 'AUTO_APPOINTMENT_GENERATION';
-export const AUTO_APPOINTMENT_GENERATION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
+export const AUTO_NEW_APPOINTMENT_GENERATION_KEY = 'AUTO_NEW_APPOINTMENT_GENERATION';
+export const AUTO_NEW_APPOINTMENT_GENERATION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
 
-export const AUTO_APPOINTMENT_DELETION_KEY = 'AUTO_EXPIRED_APPOINTMENT_DELETION';
-export const AUTO_APPOINTMENT_DELETION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
+export const AUTO_EXPIRED_APPOINTMENT_DELETION_KEY = 'AUTO_EXPIRED_APPOINTMENT_DELETION';
+export const AUTO_EXPIRED_APPOINTMENT_DELETION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
 
-export const AUTO_BOOKING_DELETION_KEY = 'AUTO_EXPIRED_BOOKING_DELETION';
-export const AUTO_BOOKING_DELETION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
+export const AUTO_EXPIRED_BOOKING_DELETION_KEY = 'AUTO_EXPIRED_BOOKING_DELETION';
+export const AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
 
 export const OPENING_HOUR = 8; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
 export const CLOSING_HOUR = 12; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
@@ -67,15 +67,24 @@ export const ACTION_ACCOUNT_DELETED_SUCCESS = 'Account successfully deleted!';
 export const ACTION_ACCOUNT_ROLE_CHANGE_SUCCESS = 'Role successfully updated!';
 export const ACTION_ACCOUNT_PASSWORD_UPDATED_SUCCESS = 'Password successfully updated!';
 
-export const ACTION_APPOINTMENT_AUTO_GENERATION_ENABLED_SUCCESS = 'Auto appointment generation successfully enabled!';
-export const ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_SUCCESS = 'Auto appointment generation successfully disabled!';
-export const ACTION_APPOINTMENT_AUTO_GENERATION_DISABLED_INFO = 'Auto appointment generation is disabled.';
-export const ACTION_APPOINTMENT_AUTO_DELETION_ENABLED_SUCCESS = 'Auto appointment deletion successfully enabled!';
-export const ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_SUCCESS = 'Auto appointment deletion successfully disabled!';
-export const ACTION_APPOINTMENT_AUTO_DELETION_DISABLED_INFO = 'Auto appointment deletion is disabled.';
-export const ACTION_BOOKING_AUTO_DELETION_ENABLED_SUCCESS = 'Auto booking deletion successfully enabled!';
-export const ACTION_BOOKING_AUTO_DELETION_DISABLED_SUCCESS = 'Auto booking deletion successfully disabled!';
-export const ACTION_BOOKING_AUTO_DELETION_DISABLED_INFO = 'Auto booking deletion is disabled.';
+export const ACTION_AUTO_NEW_APPOINTMENT_GENERATION_ENABLED_SUCCESS =
+	'Automatic new appointment generation successfully enabled!';
+export const ACTION_AUTO_NEW_APPOINTMENT_GENERATION_DISABLED_SUCCESS =
+	'Automatic new appointment generation successfully disabled!';
+export const ACTION_AUTO_NEW_APPOINTMENT_GENERATION_DISABLED_INFO = 'Automatic new appointment generation is disabled!';
+
+export const ACTION_AUTO_EXPIRED_APPOINTMENT_DELETION_ENABLED_SUCCESS =
+	'Automatic expired appointment deletion successfully enabled!';
+export const ACTION_AUTO_EXPIRED_APPOINTMENT_DELETION_DISABLED_SUCCESS =
+	'Automatic expired appointment deletion successfully disabled!';
+export const ACTION_AUTO_EXPIRED_APPOINTMENT_DELETION_DISABLED_INFO =
+	'Automatic expired appointment deletion is disabled!';
+
+export const ACTION_AUTO_EXPIRED_BOOKING_DELETION_ENABLED_SUCCESS =
+	'Automatic expired booking deletion successfully enabled!';
+export const ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_SUCCESS =
+	'Automatic expired booking deletion successfully disabled!';
+export const ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_INFO = 'Automatic expired booking deletion is disabled!';
 
 export const ACTION_ISSUE_NOT_FOUND_ERROR = 'Issue not found!';
 export const ACTION_ISSUE_CREATED_SUCCESS = 'Issue successfully created!';

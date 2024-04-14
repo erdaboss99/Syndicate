@@ -35,7 +35,7 @@ export const BookingConfirmationTemplate = ({
 
 			<Row>
 				<Column className='text-left font-semibold'>Booked appointment:</Column>
-				<Column className='text-right'>{formatDate(appointmentStartTime, 'writtenLongDateTime')}</Column>
+				<Column className='text-right'>{formatDate(appointmentStartTime, 'WRITTEN_LONG_DATE_TIME')}</Column>
 			</Row>
 
 			<Row>
@@ -71,7 +71,7 @@ export const BookingConfirmationTemplate = ({
 
 			<Row>
 				<Column className='text-left font-semibold'>Booking confirmed at:</Column>
-				<Column className='text-right'>{formatDate(bookingConfirmationDate, 'writtenLongDateTime')}</Column>
+				<Column className='text-right'>{formatDate(bookingConfirmationDate, 'WRITTEN_LONG_DATE_TIME')}</Column>
 			</Row>
 		</Section>
 	</BaseEmailTemplate>

@@ -9,37 +9,37 @@ import { APPOINTMENT_DURATION, DEFAULT_TIMEZONE } from '@/constants';
 export const formatDate = (
 	date: Date,
 	dateFormat:
-		| 'yyyy-MM-dd'
-		| 'numericShortDay'
-		| 'longMonthAndYear'
-		| 'shortDateTime'
-		| 'onlyTime'
-		| 'writtenShortDate'
-		| 'writtenLongDate'
-		| 'writtenShortDateTime'
-		| 'writtenLongDateTime'
-		| 'writtenLongDateTimeInterval',
+		| 'YYYY-MM-DD'
+		| 'NUMERIC_SHORT_DAY'
+		| 'LONG_MONTH_AND_YEAR'
+		| 'SHORT_DATE_TIME'
+		| 'ONLY_TIME'
+		| 'WRITTEN_SHORT_DATE'
+		| 'WRITTEN_LONG_DATE'
+		| 'WRITTEN_SHORT_DATE_TIME'
+		| 'WRITTEN_LONG_DATE_TIME'
+		| 'WRITTEN_LONG_DATE_TIME_INTERVAL',
 ) => {
 	switch (dateFormat) {
-		case 'yyyy-MM-dd':
+		case 'YYYY-MM-DD':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'yyyy-MM-dd', { locale: hu });
-		case 'numericShortDay':
+		case 'NUMERIC_SHORT_DAY':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'd', { locale: hu });
-		case 'longMonthAndYear':
+		case 'LONG_MONTH_AND_YEAR':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'MMMM yyyy', { locale: hu });
-		case 'shortDateTime':
+		case 'SHORT_DATE_TIME':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'Pp', { locale: hu });
-		case 'onlyTime':
+		case 'ONLY_TIME':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'p', { locale: hu });
-		case 'writtenShortDate':
+		case 'WRITTEN_SHORT_DATE':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPP', { locale: hu });
-		case 'writtenLongDate':
+		case 'WRITTEN_LONG_DATE':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPP', { locale: hu });
-		case 'writtenShortDateTime':
+		case 'WRITTEN_SHORT_DATE_TIME':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPp', { locale: hu });
-		case 'writtenLongDateTime':
+		case 'WRITTEN_LONG_DATE_TIME':
 			return formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPPp', { locale: hu });
-		case 'writtenLongDateTimeInterval':
+		case 'WRITTEN_LONG_DATE_TIME_INTERVAL':
 			return `${formatInTimeZone(date, DEFAULT_TIMEZONE, 'PPPPp', { locale: hu })} - ${formatInTimeZone(
 				add(date, { minutes: APPOINTMENT_DURATION }),
 				DEFAULT_TIMEZONE,

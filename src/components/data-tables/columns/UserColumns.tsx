@@ -92,7 +92,7 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.original.emailVerified), 'writtenShortDate')}
+						{formatDate(new Date(row.original.emailVerified), 'WRITTEN_SHORT_DATE')}
 					</Suspense>
 				</time>
 			);
@@ -114,7 +114,7 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.original.lastSeen), 'writtenShortDateTime')}
+						{formatDate(new Date(row.original.lastSeen), 'WRITTEN_SHORT_DATE_TIME')}
 					</Suspense>
 				</time>
 			);

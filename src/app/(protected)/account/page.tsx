@@ -45,7 +45,7 @@ const AccountPage = async () => {
 						</div>
 						<div className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
 							<p className='text-sm font-medium md:text-base'>Account created at</p>
-							<Badge variant='outline'>{formatDate(user?.createdAt!, 'writtenShortDateTime')}</Badge>
+							<Badge variant='outline'>{formatDate(user?.createdAt!, 'WRITTEN_SHORT_DATE_TIME')}</Badge>
 						</div>
 					</div>
 				</CardContent>

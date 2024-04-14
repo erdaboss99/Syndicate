@@ -75,7 +75,7 @@ export const sendNewAppointmentGenerationReport = async ({
 }: NewAppointmentGenerationTemplateProps) => {
 	await sendEmail({
 		recipients: [env.REPORT_RECIPIENT],
-		emailSubject: `Syndicate - New appointment generation report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
+		emailSubject: `Syndicate - New appointment generation report ${formatDate(new Date(), 'YYYY-MM-DD')}`,
 		emailTemplate: NewAppointmentGenerationTemplate({
 			message,
 			intervalStart,
@@ -93,7 +93,7 @@ export const sendExpiredAppointmentDeletionReport = async ({
 }: ExpiredAppointmentDeletionTemplateProps) => {
 	await sendEmail({
 		recipients: [env.REPORT_RECIPIENT],
-		emailSubject: `Syndicate - Expired appointment deletion report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
+		emailSubject: `Syndicate - Expired appointment deletion report ${formatDate(new Date(), 'YYYY-MM-DD')}`,
 		emailTemplate: ExpiredAppointmentDeletionTemplate({
 			message,
 			deletedExpiredAppointments,
@@ -107,7 +107,7 @@ export const sendExpiredBookingDeletionReport = async ({
 }: ExpiredBookingDeletionTemplateProps) => {
 	await sendEmail({
 		recipients: [env.REPORT_RECIPIENT],
-		emailSubject: `Syndicate - Expired booking deletion report ${formatDate(new Date(), 'yyyy-MM-dd')}`,
+		emailSubject: `Syndicate - Expired booking deletion report ${formatDate(new Date(), 'YYYY-MM-DD')}`,
 		emailTemplate: ExpiredBookingDeletionTemplate({
 			message,
 			deletedExpiredBookings,
@@ -126,7 +126,7 @@ export const sendBookingConfirmationEmail = async ({
 }: BookingConfirmationTemplateProps) => {
 	await sendEmail({
 		recipients: [userEmail],
-		emailSubject: `Syndicate - Booking confirmation - ${formatDate(appointmentStartTime, 'shortDateTime')}`,
+		emailSubject: `Syndicate - Booking confirmation - ${formatDate(appointmentStartTime, 'SHORT_DATE_TIME')}`,
 		emailTemplate: BookingConfirmationTemplate({
 			userName,
 			userEmail,

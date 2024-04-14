@@ -11,8 +11,8 @@ type AppointmentSelectButtonProps = {
 };
 
 const AppointmentSelectButton = ({ appointment }: AppointmentSelectButtonProps) => {
-	const formattedDate = formatDate(appointment.startTime, 'onlyTime');
-	const appointmentBookPath = `/appointments/${formatDate(appointment.startTime, 'yyyy-MM-dd')}/${appointment.id}`;
+	const formattedDate = formatDate(appointment.startTime, 'ONLY_TIME');
+	const appointmentBookPath = `/appointments/${formatDate(appointment.startTime, 'YYYY-MM-DD')}/${appointment.id}`;
 
 	return (
 		<Button

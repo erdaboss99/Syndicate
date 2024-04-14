@@ -30,7 +30,7 @@ const DateSelectionForm = () => {
 	});
 
 	function onSubmit(data: z.infer<typeof DateSelectionFormSchema>) {
-		const convertedDate = formatDate(data.selectedDate, 'yyyy-MM-dd');
+		const convertedDate = formatDate(data.selectedDate, 'YYYY-MM-DD');
 		router.push(`/appointments/${convertedDate}`);
 	}
 
@@ -56,7 +56,7 @@ const DateSelectionForm = () => {
 												!field.value && 'text-muted-foreground',
 											)}>
 											{field.value ? (
-												formatDate(field.value, 'writtenShortDate')
+												formatDate(field.value, 'WRITTEN_SHORT_DATE')
 											) : (
 												<span>Please select a date</span>
 											)}

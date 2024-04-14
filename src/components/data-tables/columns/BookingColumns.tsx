@@ -32,7 +32,7 @@ export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.original.Appointment.startTime), 'writtenShortDateTime')}
+						{formatDate(new Date(row.original.Appointment.startTime), 'WRITTEN_SHORT_DATE_TIME')}
 					</Suspense>
 				</time>
 			);
@@ -80,7 +80,7 @@ export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.original.createdAt), 'writtenShortDateTime')}
+						{formatDate(new Date(row.original.createdAt), 'WRITTEN_SHORT_DATE_TIME')}
 					</Suspense>
 				</time>
 			);

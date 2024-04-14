@@ -30,7 +30,7 @@ export const AppointmentColumns: ColumnDef<AppointmentDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.original.startTime), 'writtenLongDateTime')}
+						{formatDate(new Date(row.original.startTime), 'WRITTEN_LONG_DATE_TIME')}
 					</Suspense>
 				</time>
 			);

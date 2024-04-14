@@ -23,7 +23,7 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 		);
 
 	const currentDate = new Date(paramsData.data);
-	const formattedDate = formatDate(currentDate, 'writtenLongDate');
+	const formattedDate = formatDate(currentDate, 'WRITTEN_LONG_DATE');
 	const interval = getIntervalFromDay(currentDate);
 
 	const appointments = await getAppointmentsInInterval({ interval, status: 'AVAILABLE' });

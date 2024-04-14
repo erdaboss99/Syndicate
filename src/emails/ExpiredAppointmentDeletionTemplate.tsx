@@ -30,7 +30,7 @@ export const ExpiredAppointmentDeletionTemplate = ({
 							key={i}
 							className='text-base'>
 							<Column className='text-center font-semibold'>
-								{formatDate(appointment.startTime, 'writtenLongDateTimeInterval')}
+								{formatDate(appointment.startTime, 'WRITTEN_LONG_DATE_TIME_INTERVAL')}
 							</Column>
 						</Row>
 					);

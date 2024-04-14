@@ -16,7 +16,7 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 	const appointment = await getAppointmentById({ id: paramsData.data, status: 'AVAILABLE' });
 	if (!appointment) redirect('/appointments');
 
-	const formattedDate = formatDate(appointment.startTime, 'writtenLongDateTimeInterval');
+	const formattedDate = formatDate(appointment.startTime, 'WRITTEN_LONG_DATE_TIME_INTERVAL');
 
 	const issues = await getIssues();
 
@@ -24,7 +24,7 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 		<AppointmentWrapper
 			navigationTree={[
 				{ nodeLabel: 'Date selection', nodeHref: 'appointments' },
-				{ nodeLabel: 'Appointment selection', nodeHref: formatDate(appointment.startTime, 'yyyy-MM-dd') },
+				{ nodeLabel: 'Appointment selection', nodeHref: formatDate(appointment.startTime, 'YYYY-MM-DD') },
 				{ nodeLabel: 'Book appointment', nodeHref: paramsData.data },
 			]}
 			headerTitle='Book appointment'

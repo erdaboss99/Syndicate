@@ -32,9 +32,13 @@ export const NewAppointmentGenerationTemplate = ({
 		<Section className='mx-0 mt-1'>
 			<Text className='text-center text-xl font-semibold'>Current interval</Text>
 			<Row className='text-base'>
-				<Column className='text-left font-semibold'>{formatDate(intervalStart, 'writtenLongDateTime')}</Column>
+				<Column className='text-left font-semibold'>
+					{formatDate(intervalStart, 'WRITTEN_LONG_DATE_TIME')}
+				</Column>
 				<Column className='text-center'>-</Column>
-				<Column className='text-right font-semibold'>{formatDate(intervalEnd, 'writtenLongDateTime')}</Column>
+				<Column className='text-right font-semibold'>
+					{formatDate(intervalEnd, 'WRITTEN_LONG_DATE_TIME')}
+				</Column>
 			</Row>
 		</Section>
 
@@ -45,7 +49,7 @@ export const NewAppointmentGenerationTemplate = ({
 					<Row
 						key={i}
 						className='text-base'>
-						<Column className='text-center font-semibold'>{formatDate(day, 'writtenLongDate')}</Column>
+						<Column className='text-center font-semibold'>{formatDate(day, 'WRITTEN_LONG_DATE')}</Column>
 					</Row>
 				);
 			})}
@@ -58,7 +62,7 @@ export const NewAppointmentGenerationTemplate = ({
 					<Row
 						key={i}
 						className='text-base'>
-						<Column className='text-center font-semibold'>{formatDate(day, 'writtenLongDate')}</Column>
+						<Column className='text-center font-semibold'>{formatDate(day, 'WRITTEN_LONG_DATE')}</Column>
 					</Row>
 				);
 			})}
@@ -77,7 +81,7 @@ export const NewAppointmentGenerationTemplate = ({
 							key={i}
 							className='text-base'>
 							<Column className='text-center font-semibold'>
-								{formatDate(appointment.startTime, 'writtenLongDateTimeInterval')}
+								{formatDate(appointment.startTime, 'WRITTEN_LONG_DATE_TIME_INTERVAL')}
 							</Column>
 						</Row>
 					);

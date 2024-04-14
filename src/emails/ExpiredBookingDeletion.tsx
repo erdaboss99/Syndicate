@@ -38,7 +38,7 @@ export const ExpiredBookingDeletionTemplate = ({
 							<Row>
 								<Column className='text-left font-semibold'>Appointment:</Column>
 								<Column className='text-right'>
-									{formatDate(booking.appointmentStartTime, 'writtenLongDateTime')}
+									{formatDate(booking.appointmentStartTime, 'WRITTEN_LONG_DATE_TIME')}
 								</Column>
 							</Row>
 

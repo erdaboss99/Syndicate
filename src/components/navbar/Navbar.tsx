@@ -1,12 +1,13 @@
 import Link from 'next/link';
 
+import { CgDarkMode } from 'react-icons/cg';
+
 import { getCurrentUser } from '@/lib/auth';
 
 import Logo from '@/components/navbar/Logo';
 import ThemeToggle from '@/components/navbar/ThemeToggle';
 import UserButton from '@/components/navbar/UserButton';
 import { Button } from '@/components/ui/Button';
-import { CgDarkMode } from 'react-icons/cg';
 
 const Navbar = async () => {
 	const user = await getCurrentUser();

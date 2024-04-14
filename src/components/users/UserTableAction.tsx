@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { LuMoreHorizontal } from 'react-icons/lu';
+
 import { UserDataTableFields } from '@/components/data-tables/columns/UserColumns';
 import CopyToClipboard from '@/components/general/CopyToClipboardButton';
 import { Button } from '@/components/ui/Button';
@@ -15,7 +17,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 import ChangeRoleDropdown from '@/components/users/ChangeRoleDropdown';
-import { LuMoreHorizontal } from 'react-icons/lu';
 
 type UserTableActionProps = {
 	user: UserDataTableFields;

@@ -1,7 +1,8 @@
+import { LuAlertTriangle } from 'react-icons/lu';
+
 import CardWrapper, { type CardWrapperProps } from '@/components/general/CardWrapper';
 import LinkButton, { type LinkButtonProps } from '@/components/general/LinkButton';
 import { CardContent, CardFooter } from '@/components/ui/Card';
-import { LuAlertTriangle } from 'react-icons/lu';
 
 type ErrorCardProps = {
 	headerTitle: string;

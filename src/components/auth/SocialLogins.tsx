@@ -1,12 +1,12 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
+import { GrGoogle } from 'react-icons/gr';
+import { LuGithub } from 'react-icons/lu';
 
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 
 import { Button } from '@/components/ui/Button';
-import { GrGoogle } from 'react-icons/gr';
-import { LuGithub } from 'react-icons/lu';
 
 const SocialLogins = () => {
 	const onClick = (provider: 'google' | 'github') => {

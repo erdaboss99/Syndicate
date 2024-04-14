@@ -1,4 +1,5 @@
 import { type Table } from '@tanstack/react-table';
+import { LuEye } from 'react-icons/lu';
 
 import { Button } from '@/components/ui/Button';
 import {
@@ -7,7 +8,6 @@ import {
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
-import { LuEye } from 'react-icons/lu';
 
 type DataTableVisibilityProps<TData> = {
 	dataTable: Table<TData>;

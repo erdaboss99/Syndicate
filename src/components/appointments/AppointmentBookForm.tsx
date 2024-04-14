@@ -6,6 +6,7 @@ import { useState, useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type Appointment, type Issue } from '@prisma/client';
 import { useForm } from 'react-hook-form';
+import { LuLoader2 } from 'react-icons/lu';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
@@ -17,7 +18,6 @@ import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
-import { LuLoader2 } from 'react-icons/lu';
 
 type AppointmentBookFormProps = {
 	appointment: Appointment;

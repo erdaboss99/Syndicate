@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 
 import { UserRole, type User } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { LuArrowUpDown } from 'react-icons/lu';
 
 import { formatDate } from '@/lib/date';
 
@@ -11,7 +12,6 @@ import UserAvatar from '@/components/general/UserAvatar';
 import UserRoleBadge from '@/components/general/UserBadge';
 import { Button } from '@/components/ui/Button';
 import UserTableAction from '@/components/users/UserTableAction';
-import { LuArrowUpDown } from 'react-icons/lu';
 
 export type UserDataTableFields = Pick<User, 'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'lastSeen' | 'image'>;
 

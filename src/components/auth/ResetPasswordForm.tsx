@@ -5,6 +5,7 @@ import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { LuLoader2 } from 'react-icons/lu';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
@@ -15,7 +16,6 @@ import { ResetPasswordSchema } from '@/schemas';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
-import { LuLoader2 } from 'react-icons/lu';
 
 type ResetPasswordFormProps = {
 	token: string;

@@ -1,5 +1,6 @@
-import { Badge, BadgeProps } from '@/components/ui/Badge';
 import { LuUserCheck, LuUserX } from 'react-icons/lu';
+
+import { Badge, BadgeProps } from '@/components/ui/Badge';
 
 type AppointmentBadgeProps = {
 	bookingId: string | undefined;

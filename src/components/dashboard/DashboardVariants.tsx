@@ -1,3 +1,5 @@
+import { LuCalendarClock, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
+
 import {
 	getAppointmentCount,
 	getAutoExpiredAppointmentDeletionStatus,
@@ -12,7 +14,6 @@ import AutoNewAppointmentGenerationForm from '@/components/appointments/AutoNewA
 import AutoExpiredBookingDeletionForm from '@/components/bookings/AutoExpiredBookingDeletionForm';
 import DashboardTile from '@/components/dashboard/DashboardTile';
 import DashboardWrapper, { type DashboardWrapperProps } from '@/components/dashboard/DashboardWrapper';
-import { LuCalendarClock, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
 
 type BaseDashboardProps = Pick<DashboardWrapperProps, 'children' | 'headerTitle' | 'size'>;
 

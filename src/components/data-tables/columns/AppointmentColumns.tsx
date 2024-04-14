@@ -4,12 +4,12 @@ import { Suspense } from 'react';
 
 import { type Appointment, type Booking } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { LuArrowUpDown } from 'react-icons/lu';
 
 import { formatDate } from '@/lib/date';
 
 import AppointmentBadge from '@/components/general/AppointmentBadge';
 import { Button } from '@/components/ui/Button';
-import { LuArrowUpDown } from 'react-icons/lu';
 
 export type AppointmentDataTableFields = Appointment & { Booking: Pick<Booking, 'id'> | null };
 

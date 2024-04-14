@@ -1,7 +1,7 @@
 import { UserRole } from '@prisma/client';
+import { LuBriefcase, LuShield, LuUser } from 'react-icons/lu';
 
 import { Badge, BadgeProps } from '@/components/ui/Badge';
-import { LuBriefcase, LuShield, LuUser } from 'react-icons/lu';
 
 type UserRoleBadgeProps = {
 	role: UserRole;

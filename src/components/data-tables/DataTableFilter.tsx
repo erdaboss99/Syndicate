@@ -1,4 +1,5 @@
 import { type Column } from '@tanstack/react-table';
+import { LuCheck, LuPlus } from 'react-icons/lu';
 
 import { cn } from '@/lib/utils';
 
@@ -15,7 +16,6 @@ import {
 } from '@/components/ui/Command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { Separator } from '@/components/ui/Separator';
-import { LuCheck, LuPlus } from 'react-icons/lu';
 
 type DataTableFilterProps<TData, TValue> = {
 	column?: Column<TData, TValue>;

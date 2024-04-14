@@ -4,11 +4,11 @@ import { Suspense } from 'react';
 
 import { type Appointment, type Booking, type Issue, type User } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { LuArrowUpDown } from 'react-icons/lu';
 
 import { formatDate } from '@/lib/date';
 
 import { Button } from '@/components/ui/Button';
-import { LuArrowUpDown } from 'react-icons/lu';
 
 export type BookingDataTableFields = Pick<Booking, 'id' | 'description' | 'createdAt'> & {
 	Appointment: Pick<Appointment, 'id' | 'startTime'>;

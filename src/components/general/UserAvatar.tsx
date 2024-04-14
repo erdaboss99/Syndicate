@@ -1,5 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { FaRegUserCircle } from 'react-icons/fa';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 
 type UserAvatarProps = {
 	src?: string;

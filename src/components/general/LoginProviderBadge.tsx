@@ -1,8 +1,9 @@
+import { GrGoogle } from 'react-icons/gr';
+import { LuGithub, LuKeyRound } from 'react-icons/lu';
+
 import { type LoginProviders } from '@/auth/next-auth';
 
 import { Badge, type BadgeProps } from '@/components/ui/Badge';
-import { GrGoogle } from 'react-icons/gr';
-import { LuGithub, LuKeyRound } from 'react-icons/lu';
 
 type LoginProviderBadge = {
 	provider: LoginProviders;

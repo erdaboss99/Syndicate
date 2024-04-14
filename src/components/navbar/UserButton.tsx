@@ -1,9 +1,13 @@
 import Link from 'next/link';
 
 import { type UserRole } from '@prisma/client';
+import { AiOutlineDashboard } from 'react-icons/ai';
+import { CgDarkMode } from 'react-icons/cg';
+import { type IconType } from 'react-icons/lib';
+import { LuClock } from 'react-icons/lu';
+import { MdExitToApp, MdOutlineManageAccounts } from 'react-icons/md';
 
 import { getCurrentUser } from '@/lib/auth';
-import { type IconType } from 'react-icons/lib';
 
 import LogoutButton from '@/components/auth/LogoutButton';
 import UserAvatar from '@/components/general/UserAvatar';
@@ -16,10 +20,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
-import { AiOutlineDashboard } from 'react-icons/ai';
-import { CgDarkMode } from 'react-icons/cg';
-import { LuClock } from 'react-icons/lu';
-import { MdExitToApp, MdOutlineManageAccounts } from 'react-icons/md';
 
 const NavRecords: Omit<NavItemProps, 'currentRole'>[] = [
 	{ name: 'Account', href: '/account', roles: ['ADMIN', 'EMPLOYEE', 'USER'], Icon: MdOutlineManageAccounts },

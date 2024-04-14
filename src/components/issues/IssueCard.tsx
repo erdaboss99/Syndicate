@@ -1,4 +1,5 @@
 import { type Issue } from '@prisma/client';
+import { LuPencil, LuPlusCircle, LuTrash2 } from 'react-icons/lu';
 
 import IssueCreateForm from '@/components/issues/IssueCreateForm';
 import IssueDeleteForm from '@/components/issues/IssueDeleteForm';
@@ -12,7 +13,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/Dialog';
-import { LuPencil, LuPlusCircle, LuTrash2 } from 'react-icons/lu';
 
 type IssueCardProps = {
 	issue: Issue;

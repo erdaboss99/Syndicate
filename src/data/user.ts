@@ -58,3 +58,15 @@ export const getUserSubset = async (select: Prisma.UserSelect) => {
 		return [];
 	}
 };
+
+export const getSelectedUserData = async (options: { id: string; select: Prisma.UserSelect }) => {
+	try {
+		const userData = await database.user.findFirst({
+			where: { id: options.id },
+			select: options.select,
+		});
+		return userData;
+	} catch (error) {
+		return null;
+	}
+};

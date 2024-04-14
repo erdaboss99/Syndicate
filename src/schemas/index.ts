@@ -140,3 +140,5 @@ export const IssueEditFormSchema = z.object({
 export const IssueDeleteFormSchema = z.object({
 	id: z.string().uuid({ message: UUID_VALIDATION }),
 });
+
+export const UserDetailsQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });

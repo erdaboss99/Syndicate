@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { UserDataTableFields } from '@/components/data-tables/columns/UserColumns';
 import CopyToClipboard from '@/components/general/CopyToClipboardButton';
 import { Button } from '@/components/ui/Button';
@@ -35,6 +37,9 @@ const UserTableAction = ({ user }: UserTableActionProps) => {
 				<CopyToClipboard value={user.email!}>
 					<DropdownMenuItem>Copy user Email</DropdownMenuItem>
 				</CopyToClipboard>
+				<Link href={`/dashboard/manage-users/${user.id}`}>
+					<DropdownMenuItem>User details</DropdownMenuItem>
+				</Link>
 				<DropdownMenuSeparator />
 				<DropdownMenuSub>
 					<DropdownMenuSubTrigger>Change roles</DropdownMenuSubTrigger>

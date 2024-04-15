@@ -21,10 +21,8 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			<ErrorCard
 				headerTitle='Invalid data'
 				message={paramsData.error.errors[0].message}
-				buttonLabel='Back to manage users'
-				buttonVariant='default'
-				buttonSize='lg'
-				buttonHref='/dashboard/manage-users'
+				linkLabel='Back to manage users'
+				linkHref='/dashboard/manage-users'
 			/>
 		);
 
@@ -70,10 +68,8 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			<ErrorCard
 				headerTitle='Invalid data'
 				message='User not found'
-				buttonLabel='Back to manage users'
-				buttonVariant='default'
-				buttonSize='lg'
-				buttonHref='/dashboard/manage-users'
+				linkLabel='Back to manage users'
+				linkHref='/dashboard/manage-users'
 			/>
 		);
 
@@ -86,10 +82,8 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			]}
 			headerTitle='User details'
 			size='SM'
-			buttonLabel='Back to manage users'
-			buttonHref='/dashboard/manage-users'
-			buttonSize='full'
-			buttonVariant='link'>
+			linkLabel='Back to manage users'
+			linkHref='/dashboard/manage-users'>
 			<div className='space-y-4'>
 				<AccountDetails
 					image={userData?.image!}

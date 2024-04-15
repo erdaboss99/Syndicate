@@ -16,10 +16,8 @@ const EmailVerificationPage = ({ searchParams }: EmailVerificationPageProps) => 
 			<ErrorCard
 				headerTitle='Authentication error!'
 				message='Invalid token!'
-				buttonLabel='Back to login'
-				buttonHref='/auth/login'
-				buttonVariant='default'
-				buttonSize='lg'
+				linkLabel='Back to login'
+				linkHref='/auth/login'
 			/>
 		);
 
@@ -27,10 +25,8 @@ const EmailVerificationPage = ({ searchParams }: EmailVerificationPageProps) => 
 		<AuthWrapper
 			navigationTree={null}
 			headerTitle='Confirming your email'
-			buttonLabel='Back to login'
-			buttonHref='/auth/login'
-			buttonVariant='link'
-			buttonSize='lg'>
+			linkLabel='Back to login'
+			linkHref='/auth/login'>
 			<EmailVerificationForm token={validatedData.data.token} />
 		</AuthWrapper>
 	);

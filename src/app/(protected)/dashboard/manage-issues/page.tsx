@@ -22,10 +22,8 @@ const AdminManageIssuesPage = async () => {
 			]}
 			headerTitle='Manage issues'
 			size='XL'
-			buttonLabel='Back to the dashboard'
-			buttonHref='/dashboard'
-			buttonSize='full'
-			buttonVariant='link'>
+			linkLabel='Back to the dashboard'
+			linkHref='/dashboard'>
 			<div className='grid grid-cols-1 place-items-center gap-5 md:grid-cols-3'>
 				<NewIssueCard />
 				{issues.map((issue: Issue) => (

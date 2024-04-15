@@ -3,10 +3,9 @@ import { type UserRole } from '@prisma/client';
 import { type LoginProviders } from '@/auth/next-auth';
 import { formatDate } from '@/lib/date';
 
+import { LoginProviderBadge, UserRoleBadge } from '@/components/general/CustomBadge';
 import { BaseDetailsField, HighlightedDetailsField } from '@/components/general/DetailsField';
-import LoginProviderBadge from '@/components/general/LoginProviderBadge';
 import UserAvatar from '@/components/general/UserAvatar';
-import UserRoleBadge from '@/components/general/UserBadge';
 import { Badge } from '@/components/ui/Badge';
 
 type AccountDetailsProps = {
@@ -35,13 +34,13 @@ const AccountDetails = ({ image, name, email, role, provider, createdAt }: Accou
 			<BaseDetailsField label='Role'>
 				<UserRoleBadge
 					role={role}
-					badgeVariant='outline'
+					variant='outline'
 				/>
 			</BaseDetailsField>
 			<BaseDetailsField label='Login provider'>
 				<LoginProviderBadge
 					provider={provider}
-					badgeVariant='outline'
+					variant='outline'
 				/>
 			</BaseDetailsField>
 			<BaseDetailsField label='Account created at'>

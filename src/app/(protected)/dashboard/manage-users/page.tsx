@@ -36,10 +36,8 @@ const AdminManageUsersPage = async () => {
 			]}
 			headerTitle='Manage users'
 			size='XL'
-			buttonLabel='Back to the dashboard'
-			buttonHref='/dashboard'
-			buttonSize='full'
-			buttonVariant='link'>
+			linkLabel='Back to the dashboard'
+			linkHref='/dashboard'>
 			<div className='mx-auto w-[95%]'>
 				<DataTable
 					columns={UserColumns}

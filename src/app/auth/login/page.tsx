@@ -7,10 +7,8 @@ const LoginPage = () => {
 			navigationTree={null}
 			headerTitle='Login'
 			headerLabel='Welcome back!'
-			buttonLabel="Don't have an account?"
-			buttonHref='/auth/registration'
-			buttonVariant='link'
-			buttonSize='full'
+			linkLabel="Don't have an account?"
+			linkHref='/auth/registration'
 			showSocialLogins>
 			<LoginForm />
 		</AuthWrapper>

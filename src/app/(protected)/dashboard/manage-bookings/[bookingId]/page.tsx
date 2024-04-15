@@ -20,10 +20,8 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 			<ErrorCard
 				headerTitle='Invalid data'
 				message={paramsData.error.errors[0].message}
-				buttonLabel='Back to manage bookings'
-				buttonVariant='default'
-				buttonSize='lg'
-				buttonHref='/dashboard/manage-bookings'
+				linkLabel='Back to manage bookings'
+				linkHref='/dashboard/manage-bookings'
 			/>
 		);
 
@@ -59,10 +57,8 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 			<ErrorCard
 				headerTitle='Invalid data'
 				message='Booking not found'
-				buttonLabel='Back to manage bookings'
-				buttonVariant='default'
-				buttonSize='lg'
-				buttonHref='/dashboard/manage-bookings'
+				linkLabel='Back to manage bookings'
+				linkHref='/dashboard/manage-bookings'
 			/>
 		);
 
@@ -75,10 +71,8 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 			]}
 			headerTitle='Booking details'
 			size='SM'
-			buttonLabel='Back to manage bookings'
-			buttonHref='/dashboard/manage-booking'
-			buttonSize='full'
-			buttonVariant='link'>
+			linkLabel='Back to manage bookings'
+			linkHref='/dashboard/manage-bookings'>
 			<div className='space-y-4'>
 				<BookingDetails
 					description={bookingData.description}

@@ -11,10 +11,8 @@ const AuthErrorPage = ({ searchParams }: AuthErrorPageProps) => {
 		<ErrorCard
 			headerTitle='Authentication error!'
 			message={error}
-			buttonLabel='Back to login'
-			buttonHref='/auth/login'
-			buttonVariant='default'
-			buttonSize='lg'
+			linkLabel='Back to login'
+			linkHref='/auth/login'
 		/>
 	);
 };

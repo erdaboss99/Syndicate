@@ -3,19 +3,18 @@ import Link from 'next/link';
 import { Button, ButtonProps } from '@/components/ui/Button';
 
 export type LinkButtonProps = {
-	buttonLabel: string;
-	buttonHref: string;
-	buttonVariant: ButtonProps['variant'];
-	buttonSize: ButtonProps['size'];
+	linkLabel: string;
+	linkHref: string;
+	linkVariant?: ButtonProps['variant'];
+	linkSize?: ButtonProps['size'];
 };
 
-const LinkButton = ({ buttonLabel, buttonHref, buttonVariant, buttonSize }: LinkButtonProps) => {
+const LinkButton = ({ linkLabel, linkHref, linkVariant, linkSize }: LinkButtonProps) => {
 	return (
 		<Button
-			variant={buttonVariant}
-			size={buttonSize}
-			asChild>
-			<Link href={buttonHref}>{buttonLabel}</Link>
+			variant={linkVariant || 'link'}
+			size={linkSize || 'full'}>
+			<Link href={linkHref}>{linkLabel}</Link>
 		</Button>
 	);
 };

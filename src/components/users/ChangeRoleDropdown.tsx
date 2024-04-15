@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { changeRole } from '@/actions/account';
 import { ACTION_DEFAULT_ERROR } from '@/constants';
 
-import UserRoleBadge from '@/components/general/UserBadge';
+import { UserRoleBadge } from '@/components/general/CustomBadge';
 import { DropdownMenuRadioGroup, DropdownMenuRadioItem } from '@/components/ui/DropdownMenu';
 
 type ChangeRoleDropdownProps = {
@@ -44,7 +44,7 @@ const ChangeRoleDropdown = ({ userId, userRole }: ChangeRoleDropdownProps) => {
 					value={role}>
 					<UserRoleBadge
 						role={role}
-						badgeVariant='outline'
+						variant='outline'
 					/>
 				</DropdownMenuRadioItem>
 			))}

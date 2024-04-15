@@ -6,10 +6,8 @@ const RequestPasswordResetPage = () => {
 		<AuthWrapper
 			navigationTree={null}
 			headerTitle='Request new password'
-			buttonLabel='Back to login'
-			buttonHref='/auth/login'
-			buttonVariant='link'
-			buttonSize='full'>
+			linkLabel='Back to login'
+			linkHref='/auth/login'>
 			<RequestPasswordResetForm />
 		</AuthWrapper>
 	);

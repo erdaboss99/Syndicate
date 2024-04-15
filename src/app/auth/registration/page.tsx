@@ -7,10 +7,8 @@ const RegistrationPage = () => {
 			navigationTree={null}
 			headerTitle='Registration'
 			headerLabel='Create an account'
-			buttonLabel='Already have an account?'
-			buttonHref='/auth/login'
-			buttonVariant='link'
-			buttonSize='full'
+			linkLabel='Already have an account?'
+			linkHref='/auth/login'
 			showSocialLogins>
 			<RegistrationForm />
 		</AuthWrapper>

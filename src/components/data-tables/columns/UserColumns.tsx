@@ -1,17 +1,19 @@
 'use client';
 
+import Link from 'next/link';
 import { Suspense } from 'react';
 
 import { UserRole, type User } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
-import { LuArrowUpDown } from 'react-icons/lu';
+import { LuArrowUpDown, LuInfo, LuPencil } from 'react-icons/lu';
 
 import { formatDate } from '@/lib/date';
 
+import { UserRoleBadge } from '@/components/general/CustomBadge';
 import UserAvatar from '@/components/general/UserAvatar';
-import UserRoleBadge from '@/components/general/UserBadge';
 import { Button } from '@/components/ui/Button';
-import UserTableAction from '@/components/users/UserTableAction';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
+import ChangeRoleDropdown from '@/components/users/ChangeRoleDropdown';
 
 export type UserDataTableFields = Pick<User, 'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'lastSeen' | 'image'>;
 
@@ -66,7 +68,7 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 			return (
 				<UserRoleBadge
 					role={row.original.role as UserRole}
-					badgeVariant='outline'
+					variant='outline'
 				/>
 			);
 		},
@@ -121,10 +123,44 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 		},
 	},
 	{
-		id: 'actions',
+		id: 'details',
 		enableHiding: false,
 		cell: ({ row }) => {
-			return <UserTableAction user={row.original} />;
+			return (
+				<Button
+					variant='ghost'
+					className='h-8 w-8 p-0'
+					asChild>
+					<Link href={`/dashboard/manage-users/${row.original.id}`}>
+						<span className='sr-only'>View details</span>
+						<LuInfo className='h-4 w-4' />
+					</Link>
+				</Button>
+			);
+		},
+	},
+	{
+		id: 'changeRole',
+		enableHiding: false,
+		cell: ({ row }) => {
+			return (
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							variant='ghost'
+							className='h-8 w-8 p-0'>
+							<span className='sr-only'>Change user role</span>
+							<LuPencil className='h-4 w-4' />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align='start'>
+						<ChangeRoleDropdown
+							userId={row.original.id}
+							userRole={row.original.role}
+						/>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			);
 		},
 	},
 ];

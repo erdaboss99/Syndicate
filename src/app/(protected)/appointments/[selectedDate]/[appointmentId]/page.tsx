@@ -30,10 +30,8 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 			headerTitle='Book appointment'
 			headerLabel={formattedDate}
 			size='MD'
-			buttonLabel='Back to date selection'
-			buttonHref='/appointments'
-			buttonSize='full'
-			buttonVariant='link'>
+			linkLabel='Back to date selection'
+			linkHref='/appointments'>
 			<AppointmentBookForm
 				appointment={appointment}
 				issues={issues}

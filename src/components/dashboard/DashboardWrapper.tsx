@@ -13,10 +13,10 @@ const DashboardWrapper = ({
 	headerTitle,
 	headerLabel,
 	size,
-	buttonLabel,
-	buttonHref,
-	buttonVariant,
-	buttonSize,
+	linkLabel,
+	linkHref,
+	linkVariant,
+	linkSize,
 }: DashboardWrapperProps) => {
 	return (
 		<CardWrapper
@@ -25,13 +25,13 @@ const DashboardWrapper = ({
 			headerTitle={headerTitle}
 			headerLabel={headerLabel}>
 			<CardContent>{children}</CardContent>
-			{buttonLabel && buttonHref && buttonVariant && buttonSize && (
+			{linkLabel && linkHref && (
 				<CardFooter className='flex items-center justify-center'>
 					<LinkButton
-						buttonLabel={buttonLabel}
-						buttonHref={buttonHref}
-						buttonVariant={buttonVariant}
-						buttonSize={buttonSize}
+						linkLabel={linkLabel}
+						linkHref={linkHref}
+						linkVariant={linkVariant}
+						linkSize={linkSize}
 					/>
 				</CardFooter>
 			)}

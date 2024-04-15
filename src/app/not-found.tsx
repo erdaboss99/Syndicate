@@ -17,10 +17,8 @@ const NotFoundPage = () => {
 				<h2>Page not found!</h2>
 			</div>
 			<LinkButton
-				buttonLabel='Back to home'
-				buttonHref='/'
-				buttonSize='full'
-				buttonVariant='link'
+				linkLabel='Back to home'
+				linkHref='/'
 			/>
 		</div>
 	);

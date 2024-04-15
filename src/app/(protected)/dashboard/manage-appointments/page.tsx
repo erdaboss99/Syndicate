@@ -21,10 +21,8 @@ const AdminManageAppointmentsPage = async () => {
 				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
 				{ nodeLabel: 'Manage appointments', nodeHref: 'manage-appointments' },
 			]}
-			buttonLabel='Back to the dashboard'
-			buttonHref='/dashboard'
-			buttonSize='full'
-			buttonVariant='link'>
+			linkLabel='Back to the dashboard'
+			linkHref='/dashboard'>
 			<div className='mx-auto w-[95%]'>
 				<DataTable
 					columns={AppointmentColumns}

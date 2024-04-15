@@ -16,10 +16,8 @@ const ResetPasswordPage = ({ searchParams }: ResetPasswordPageProps) => {
 			<ErrorCard
 				headerTitle='Authentication error!'
 				message='Invalid token!'
-				buttonLabel='Back to login'
-				buttonHref='/auth/login'
-				buttonVariant='default'
-				buttonSize='lg'
+				linkLabel='Back to login'
+				linkHref='/auth/login'
 			/>
 		);
 
@@ -27,10 +25,8 @@ const ResetPasswordPage = ({ searchParams }: ResetPasswordPageProps) => {
 		<AuthWrapper
 			navigationTree={null}
 			headerTitle='Enter a new password'
-			buttonLabel='Back to login'
-			buttonHref='/auth/login'
-			buttonVariant='link'
-			buttonSize='lg'>
+			linkLabel='Back to login'
+			linkHref='/auth/login'>
 			<ResetPasswordForm token={validatedData.data.token} />
 		</AuthWrapper>
 	);

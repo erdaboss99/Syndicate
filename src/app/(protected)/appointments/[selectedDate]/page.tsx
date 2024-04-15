@@ -15,10 +15,8 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 			<ErrorCard
 				headerTitle='Invalid data'
 				message={paramsData.error.errors[0].message}
-				buttonLabel='Back to date selection'
-				buttonVariant='default'
-				buttonSize='lg'
-				buttonHref='/appointments'
+				linkLabel='Back to date selection'
+				linkHref='/appointments'
 			/>
 		);
 
@@ -37,10 +35,8 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 			headerTitle='Appointment selection'
 			headerLabel={formattedDate}
 			size='MD'
-			buttonLabel='Back to date selection'
-			buttonHref='/appointments'
-			buttonSize='full'
-			buttonVariant='link'>
+			linkLabel='Back to date selection'
+			linkHref='/appointments'>
 			{appointments.length > 0 && (
 				<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 					{appointments.map((appointment) => (

@@ -14,7 +14,7 @@ import { loginWithCredentials } from '@/actions/login';
 import { ACTION_DEFAULT_ERROR } from '@/constants';
 import { LoginSchema } from '@/schemas';
 
-import FormError from '@/components/general/FormError';
+import { FormError } from '@/components/general/FormStatus';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';

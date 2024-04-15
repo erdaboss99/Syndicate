@@ -8,7 +8,7 @@ import { LuArrowUpDown } from 'react-icons/lu';
 
 import { formatDate } from '@/lib/date';
 
-import AppointmentBadge from '@/components/general/AppointmentBadge';
+import { AppointmentBadge } from '@/components/general/CustomBadge';
 import { Button } from '@/components/ui/Button';
 
 export type AppointmentDataTableFields = Appointment & { Booking: Pick<Booking, 'id'> | null };
@@ -51,8 +51,8 @@ export const AppointmentColumns: ColumnDef<AppointmentDataTableFields>[] = [
 		cell: ({ row }) => {
 			return (
 				<AppointmentBadge
-					bookingId={row.original.Booking?.id}
-					badgeVariant='outline'
+					status={row.original.Booking?.id === undefined ? 'AVAILABLE' : 'BOOKED'}
+					variant='outline'
 				/>
 			);
 		},

@@ -4,7 +4,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const cardVariants = cva('transition-colors md:rounded-xl md:shadow', {
+const cardVariants = cva('rounded-xl transition-colors md:shadow', {
 	variants: {
 		variant: {
 			default: 'bg-background text-card-foreground md:border md:bg-card',
@@ -27,11 +27,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, variant, 
 ));
 Card.displayName = 'Card';
 
-const cardHeaderVariant = cva('flex flex-col space-y-1.5 p-6 text-center font-orbitron', {
+const cardHeaderVariant = cva('flex flex-col space-y-1.5 text-center font-orbitron', {
 	variants: {
 		variant: {
-			default: 'text-4xl md:text-5xl',
-			secondary: 'text-2xl md:text-3xl',
+			default: 'p-6 text-4xl md:text-5xl',
+			secondary: 'p-4 text-2xl md:text-3xl',
+			tertiary: 'p-3 text-lg md:text-xl',
 		},
 	},
 	defaultVariants: {
@@ -76,7 +77,7 @@ const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn('mt-[3vh] p-6 pt-3 md:mt-[2vh]', className)}
+			className={cn('mt-[3vh] p-1 pt-3 md:mt-[2vh] md:p-6', className)}
 			{...props}
 		/>
 	),
@@ -87,7 +88,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn('flex items-center p-6 pt-0', className)}
+			className={cn('flex items-center p-1 pt-0 md:p-6', className)}
 			{...props}
 		/>
 	),

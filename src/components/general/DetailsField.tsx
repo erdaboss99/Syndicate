@@ -7,8 +7,8 @@ type BaseDetailsFieldProps = {
 
 export const BaseDetailsField = ({ label, children }: BaseDetailsFieldProps) => {
 	return (
-		<div className='flex flex-row items-center justify-between rounded-lg border bg-secondary/10 p-3 shadow-sm'>
-			<p className='text-sm font-medium md:text-base'>{label}</p>
+		<div className='flex flex-row items-center justify-between p-3 shadow-sm'>
+			<span className='text-sm font-medium md:text-base'>{label}</span>
 			{children}
 		</div>
 	);
@@ -22,7 +22,7 @@ type HighlightedDetailsFieldProps = {
 export const HighlightedDetailsField = ({ label, value }: HighlightedDetailsFieldProps) => {
 	return (
 		<BaseDetailsField label={label}>
-			<p className='rounded-sm bg-secondary/90 p-[0.5rem] font-mono text-xs'>{value}</p>
+			<span className='rounded-sm bg-secondary/90 p-[0.5rem] font-mono text-xs'>{value}</span>
 		</BaseDetailsField>
 	);
 };

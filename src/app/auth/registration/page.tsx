@@ -1,5 +1,5 @@
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import RegistrationForm from '@/components/auth/RegistrationForm';
+import { AuthWrapper } from '@/components/general/CardWrapper';
 
 const RegistrationPage = () => {
 	return (

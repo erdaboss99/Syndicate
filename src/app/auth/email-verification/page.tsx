@@ -1,7 +1,7 @@
 import { TokenVerificationSchema } from '@/schemas';
 
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import EmailVerificationForm from '@/components/auth/EmailVerificationForm';
+import { AuthWrapper } from '@/components/general/CardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 
 type EmailVerificationPageProps = {

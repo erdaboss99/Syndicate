@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/date';
 import { AppointmentBookQueryParamsSchema } from '@/schemas';
 
 import AppointmentBookForm from '@/components/appointments/AppointmentBookForm';
-import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';
+import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AppointmentBookPage = async ({ params }: { params: { appointmentId: string } }) => {
 	const { appointmentId } = params;
@@ -21,7 +21,7 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 	const issues = await getIssues();
 
 	return (
-		<AppointmentWrapper
+		<CardWrapper
 			navigationTree={[
 				{ nodeLabel: 'Date selection', nodeHref: 'appointments' },
 				{ nodeLabel: 'Appointment selection', nodeHref: formatDate(appointment.startTime, 'YYYY-MM-DD') },
@@ -36,7 +36,7 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 				appointment={appointment}
 				issues={issues}
 			/>
-		</AppointmentWrapper>
+		</CardWrapper>
 	);
 };
 

@@ -1,53 +1,62 @@
+import { VariantProps, cva } from 'class-variance-authority';
+
 import { FaExclamationCircle } from 'react-icons/fa';
 import { IconType } from 'react-icons/lib';
 import { LuAlertTriangle, LuCheckCircle } from 'react-icons/lu';
 
-import { cn } from '@/lib/utils';
+const formStatusVariants = cva('flex w-full items-center gap-x-4 rounded-md p-3 font-bold', {
+	variants: {
+		status: {
+			INFO: 'bg-secondary text-secondary-foreground',
+			ERROR: 'bg-destructive/15 text-destructive',
+			SUCCESS: 'bg-success/20 text-success',
+		},
+	},
+});
 
-type FormStatusProps = {
+type BaseFormStatusProps = {
 	Icon: IconType;
-	extraClasses: string;
 	message?: string;
-};
+} & VariantProps<typeof formStatusVariants>;
 
-const FormStatus = ({ message, extraClasses, Icon }: FormStatusProps) => {
+const BaseFormStatus = ({ message, status, Icon }: BaseFormStatusProps) => {
 	if (!message) return null;
 
 	return (
-		<div className={cn('flex w-full items-center gap-x-4 rounded-md p-3 font-bold', extraClasses)}>
+		<div className={formStatusVariants({ status })}>
 			<Icon className='h-7 w-7' />
 			<p>{message}</p>
 		</div>
 	);
 };
 
-type FormStatusMessage = Pick<FormStatusProps, 'message'>;
+type FormStatusProps = Pick<BaseFormStatusProps, 'message'>;
 
-export const FormError = ({ message }: FormStatusMessage) => {
+export const FormError = ({ message }: FormStatusProps) => {
 	return (
-		<FormStatus
+		<BaseFormStatus
 			message={message}
-			extraClasses='bg-destructive/15 text-destructive'
+			status='ERROR'
 			Icon={FaExclamationCircle}
 		/>
 	);
 };
 
-export const FormInfo = ({ message }: FormStatusMessage) => {
+export const FormInfo = ({ message }: FormStatusProps) => {
 	return (
-		<FormStatus
+		<BaseFormStatus
 			message={message}
-			extraClasses='bg-secondary text-secondary-foreground'
+			status='INFO'
 			Icon={LuAlertTriangle}
 		/>
 	);
 };
 
-export const FormSuccess = ({ message }: FormStatusMessage) => {
+export const FormSuccess = ({ message }: FormStatusProps) => {
 	return (
-		<FormStatus
+		<BaseFormStatus
 			message={message}
-			extraClasses='bg-success/20 text-success'
+			status='SUCCESS'
 			Icon={LuCheckCircle}
 		/>
 	);

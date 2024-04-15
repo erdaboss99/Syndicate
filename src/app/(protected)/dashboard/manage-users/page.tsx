@@ -5,9 +5,9 @@ import { UserRole } from '@prisma/client';
 import { getUserDataSubset } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
 
-import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
 import { UserColumns } from '@/components/data-tables/columns/UserColumns';
+import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AdminManageUsersPage = async () => {
 	const currentUser = await getCurrentUser();
@@ -29,7 +29,7 @@ const AdminManageUsersPage = async () => {
 	}));
 
 	return (
-		<DashboardWrapper
+		<CardWrapper
 			navigationTree={[
 				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
 				{ nodeLabel: 'Manage users', nodeHref: 'manage-users' },
@@ -48,7 +48,7 @@ const AdminManageUsersPage = async () => {
 					pagination
 				/>
 			</div>
-		</DashboardWrapper>
+		</CardWrapper>
 	);
 };
 

@@ -1,7 +1,7 @@
 import { TokenVerificationSchema } from '@/schemas';
 
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
+import { AuthWrapper } from '@/components/general/CardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 
 type ResetPasswordPageProps = {

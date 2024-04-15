@@ -3,9 +3,9 @@ import { redirect } from 'next/navigation';
 import { getAppointmentDataSubset } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
 
-import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
 import { AppointmentColumns } from '@/components/data-tables/columns/AppointmentColumns';
+import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AdminManageAppointmentsPage = async () => {
 	const currentUser = await getCurrentUser();
@@ -14,7 +14,7 @@ const AdminManageAppointmentsPage = async () => {
 	const appointments = await getAppointmentDataSubset({ id: true, startTime: true, Booking: true });
 
 	return (
-		<DashboardWrapper
+		<CardWrapper
 			headerTitle='Manage appointments'
 			size='XL'
 			navigationTree={[
@@ -30,7 +30,7 @@ const AdminManageAppointmentsPage = async () => {
 					pagination
 				/>
 			</div>
-		</DashboardWrapper>
+		</CardWrapper>
 	);
 };
 

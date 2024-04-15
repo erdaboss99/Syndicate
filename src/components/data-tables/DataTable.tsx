@@ -16,8 +16,10 @@ import {
 } from '@tanstack/react-table';
 
 import DataTablePagination from '@/components/data-tables/DataTablePagination';
-import DataTableToolbar from '@/components/data-tables/DataTableToolbar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
+import DataTableFilter from './DataTableFilter';
+import DataTableSearch from './DataTableSearch';
+import DataTableVisibility from './DataTableVisibility';
 
 type DataTableProps<TData, TValue> = {
 	columns: ColumnDef<TData, TValue>[];
@@ -66,13 +68,29 @@ const DataTable = <TData, TValue>({
 	});
 	return (
 		<div className='w-full space-y-4 py-4'>
-			<DataTableToolbar
-				dataTable={dataTable}
-				search={search}
-				filter={filter}
-				visibility={visibility}
-			/>
+			{(filter || search || visibility) && (
+				<div className='flex items-center justify-center space-x-2 md:justify-between md:space-x-0'>
+					{(search || visibility) && (
+						<div className='flex items-center space-x-2 md:space-x-4'>
+							{search && (
+								<DataTableSearch
+									dataTable={dataTable}
+									search={search}
+								/>
+							)}
 
+							{filter && dataTable.getColumn(filter.columnKey as string) && (
+								<DataTableFilter
+									column={dataTable.getColumn(filter.columnKey as string)}
+									title={filter.title}
+									options={filter.options}
+								/>
+							)}
+						</div>
+					)}
+					{visibility && <DataTableVisibility dataTable={dataTable} />}
+				</div>
+			)}
 			<div className='rounded-md border'>
 				<Table>
 					<TableHeader>
@@ -115,7 +133,6 @@ const DataTable = <TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-
 			{pagination && <DataTablePagination dataTable={dataTable} />}
 		</div>
 	);

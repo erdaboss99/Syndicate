@@ -1,14 +1,14 @@
-import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';
 import DateSelectionForm from '@/components/appointments/DateSelectionForm';
+import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AppointmentsPage = async () => {
 	return (
-		<AppointmentWrapper
+		<CardWrapper
 			navigationTree={[{ nodeLabel: 'Date selection', nodeHref: 'appointments' }]}
 			headerTitle='Date selection'
 			size='MD'>
 			<DateSelectionForm />
-		</AppointmentWrapper>
+		</CardWrapper>
 	);
 };
 

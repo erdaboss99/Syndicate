@@ -6,7 +6,7 @@ import { UserDetailsQueryParamsSchema } from '@/schemas';
 
 import AccountDetails from '@/components/account/AccountDetails';
 import BookingCarousel from '@/components/bookings/BookingCarousel';
-import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
+import { CardWrapper } from '@/components/general/CardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 
 const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
@@ -74,7 +74,7 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 		);
 
 	return (
-		<DashboardWrapper
+		<CardWrapper
 			navigationTree={[
 				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
 				{ nodeLabel: 'Manage users', nodeHref: 'manage-users' },
@@ -95,7 +95,7 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 				/>
 			</div>
 			<BookingCarousel bookings={userData.bookings} />
-		</DashboardWrapper>
+		</CardWrapper>
 	);
 };
 

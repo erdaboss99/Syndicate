@@ -88,7 +88,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn('flex items-center p-1 pt-0 md:p-6', className)}
+			className={cn('flex items-center p-1 pt-3 md:px-6', className)}
 			{...props}
 		/>
 	),

@@ -1,5 +1,5 @@
-import AuthWrapper from '@/components/auth/AuthWrapper';
 import RequestPasswordResetForm from '@/components/auth/RequestPasswordResetForm';
+import { AuthWrapper } from '@/components/general/CardWrapper';
 
 const RequestPasswordResetPage = () => {
 	return (

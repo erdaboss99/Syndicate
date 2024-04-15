@@ -4,9 +4,9 @@ import { getBookingDataSubset } from '@/data/booking';
 import { getIssues } from '@/data/issue';
 import { getCurrentUser } from '@/lib/auth';
 
-import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import DataTable from '@/components/data-tables/DataTable';
 import { BookingColumns } from '@/components/data-tables/columns/BookingColumns';
+import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AdminManageBookingsPage = async () => {
 	const currentUser = await getCurrentUser();
@@ -42,7 +42,7 @@ const AdminManageBookingsPage = async () => {
 	}));
 
 	return (
-		<DashboardWrapper
+		<CardWrapper
 			navigationTree={[
 				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
 				{ nodeLabel: 'Manage bookings', nodeHref: 'manage-bookings' },
@@ -61,7 +61,7 @@ const AdminManageBookingsPage = async () => {
 					pagination
 				/>
 			</div>
-		</DashboardWrapper>
+		</CardWrapper>
 	);
 };
 

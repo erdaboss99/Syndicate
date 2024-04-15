@@ -13,18 +13,16 @@ import AutoExpiredAppointmentDeletionForm from '@/components/appointments/AutoEx
 import AutoNewAppointmentGenerationForm from '@/components/appointments/AutoNewAppointmentGenerationForm';
 import AutoExpiredBookingDeletionForm from '@/components/bookings/AutoExpiredBookingDeletionForm';
 import DashboardTile from '@/components/dashboard/DashboardTile';
-import DashboardWrapper, { type DashboardWrapperProps } from '@/components/dashboard/DashboardWrapper';
+import { CardWrapper, type CardWrapperProps } from '@/components/general/CardWrapper';
 
-type BaseDashboardProps = Pick<DashboardWrapperProps, 'children' | 'headerTitle' | 'size'>;
-
-const BaseDashboard = ({ children, headerTitle, size }: BaseDashboardProps) => {
+const BaseDashboard = ({ children, headerTitle, size }: Omit<CardWrapperProps, 'navigationTree'>) => {
 	return (
-		<DashboardWrapper
+		<CardWrapper
 			navigationTree={[{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' }]}
 			headerTitle={headerTitle}
 			size={size}>
 			{children}
-		</DashboardWrapper>
+		</CardWrapper>
 	);
 };
 

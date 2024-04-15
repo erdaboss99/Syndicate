@@ -4,7 +4,7 @@ import { type Issue } from '@prisma/client';
 
 import { getCurrentUser } from '@/lib/auth';
 
-import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
+import { CardWrapper } from '@/components/general/CardWrapper';
 import { IssueCard, NewIssueCard } from '@/components/issues/IssueCard';
 import { getIssues } from '@/data/issue';
 
@@ -15,7 +15,7 @@ const AdminManageIssuesPage = async () => {
 	const issues = await getIssues();
 
 	return (
-		<DashboardWrapper
+		<CardWrapper
 			navigationTree={[
 				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
 				{ nodeLabel: 'Manage issues', nodeHref: 'manage-issues' },
@@ -33,7 +33,7 @@ const AdminManageIssuesPage = async () => {
 					/>
 				))}
 			</div>
-		</DashboardWrapper>
+		</CardWrapper>
 	);
 };
 

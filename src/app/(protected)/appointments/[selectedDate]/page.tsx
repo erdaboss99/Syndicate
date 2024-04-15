@@ -3,7 +3,7 @@ import { formatDate, getIntervalFromDay } from '@/lib/date';
 import { AppointmentSelectQueryParamsSchema } from '@/schemas';
 
 import AppointmentSelectButton from '@/components/appointments/AppointmentSelectButton';
-import AppointmentWrapper from '@/components/appointments/AppointmentWrapper';
+import { CardWrapper } from '@/components/general/CardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 
 const AppointmentSelectPage = async ({ params }: { params: { selectedDate: string } }) => {
@@ -27,7 +27,7 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 	const appointments = await getAppointmentsInInterval({ interval, status: 'AVAILABLE' });
 
 	return (
-		<AppointmentWrapper
+		<CardWrapper
 			navigationTree={[
 				{ nodeLabel: 'Date selection', nodeHref: 'appointments' },
 				{ nodeLabel: 'Appointment selection', nodeHref: paramsData.data },
@@ -50,7 +50,7 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 			{appointments.length <= 0 && (
 				<p className='text-center text-sm md:text-base'>There are no available appointments for this day.</p>
 			)}
-		</AppointmentWrapper>
+		</CardWrapper>
 	);
 };
 

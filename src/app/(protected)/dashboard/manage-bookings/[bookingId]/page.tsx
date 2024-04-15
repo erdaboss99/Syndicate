@@ -5,7 +5,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { BookingDetailsQueryParamsSchema } from '@/schemas';
 
 import BookingDetails from '@/components/bookings/BookingDetails';
-import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
+import { CardWrapper } from '@/components/general/CardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 
 const BookingDetailsPage = async ({ params }: { params: { bookingId: string } }) => {
@@ -63,7 +63,7 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 		);
 
 	return (
-		<DashboardWrapper
+		<CardWrapper
 			navigationTree={[
 				{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' },
 				{ nodeLabel: 'Manage bookings', nodeHref: 'manage-bookings' },
@@ -82,7 +82,7 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 					User={{ ...bookingData.User, name: bookingData.User.name!, email: bookingData.User.email! }}
 				/>
 			</div>
-		</DashboardWrapper>
+		</CardWrapper>
 	);
 };
 

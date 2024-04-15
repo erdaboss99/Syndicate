@@ -3,7 +3,7 @@ import { getCurrentUser } from '@/lib/auth';
 import AccountDeleteForm from '@/components/account/AccountDeleteForm';
 import AccountDetails from '@/components/account/AccountDetails';
 import AccountEditForm from '@/components/account/AccountEditForm';
-import AccountWrapper from '@/components/account/AccountWrapper';
+import { CardWrapper } from '@/components/general/CardWrapper';
 import { FormInfo } from '@/components/general/FormStatus';
 import { Button, ButtonProps } from '@/components/ui/Button';
 import { CardContent, CardFooter } from '@/components/ui/Card';
@@ -21,51 +21,46 @@ const AccountPage = async () => {
 
 	const isOAuth = user?.provider !== 'Credentials';
 	return (
-		<AccountWrapper
+		<CardWrapper
 			navigationTree={[{ nodeLabel: 'Account', nodeHref: 'account' }]}
-			headerTitle='Account information'>
-			<div className='space-y-6'>
-				<CardContent>
-					<div className='space-y-4'>
-						<AccountDetails
-							image={user?.image!}
-							name={user?.name!}
-							email={user?.email!}
-							role={user?.role!}
-							provider={user?.provider!}
-							createdAt={user?.createdAt!}
-						/>
-					</div>
-				</CardContent>
-				<CardFooter className='flex flex-col items-center justify-center space-y-4'>
-					{!isOAuth && (
-						<AccountDialog
-							title='Edit account'
-							description="Make changes to your account here. Click save when you're done."
-							triggerButtonLabel='Edit account information'
-							triggerButtonVariant='default'
-							triggerButtonSize='full'>
-							<AccountEditForm />
-						</AccountDialog>
-					)}
-					<FormInfo
-						message={
-							isOAuth
-								? 'User data cannot be changed in accounts created using a third-party provider!'
-								: ''
-						}
-					/>
+			headerTitle='Account information'
+			size='SM'>
+			<CardContent className='space-y-4'>
+				<AccountDetails
+					image={user?.image!}
+					name={user?.name!}
+					email={user?.email!}
+					role={user?.role!}
+					provider={user?.provider!}
+					createdAt={user?.createdAt!}
+				/>
+			</CardContent>
+			<CardFooter className='flex flex-col items-center justify-center space-y-4'>
+				{!isOAuth && (
 					<AccountDialog
-						title='Delete account'
-						description='This action is irreversible. All data will be lost. Are you sure you want to delete your account?'
-						triggerButtonLabel='Delete account'
-						triggerButtonVariant='outline'
+						title='Edit account'
+						description="Make changes to your account here. Click save when you're done."
+						triggerButtonLabel='Edit account information'
+						triggerButtonVariant='default'
 						triggerButtonSize='full'>
-						<AccountDeleteForm />
+						<AccountEditForm />
 					</AccountDialog>
-				</CardFooter>
-			</div>
-		</AccountWrapper>
+				)}
+				<FormInfo
+					message={
+						isOAuth ? 'User data cannot be changed in accounts created using a third-party provider!' : ''
+					}
+				/>
+				<AccountDialog
+					title='Delete account'
+					description='This action is irreversible. All data will be lost. Are you sure you want to delete your account?'
+					triggerButtonLabel='Delete account'
+					triggerButtonVariant='outline'
+					triggerButtonSize='full'>
+					<AccountDeleteForm />
+				</AccountDialog>
+			</CardFooter>
+		</CardWrapper>
 	);
 };
 

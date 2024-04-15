@@ -6,15 +6,69 @@ import {
 	ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_SUCCESS,
 	ACTION_AUTO_EXPIRED_BOOKING_DELETION_ENABLED_SUCCESS,
 	ACTION_BOOKING_CREATED_SUCCESS,
+	ACTION_BOOKING_DELETED_SUCCESS,
+	ACTION_BOOKING_NOT_FOUND_ERROR,
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 	AUTO_EXPIRED_BOOKING_DELETION_KEY,
 } from '@/constants';
+import { getBookingById } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
-import { sendBookingConfirmationEmail } from '@/lib/mail';
-import { AppointmentBookFormSchema, AutoExpiredBookingDeletionSchema } from '@/schemas';
+import { sendBookingConfirmationEmail, sendBookingDeletionEmail } from '@/lib/mail';
+import { AppointmentBookFormSchema, AutoExpiredBookingDeletionSchema, BookingDeleteFormSchema } from '@/schemas';
+
+export const deleteBooking = async (values: z.infer<typeof BookingDeleteFormSchema>) => {
+	const user = await getCurrentUser();
+	if (user?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
+
+	const validatedData = BookingDeleteFormSchema.safeParse(values);
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
+
+	const { id, reason } = validatedData.data;
+
+	const existingBooking = await getBookingById(id);
+	if (!existingBooking) return { error: ACTION_BOOKING_NOT_FOUND_ERROR };
+
+	const deletedBooking = await database.booking.delete({
+		where: {
+			id,
+		},
+		select: {
+			description: true,
+			Appointment: {
+				select: {
+					startTime: true,
+				},
+			},
+			User: {
+				select: {
+					name: true,
+					email: true,
+				},
+			},
+			Issue: {
+				select: {
+					name: true,
+					description: true,
+				},
+			},
+		},
+	});
+
+	await sendBookingDeletionEmail({
+		userName: deletedBooking.User.name!,
+		userEmail: deletedBooking.User.email!,
+		appointmentStartTime: deletedBooking.Appointment.startTime,
+		bookingDescription: deletedBooking.description,
+		issueName: deletedBooking.Issue.name,
+		issueDescription: deletedBooking.Issue.description,
+		reason,
+	});
+
+	return { success: ACTION_BOOKING_DELETED_SUCCESS };
+};
 
 export const createBooking = async (values: z.infer<typeof AppointmentBookFormSchema>) => {
 	const currentUser = await getCurrentUser();

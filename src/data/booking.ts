@@ -4,6 +4,15 @@ import { AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE, AUTO_EXPIRED_BOOKING_DELET
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
 
+export const getBookingById = async (id: string) => {
+	try {
+		const booking = await database.booking.findUnique({ where: { id } });
+		return booking;
+	} catch (error) {
+		return null;
+	}
+};
+
 export const getBookingCount = async (options: { status: 'ALL' | 'WEEKLY' }) => {
 	try {
 		switch (options.status) {

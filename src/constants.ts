@@ -33,6 +33,8 @@ export const DATE_REQUIRED_VALIDATION = 'Date is required!';
 export const DATE_YYYY_MM_DD_FORMAT_VALIDATION = 'Date should be in yyyy-MM-dd format!';
 export const BOOKING_DESCRIPTION_MIN_VALIDATION = 'Booking description should be at least 5 characters!';
 export const BOOKING_DESCRIPTION_MAX_VALIDATION = 'Booking description should be maximum of 55 characters!';
+export const BOOKING_DELETE_REASON_MIN_VALIDATION = 'Booking delete reason should be at least 5 characters!';
+export const BOOKING_DELETE_REASON_MAX_VALIDATION = 'Booking delete reason should be maximum of 55 characters!';
 export const ISSUE_DESCRIPTION_MIN_VALIDATION = 'Issue description should be at least 5 characters!';
 export const ISSUE_DESCRIPTION_MAX_VALIDATION = 'Issue description should be maximum of 55 characters!';
 export const ISSUE_SELECTION_REQUIRED_VALIDATION = 'Issue selection is required!';
@@ -94,3 +96,5 @@ export const ACTION_ISSUE_DELETED_SUCCESS = 'Issue successfully deleted!';
 export const ACTION_ISSUE_DELETE_LINKED_BOOKING_ERROR = 'Issue has linked bookings, therefore cannot be deleted!';
 
 export const ACTION_BOOKING_CREATED_SUCCESS = 'Booking created successfully!';
+export const ACTION_BOOKING_DELETED_SUCCESS = 'Booking deleted successfully!';
+export const ACTION_BOOKING_NOT_FOUND_ERROR = 'Booking no longer exists!';

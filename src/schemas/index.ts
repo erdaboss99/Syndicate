@@ -2,6 +2,8 @@ import { UserRole } from '@prisma/client';
 import * as z from 'zod';
 
 import {
+	BOOKING_DELETE_REASON_MAX_VALIDATION,
+	BOOKING_DELETE_REASON_MIN_VALIDATION,
 	BOOKING_DESCRIPTION_MAX_VALIDATION,
 	BOOKING_DESCRIPTION_MIN_VALIDATION,
 	DATE_REQUIRED_VALIDATION,
@@ -146,3 +148,11 @@ export const IssueDeleteFormSchema = z.object({
 export const UserDetailsQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });
 
 export const BookingDetailsQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });
+
+export const BookingDeleteFormSchema = z.object({
+	id: z.string().uuid({ message: UUID_VALIDATION }),
+	reason: z
+		.string()
+		.min(5, { message: BOOKING_DELETE_REASON_MIN_VALIDATION })
+		.max(55, { message: BOOKING_DELETE_REASON_MAX_VALIDATION }),
+});

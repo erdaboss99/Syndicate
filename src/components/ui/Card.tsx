@@ -27,15 +27,27 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, variant, 
 ));
 Card.displayName = 'Card';
 
-const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-	({ className, ...props }, ref) => (
-		<div
-			ref={ref}
-			className={cn('flex flex-col space-y-1.5 p-6', className)}
-			{...props}
-		/>
-	),
-);
+const cardHeaderVariant = cva('flex flex-col space-y-1.5 p-6 text-center font-orbitron', {
+	variants: {
+		variant: {
+			default: 'text-4xl md:text-5xl',
+			secondary: 'text-2xl md:text-3xl',
+		},
+	},
+	defaultVariants: {
+		variant: 'default',
+	},
+});
+
+interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardHeaderVariant> {}
+
+const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(({ className, variant, ...props }, ref) => (
+	<div
+		ref={ref}
+		className={cn(cardHeaderVariant({ variant, className }))}
+		{...props}
+	/>
+));
 CardHeader.displayName = 'CardHeader';
 
 const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
@@ -53,7 +65,7 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
 	({ className, ...props }, ref) => (
 		<p
 			ref={ref}
-			className={cn('text-sm text-muted-foreground', className)}
+			className={cn('text-center font-orbitron text-xl text-muted-foreground md:text-2xl ', className)}
 			{...props}
 		/>
 	),

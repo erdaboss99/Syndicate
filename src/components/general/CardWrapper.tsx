@@ -21,12 +21,8 @@ const CardWrapper = ({ navigationTree, children, size, headerTitle, headerLabel 
 	return (
 		<Card className={`w-full ${containerSize}`}>
 			{navigationTree && <BreadcrumbNavigation navigationTree={navigationTree} />}
-			<CardHeader className='text-center font-orbitron text-4xl md:text-5xl'>{headerTitle}</CardHeader>
-			{headerLabel && (
-				<CardDescription className='text-center font-orbitron text-xl md:text-2xl'>
-					{headerLabel}
-				</CardDescription>
-			)}
+			<CardHeader>{headerTitle}</CardHeader>
+			{headerLabel && <CardDescription>{headerLabel}</CardDescription>}
 			{children}
 		</Card>
 	);

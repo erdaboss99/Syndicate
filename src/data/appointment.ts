@@ -66,6 +66,21 @@ export const getAppointmentDataSubset = async <T extends Prisma.AppointmentSelec
 	}
 };
 
+export const getSelectedAppointmentDataSubset = async <T extends Prisma.AppointmentSelect>(options: {
+	id: string;
+	select: T;
+}): Promise<Prisma.AppointmentGetPayload<{ select: T }> | null> => {
+	try {
+		const appointmentData = await database.appointment.findFirst({
+			where: { id: options.id },
+			select: options.select,
+		});
+		return appointmentData;
+	} catch (error) {
+		return null;
+	}
+};
+
 export const getAppointmentCount = async (options: { status: 'BOOKED' | 'AVAILABLE' }) => {
 	try {
 		switch (options.status) {

@@ -11,7 +11,17 @@ const AdminManageAppointmentsPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const appointments = await getAppointmentDataSubset({ id: true, startTime: true, Booking: true });
+	const appointments = (
+		await getAppointmentDataSubset({
+			id: true,
+			startTime: true,
+			Booking: { select: { id: true } },
+		})
+	).map((appointment) => ({
+		id: appointment.id,
+		startTime: appointment.startTime,
+		bookingId: appointment.Booking === null ? null : appointment.Booking.id,
+	}));
 
 	return (
 		<CardWrapper

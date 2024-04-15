@@ -124,6 +124,10 @@ export const AppointmentBookFormSchema = z.object({
 		.max(55, { message: BOOKING_DESCRIPTION_MAX_VALIDATION }),
 });
 
+export const AppointmentDeleteFormSchema = z.object({
+	id: z.string().uuid({ message: UUID_VALIDATION }),
+});
+
 export const IssueCreateFormSchema = z.object({
 	name: z.string().min(1, NAME_VALIDATION),
 	description: z

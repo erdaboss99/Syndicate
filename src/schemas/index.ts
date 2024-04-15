@@ -57,6 +57,7 @@ export const ResetPasswordSchema = z
 
 export const AccountEditSchema = z
 	.object({
+		id: z.string().uuid({ message: UUID_VALIDATION }),
 		name: z.string().min(1, NAME_VALIDATION),
 		email: z.string().email({ message: EMAIL_VALIDATION }),
 		newPassword: z
@@ -79,6 +80,7 @@ export const AccountEditSchema = z
 	});
 
 export const AccountDeleteSchema = z.object({
+	id: z.string().uuid({ message: UUID_VALIDATION }),
 	email: z.string().email({ message: EMAIL_VALIDATION }),
 });
 

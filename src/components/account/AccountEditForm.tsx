@@ -29,6 +29,7 @@ const AccountEditForm = () => {
 	const accountEditForm = useForm<z.infer<typeof AccountEditSchema>>({
 		resolver: zodResolver(AccountEditSchema),
 		defaultValues: {
+			id: user?.id,
 			name: user?.name,
 			email: user?.email,
 			newPassword: '',

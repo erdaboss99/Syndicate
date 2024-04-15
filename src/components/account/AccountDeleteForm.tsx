@@ -11,6 +11,7 @@ import * as z from 'zod';
 
 import { deleteAccount } from '@/actions/account';
 import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { AccountDeleteSchema } from '@/schemas';
 
 import LogoutButton from '@/components/auth/LogoutButton';
@@ -20,12 +21,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/Input';
 
 const AccountDeleteForm = () => {
+	const user = useCurrentUser();
+
 	const [isPending, startTransition] = useTransition();
 	const [isDone, setIsDone] = useState(false);
 
 	const accountDeleteForm = useForm<z.infer<typeof AccountDeleteSchema>>({
 		resolver: zodResolver(AccountDeleteSchema),
 		defaultValues: {
+			id: user?.id,
 			email: '',
 		},
 	});

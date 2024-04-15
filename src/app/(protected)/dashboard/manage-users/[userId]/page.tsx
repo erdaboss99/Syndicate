@@ -1,5 +1,7 @@
+import { redirect } from 'next/navigation';
+
 import { getSelectedUserDataSubset } from '@/data/user';
-import { getLoginProvider } from '@/lib/auth';
+import { getCurrentUser, getLoginProvider } from '@/lib/auth';
 import { UserDetailsQueryParamsSchema } from '@/schemas';
 
 import AccountDetails from '@/components/account/AccountDetails';
@@ -8,6 +10,9 @@ import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 
 const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
+	const currentUser = await getCurrentUser();
+	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
+
 	const { userId } = params;
 	const paramsData = UserDetailsQueryParamsSchema.safeParse(userId);
 

@@ -11,6 +11,7 @@ import {
 	ACTION_ACCOUNT_ROLE_CHANGE_SUCCESS,
 	ACTION_ACCOUNT_THIRD_PARTY_EDIT_ERROR,
 	ACTION_ACCOUNT_UPDATED_SUCCESS,
+	ACTION_FORBIDDEN_ERROR,
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 } from '@/constants';
@@ -28,7 +29,9 @@ export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => 
 	const isOAuth = user?.provider !== 'Credentials';
 	if (isOAuth) return { error: ACTION_ACCOUNT_THIRD_PARTY_EDIT_ERROR };
 
-	const { name, email, newPassword, confirmPassword, password } = validatedData.data;
+	const { id, name, email, newPassword, confirmPassword, password } = validatedData.data;
+
+	if (user?.id !== id) return { error: ACTION_FORBIDDEN_ERROR };
 
 	const existingUser = await getUserById(user?.id);
 	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
@@ -82,10 +85,12 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 	const validatedData = AccountDeleteSchema.safeParse(values);
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
-	const { email } = validatedData.data;
-
 	const user = await getCurrentUser();
 	const existingUser = await getUserById(user?.id!);
+
+	const { id, email } = validatedData.data;
+
+	if (user?.id !== id) return { error: ACTION_FORBIDDEN_ERROR };
 
 	if (!existingUser || !existingUser.email) return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 

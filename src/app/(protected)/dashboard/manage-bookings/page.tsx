@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getBookingSubset } from '@/data/booking';
+import { getBookingDataSubset } from '@/data/booking';
 import { getIssues } from '@/data/issue';
 import { getCurrentUser } from '@/lib/auth';
 
@@ -12,7 +12,7 @@ const AdminManageBookingsPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const bookings = await getBookingSubset({
+	const bookings = await getBookingDataSubset({
 		id: true,
 		description: true,
 		createdAt: true,

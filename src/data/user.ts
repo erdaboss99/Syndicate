@@ -48,7 +48,9 @@ export const getUserCount = async (options: { variant: 'ALL' | 'LASTWEEK' }) => 
 	}
 };
 
-export const getUserSubset = async (select: Prisma.UserSelect) => {
+export const getUserDataSubset = async <T extends Prisma.UserSelect>(
+	select: T,
+): Promise<Prisma.UserGetPayload<{ select: T }>[]> => {
 	try {
 		const userSubset = await database.user.findMany({
 			select,
@@ -59,7 +61,10 @@ export const getUserSubset = async (select: Prisma.UserSelect) => {
 	}
 };
 
-export const getSelectedUserData = async (options: { id: string; select: Prisma.UserSelect }) => {
+export const getSelectedUserDataSubset = async <T extends Prisma.UserSelect>(options: {
+	id: string;
+	select: T;
+}): Promise<Prisma.UserGetPayload<{ select: T }> | null> => {
 	try {
 		const userData = await database.user.findFirst({
 			where: { id: options.id },

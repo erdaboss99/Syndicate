@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getAppointmentSubset } from '@/data/appointment';
+import { getAppointmentDataSubset } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
 
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
@@ -11,7 +11,7 @@ const AdminManageAppointmentsPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const appointments = await getAppointmentSubset({ id: true, startTime: true, Booking: true });
+	const appointments = await getAppointmentDataSubset({ id: true, startTime: true, Booking: true });
 
 	return (
 		<DashboardWrapper

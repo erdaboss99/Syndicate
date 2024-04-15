@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { UserRole } from '@prisma/client';
 
-import { getUserSubset } from '@/data/user';
+import { getUserDataSubset } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
 
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
@@ -13,7 +13,7 @@ const AdminManageUsersPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const users = await getUserSubset({
+	const users = await getUserDataSubset({
 		id: true,
 		name: true,
 		email: true,

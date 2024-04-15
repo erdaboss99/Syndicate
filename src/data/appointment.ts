@@ -53,7 +53,9 @@ export const getAppointmentById = async (options: { id: string; status: 'AVAILAB
 	}
 };
 
-export const getAppointmentSubset = async (select: Prisma.AppointmentSelect) => {
+export const getAppointmentDataSubset = async <T extends Prisma.AppointmentSelect>(
+	select: T,
+): Promise<Prisma.AppointmentGetPayload<{ select: T }>[]> => {
 	try {
 		const appointmentSubset = await database.appointment.findMany({
 			select,

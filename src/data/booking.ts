@@ -4,7 +4,9 @@ import { AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE, AUTO_EXPIRED_BOOKING_DELET
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
 
-export const getBookingSubset = async (select: Prisma.BookingSelect) => {
+export const getBookingDataSubset = async <T extends Prisma.BookingSelect>(
+	select: T,
+): Promise<Prisma.BookingGetPayload<{ select: T }>[]> => {
 	try {
 		const bookingSubset = await database.booking.findMany({
 			select,

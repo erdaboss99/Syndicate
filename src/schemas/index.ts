@@ -142,3 +142,5 @@ export const IssueDeleteFormSchema = z.object({
 });
 
 export const UserDetailsQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });
+
+export const BookingDetailsQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });

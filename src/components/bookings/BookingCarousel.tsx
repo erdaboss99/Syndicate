@@ -10,7 +10,7 @@ const BookingCarousel = ({ bookings }: BookingCarouselProps) => {
 	if (bookings.length === 0) return null;
 	return (
 		<>
-			<CardHeader variant='secondary'>User&apos;s Existing bookings</CardHeader>
+			<CardHeader variant='secondary'>User&apos;s existing bookings</CardHeader>
 			<Carousel
 				dotsPosition='bottom'
 				opts={{

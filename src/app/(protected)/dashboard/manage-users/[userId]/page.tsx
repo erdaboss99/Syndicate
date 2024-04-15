@@ -80,7 +80,7 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 				{ nodeLabel: 'User details', nodeHref: userData.id },
 			]}
 			headerTitle='User details'
-			size='MD'
+			size='SM'
 			buttonLabel='Back to manage users'
 			buttonHref='/dashboard/manage-users'
 			buttonSize='full'

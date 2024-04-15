@@ -4,19 +4,6 @@ import { AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE, AUTO_EXPIRED_BOOKING_DELET
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
 
-export const getBookingDataSubset = async <T extends Prisma.BookingSelect>(
-	select: T,
-): Promise<Prisma.BookingGetPayload<{ select: T }>[]> => {
-	try {
-		const bookingSubset = await database.booking.findMany({
-			select,
-		});
-		return bookingSubset;
-	} catch (error) {
-		return [];
-	}
-};
-
 export const getBookingCount = async (options: { status: 'ALL' | 'WEEKLY' }) => {
 	try {
 		switch (options.status) {
@@ -44,6 +31,34 @@ export const getBookingCount = async (options: { status: 'ALL' | 'WEEKLY' }) => 
 				});
 				return thisWeeksBookingCount._count.id;
 		}
+	} catch (error) {
+		return null;
+	}
+};
+
+export const getBookingDataSubset = async <T extends Prisma.BookingSelect>(
+	select: T,
+): Promise<Prisma.BookingGetPayload<{ select: T }>[]> => {
+	try {
+		const bookingSubset = await database.booking.findMany({
+			select,
+		});
+		return bookingSubset;
+	} catch (error) {
+		return [];
+	}
+};
+
+export const getSelectedBookingDataSubset = async <T extends Prisma.BookingSelect>(options: {
+	id: string;
+	select: T;
+}): Promise<Prisma.BookingGetPayload<{ select: T }> | null> => {
+	try {
+		const bookingData = await database.booking.findFirst({
+			where: { id: options.id },
+			select: options.select,
+		});
+		return bookingData;
 	} catch (error) {
 		return null;
 	}

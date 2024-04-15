@@ -8,6 +8,7 @@ import { LuArrowUpDown } from 'react-icons/lu';
 
 import { formatDate } from '@/lib/date';
 
+import BookingTableAction from '@/components/bookings/BookingTableAction';
 import { Button } from '@/components/ui/Button';
 
 export type BookingDataTableFields = Pick<Booking, 'id' | 'description' | 'createdAt'> & {
@@ -84,6 +85,13 @@ export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 					</Suspense>
 				</time>
 			);
+		},
+	},
+	{
+		id: 'actions',
+		enableHiding: false,
+		cell: ({ row }) => {
+			return <BookingTableAction booking={row.original} />;
 		},
 	},
 ];

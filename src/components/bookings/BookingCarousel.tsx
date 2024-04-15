@@ -1,6 +1,6 @@
 import BookingCard, { type BookingCardProps } from '@/components/bookings/BookingCard';
 import { CardHeader } from '@/components/ui/Card';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/Carousel';
+import { Carousel, CarouselContent, CarouselDots, CarouselItem } from '@/components/ui/Carousel';
 
 type BookingCarouselProps = {
 	bookings: BookingCardProps[];
@@ -12,12 +12,11 @@ const BookingCarousel = ({ bookings }: BookingCarouselProps) => {
 		<>
 			<CardHeader variant='secondary'>User&apos;s Existing bookings</CardHeader>
 			<Carousel
-				autoPlay={5000}
+				dotsPosition='bottom'
 				opts={{
 					align: 'start',
-					loop: true,
 				}}
-				className='mx-auto w-full'>
+				className='mx-auto mb-5 w-full pb-5'>
 				<CarouselContent>
 					{bookings.map((booking) => (
 						<CarouselItem key={booking.id}>
@@ -32,6 +31,7 @@ const BookingCarousel = ({ bookings }: BookingCarouselProps) => {
 						</CarouselItem>
 					))}
 				</CarouselContent>
+				<CarouselDots gap='lg' />
 			</Carousel>
 		</>
 	);

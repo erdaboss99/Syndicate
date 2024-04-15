@@ -1,8 +1,9 @@
-import { getSelectedUserData } from '@/data/user';
+import { getSelectedUserDataSubset } from '@/data/user';
 import { getLoginProvider } from '@/lib/auth';
 import { UserDetailsQueryParamsSchema } from '@/schemas';
 
 import AccountDetails from '@/components/account/AccountDetails';
+import BookingCarousel from '@/components/bookings/BookingCarousel';
 import DashboardWrapper from '@/components/dashboard/DashboardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 
@@ -22,7 +23,7 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			/>
 		);
 
-	const userData = await getSelectedUserData({
+	const userData = await getSelectedUserDataSubset({
 		id: paramsData.data,
 		select: {
 			id: true,
@@ -38,13 +39,17 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			},
 			bookings: {
 				select: {
+					id: true,
+					description: true,
 					Issue: {
 						select: {
+							id: true,
 							name: true,
 						},
 					},
 					Appointment: {
 						select: {
+							id: true,
 							startTime: true,
 						},
 					},
@@ -75,7 +80,7 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 				{ nodeLabel: 'User details', nodeHref: userData.id },
 			]}
 			headerTitle='User details'
-			size='SM'
+			size='MD'
 			buttonLabel='Back to manage users'
 			buttonHref='/dashboard/manage-users'
 			buttonSize='full'
@@ -90,6 +95,7 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 					createdAt={userData?.createdAt!}
 				/>
 			</div>
+			<BookingCarousel bookings={userData.bookings} />
 		</DashboardWrapper>
 	);
 };

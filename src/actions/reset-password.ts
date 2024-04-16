@@ -10,7 +10,7 @@ import {
 	ACTION_INVALID_TOKEN_ERROR,
 	PASSWORD_MATCH_VALIDATION,
 } from '@/constants';
-import { getPasswordResetTokenByToken } from '@/data/passwordResetToken';
+import { getUniquePasswordResetToken } from '@/data/passwordResetToken';
 import { getUserByEmail } from '@/data/user';
 import { database } from '@/lib/database';
 import { hash } from '@/lib/hash';
@@ -22,7 +22,14 @@ export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>)
 
 	const { token, password, confirmPassword } = validatedData.data;
 
-	const existingToken = await getPasswordResetTokenByToken(token);
+	const existingToken = await getUniquePasswordResetToken({
+		where: { id: token },
+		select: {
+			id: true,
+			expires: true,
+			email: true,
+		},
+	});
 	if (!existingToken) return { error: ACTION_INVALID_TOKEN_ERROR };
 
 	const hasExpired = new Date(existingToken.expires) < new Date();

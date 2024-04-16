@@ -12,7 +12,7 @@ import {
 	ACTION_NON_EXISTING_TOKEN_ERROR,
 } from '@/constants';
 import { getUserByEmail } from '@/data/user';
-import { getVerificationTokenByToken } from '@/data/verificationToken';
+import { getUniqueVerificationToken } from '@/data/verificationToken';
 import { database } from '@/lib/database';
 
 export const emailVerification = async (values: z.infer<typeof TokenVerificationSchema>) => {
@@ -20,7 +20,16 @@ export const emailVerification = async (values: z.infer<typeof TokenVerification
 	if (!validatedData.success) return { error: ACTION_INVALID_TOKEN_ERROR };
 
 	const { token } = validatedData.data;
-	const existingToken = await getVerificationTokenByToken(token);
+
+	const existingToken = await getUniqueVerificationToken({
+		where: { id: token },
+		select: {
+			id: true,
+			expires: true,
+			email: true,
+		},
+	});
+
 	if (!existingToken) return { error: ACTION_NON_EXISTING_TOKEN_ERROR };
 
 	const hasExpired = new Date(existingToken.expires) < new Date();

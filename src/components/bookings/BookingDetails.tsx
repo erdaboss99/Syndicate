@@ -1,19 +1,24 @@
 import { formatDate } from '@/lib/date';
 
+import { type Appointment, type Booking, type Issue, type User } from '@prisma/client';
+
 import { BaseDetailsField, HighlightedDetailsField } from '@/components/general/DetailsField';
 import LinkTile from '@/components/general/LinkTile';
 import { Badge } from '@/components/ui/Badge';
 import { CardHeader } from '@/components/ui/Card';
 
-type UserDetailsProps = {
-	User: {
-		id: string;
-		name: string;
-		email: string;
-	};
+type AssociatedUserDetailsProps = {
+	User: Pick<User, 'id' | 'name' | 'email'>;
 };
 
-const UserDetails = ({ User }: UserDetailsProps) => {
+export type BookingDetailsProps = {
+	userLink?: string;
+	Issue: Pick<Issue, 'name' | 'description'>;
+	Appointment: Pick<Appointment, 'startTime'>;
+} & AssociatedUserDetailsProps &
+	Pick<Booking, 'description' | 'createdAt'>;
+
+const AssociatedUserDetails = ({ User }: AssociatedUserDetailsProps) => {
 	return (
 		<>
 			<CardHeader variant='tertiary'>User details</CardHeader>
@@ -29,20 +34,7 @@ const UserDetails = ({ User }: UserDetailsProps) => {
 	);
 };
 
-export type BookingDetailsProps = {
-	userLink?: string;
-	description: string;
-	createdAt: Date;
-	Issue: {
-		name: string;
-		description: string;
-	};
-	Appointment: {
-		startTime: Date;
-	};
-} & UserDetailsProps;
-
-const BookingDetails = ({ description, createdAt, Issue, Appointment, User, userLink }: BookingDetailsProps) => {
+export const BookingDetails = ({ description, createdAt, Issue, Appointment, User, userLink }: BookingDetailsProps) => {
 	return (
 		<>
 			<HighlightedDetailsField
@@ -60,13 +52,11 @@ const BookingDetails = ({ description, createdAt, Issue, Appointment, User, user
 			<BaseDetailsField label='Issue description'>{Issue.description}</BaseDetailsField>
 			{userLink ? (
 				<LinkTile tileHref={userLink}>
-					<UserDetails User={User} />
+					<AssociatedUserDetails User={User} />
 				</LinkTile>
 			) : (
-				<UserDetails User={User} />
+				<AssociatedUserDetails User={User} />
 			)}
 		</>
 	);
 };
-
-export default BookingDetails;

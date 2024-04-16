@@ -4,7 +4,7 @@ import { getUniqueBookingDataSubset } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { BookingDetailsQueryParamsSchema } from '@/schemas';
 
-import BookingDetails from '@/components/bookings/BookingDetails';
+import { BookingDetails } from '@/components/bookings/BookingDetails';
 import { CardWrapper } from '@/components/general/CardWrapper';
 import ErrorCard from '@/components/general/ErrorCard';
 

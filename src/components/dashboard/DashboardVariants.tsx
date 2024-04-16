@@ -1,18 +1,21 @@
 import { LuCalendarClock, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
 
+import { getAppointmentCount } from '@/data/appointment';
+import { getBookingCount } from '@/data/booking';
 import {
-	getAppointmentCount,
+	getAutoBookingDeletionStatus,
 	getAutoExpiredAppointmentDeletionStatus,
 	getAutoNewAppointmentGenerationStatus,
-} from '@/data/appointment';
-import { getAutoBookingDeletionStatus, getBookingCount } from '@/data/booking';
+	getSendAutoActionReportEmailStatus,
+} from '@/data/configuration';
 import { getIssueCount } from '@/data/issue';
 import { getUserCount } from '@/data/user';
 
-import AutoExpiredAppointmentDeletionForm from '@/components/appointments/AutoExpiredAppointmentDeletionForm';
-import AutoNewAppointmentGenerationForm from '@/components/appointments/AutoNewAppointmentGenerationForm';
-import AutoExpiredBookingDeletionForm from '@/components/bookings/AutoExpiredBookingDeletionForm';
+import AutoExpiredAppointmentDeletionForm from '@/components/dashboard/AutoExpiredAppointmentDeletionForm';
+import AutoExpiredBookingDeletionForm from '@/components/dashboard/AutoExpiredBookingDeletionForm';
+import AutoNewAppointmentGenerationForm from '@/components/dashboard/AutoNewAppointmentGenerationForm';
 import DashboardTile from '@/components/dashboard/DashboardTile';
+import SendAutoActionReportEmailForm from '@/components/dashboard/SendAutoActionReportEmailForm';
 import { CardWrapper, type CardWrapperProps } from '@/components/general/CardWrapper';
 
 const BaseDashboard = ({ children, headerTitle, size }: Omit<CardWrapperProps, 'navigationTree'>) => {
@@ -30,6 +33,7 @@ export const AdminDashboard = async () => {
 	const autoNewAppointmentGenerationStatus = await getAutoNewAppointmentGenerationStatus();
 	const autoExpiredAppointmentDeletionStatus = await getAutoExpiredAppointmentDeletionStatus();
 	const autoExpiredBookingDeletionStatus = await getAutoBookingDeletionStatus();
+	const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
 
 	const allUserCount = await getUserCount({ variant: 'ALL' });
 	const usersRegisteredInLastWeekCount = await getUserCount({ variant: 'LASTWEEK' });
@@ -56,6 +60,9 @@ export const AdminDashboard = async () => {
 				/>
 				<AutoExpiredBookingDeletionForm
 					autoExpiredBookingDeletionStatus={Boolean(autoExpiredBookingDeletionStatus)}
+				/>
+				<SendAutoActionReportEmailForm
+					sendAutoActionReportEmailStatus={Boolean(sendAutoActionReportEmailStatus)}
 				/>
 			</div>
 			<div className='grid gap-4 p-4 md:grid-cols-2'>

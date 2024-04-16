@@ -1,6 +1,5 @@
 import { Prisma } from '@prisma/client';
 
-import { AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE, AUTO_EXPIRED_BOOKING_DELETION_KEY } from '@/constants';
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
 
@@ -89,23 +88,4 @@ export const getExpiredBookings = async () => {
 	} catch (error) {
 		return [];
 	}
-};
-
-export const getAutoBookingDeletionStatus = async () => {
-	const autoExpiredBookingDeletion = await database.configuration.findUnique({
-		where: {
-			name: AUTO_EXPIRED_BOOKING_DELETION_KEY,
-		},
-	});
-
-	if (!autoExpiredBookingDeletion)
-		return (
-			await database.configuration.create({
-				data: {
-					name: AUTO_EXPIRED_BOOKING_DELETION_KEY,
-					value: AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE,
-				},
-			})
-		).value;
-	return autoExpiredBookingDeletion.value;
 };

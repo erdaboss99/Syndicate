@@ -13,6 +13,9 @@ export const AUTO_EXPIRED_APPOINTMENT_DELETION_DEFAULT_VALUE = 0; // 0 = off, 1 
 export const AUTO_EXPIRED_BOOKING_DELETION_KEY = 'AUTO_EXPIRED_BOOKING_DELETION';
 export const AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
 
+export const SEND_AUTO_ACTION_REPORT_EMAIL_KEY = 'SEND_AUTO_ACTION_REPORT_EMAIL';
+export const SEND_AUTO_ACTION_REPORT_EMAIL_DEFAULT_VALUE = 0; // 0 = off, 1 = on
+
 export const OPENING_HOUR = 8; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
 export const CLOSING_HOUR = 12; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
 export const APPOINTMENT_DURATION = 30; // in minutes
@@ -88,6 +91,11 @@ export const ACTION_AUTO_EXPIRED_BOOKING_DELETION_ENABLED_SUCCESS =
 export const ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_SUCCESS =
 	'Automatic expired booking deletion successfully disabled!';
 export const ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_INFO = 'Automatic expired booking deletion is disabled!';
+
+export const ACTION_SEND_AUTO_ACTION_REPORT_EMAIL_ENABLED_SUCCESS =
+	'Report email on automatic actions successfully enabled!';
+export const ACTION_SEND_AUTO_ACTION_REPORT_EMAIL_DISABLED_SUCCESS =
+	'Report email on automatic actions successfully disabled!';
 
 export const ACTION_ISSUE_NOT_FOUND_ERROR = 'Issue not found!';
 export const ACTION_ISSUE_CREATED_SUCCESS = 'Issue successfully created!';

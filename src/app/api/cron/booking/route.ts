@@ -3,7 +3,8 @@ import {
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 } from '@/constants';
-import { getAutoBookingDeletionStatus, getExpiredBookings } from '@/data/booking';
+import { getExpiredBookings } from '@/data/booking';
+import { getAutoBookingDeletionStatus, getSendAutoActionReportEmailStatus } from '@/data/configuration';
 import { type ExpiredBookingDeletionTemplateProps } from '@/emails/ExpiredBookingDeletion';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
@@ -72,7 +73,9 @@ export async function DELETE() {
 			message: `${deletedBookings.length} bookings were deleted due to expiration.`,
 			deletedExpiredBookings,
 		};
-		await sendExpiredBookingDeletionReport(reportEmailParams);
+
+		const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
+		if (Boolean(sendAutoActionReportEmailStatus)) await sendExpiredBookingDeletionReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
 			status: 201,

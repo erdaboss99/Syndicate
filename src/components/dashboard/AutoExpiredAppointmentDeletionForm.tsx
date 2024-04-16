@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { toggleAutoExpiredAppointmentDeletion } from '@/actions/appointment';
+import { toggleAutoExpiredAppointmentDeletion } from '@/actions/configuration';
 import { AutoExpiredAppointmentDeletionSchema } from '@/schemas';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/Form';

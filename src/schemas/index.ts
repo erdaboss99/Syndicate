@@ -102,6 +102,9 @@ export const AutoExpiredAppointmentDeletionSchema = z.object({
 export const AutoExpiredBookingDeletionSchema = z.object({
 	autoExpiredBookingDeletionStatus: z.boolean(),
 });
+export const SendAutoActionReportEmailSchema = z.object({
+	sendAutoActionReportEmailStatus: z.boolean(),
+});
 
 export const DateSelectionFormSchema = z.object({
 	selectedDate: z.date({

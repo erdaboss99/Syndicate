@@ -1,11 +1,5 @@
 import { Prisma } from '@prisma/client';
 
-import {
-	AUTO_EXPIRED_APPOINTMENT_DELETION_DEFAULT_VALUE,
-	AUTO_EXPIRED_APPOINTMENT_DELETION_KEY,
-	AUTO_NEW_APPOINTMENT_GENERATION_DEFAULT_VALUE,
-	AUTO_NEW_APPOINTMENT_GENERATION_KEY,
-} from '@/constants';
 import { database } from '@/lib/database';
 
 export const getAppointmentById = async (options: { id: string; status: 'AVAILABLE' | 'BOOKED' }) => {
@@ -229,42 +223,4 @@ export const getExpiredAppointments = async (options: { status: 'UNBOOKED' | 'BO
 	} catch (error) {
 		return [];
 	}
-};
-
-export const getAutoNewAppointmentGenerationStatus = async () => {
-	const autoNewAppointmentGenerationStatus = await database.configuration.findUnique({
-		where: {
-			name: AUTO_NEW_APPOINTMENT_GENERATION_KEY,
-		},
-	});
-
-	if (!autoNewAppointmentGenerationStatus)
-		return (
-			await database.configuration.create({
-				data: {
-					name: AUTO_NEW_APPOINTMENT_GENERATION_KEY,
-					value: AUTO_NEW_APPOINTMENT_GENERATION_DEFAULT_VALUE,
-				},
-			})
-		).value;
-	return autoNewAppointmentGenerationStatus.value;
-};
-
-export const getAutoExpiredAppointmentDeletionStatus = async () => {
-	const autoExpiredAppointmentDeletionStatus = await database.configuration.findUnique({
-		where: {
-			name: AUTO_EXPIRED_APPOINTMENT_DELETION_KEY,
-		},
-	});
-
-	if (!autoExpiredAppointmentDeletionStatus)
-		return (
-			await database.configuration.create({
-				data: {
-					name: AUTO_EXPIRED_APPOINTMENT_DELETION_KEY,
-					value: AUTO_EXPIRED_APPOINTMENT_DELETION_DEFAULT_VALUE,
-				},
-			})
-		).value;
-	return autoExpiredAppointmentDeletionStatus.value;
 };

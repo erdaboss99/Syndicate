@@ -11,12 +11,12 @@ import {
 	FURTHEST_APPOINTMENT_DATE,
 	OPENING_HOUR,
 } from '@/constants';
+import { getAppointmentsInInterval, getExpiredAppointments } from '@/data/appointment';
 import {
-	getAppointmentsInInterval,
 	getAutoExpiredAppointmentDeletionStatus,
 	getAutoNewAppointmentGenerationStatus,
-	getExpiredAppointments,
-} from '@/data/appointment';
+	getSendAutoActionReportEmailStatus,
+} from '@/data/configuration';
 import { type ExpiredAppointmentDeletionTemplateProps } from '@/emails/ExpiredAppointmentDeletionTemplate';
 import { type NewAppointmentGenerationTemplateProps } from '@/emails/NewAppointmentGeneration';
 import { getCurrentUser } from '@/lib/auth';
@@ -87,7 +87,9 @@ export async function POST() {
 			weekendDaysInInterval,
 			generatedNewAppointments,
 		};
-		await sendNewAppointmentGenerationReport(reportEmailParams);
+
+		const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
+		if (Boolean(sendAutoActionReportEmailStatus)) await sendNewAppointmentGenerationReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
 			status: 201,
@@ -142,7 +144,9 @@ export async function DELETE() {
 			message: `${deletedAppointments.length} appointments were deleted due to expiration.`,
 			deletedExpiredAppointments,
 		};
-		await sendExpiredAppointmentDeletionReport(reportEmailParams);
+
+		const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
+		if (Boolean(sendAutoActionReportEmailStatus)) await sendExpiredAppointmentDeletionReport(reportEmailParams);
 
 		return new Response(JSON.stringify(formatDatesInObject(reportEmailParams)), {
 			status: 201,

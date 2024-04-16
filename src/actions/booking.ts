@@ -3,21 +3,18 @@
 import { z } from 'zod';
 
 import {
-	ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_SUCCESS,
-	ACTION_AUTO_EXPIRED_BOOKING_DELETION_ENABLED_SUCCESS,
 	ACTION_BOOKING_CREATED_SUCCESS,
 	ACTION_BOOKING_DELETED_SUCCESS,
 	ACTION_BOOKING_NOT_FOUND_ERROR,
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
-	AUTO_EXPIRED_BOOKING_DELETION_KEY,
 } from '@/constants';
 import { getBookingById } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { sendBookingConfirmationEmail, sendBookingDeletionEmail } from '@/lib/mail';
-import { AppointmentBookFormSchema, AutoExpiredBookingDeletionSchema, BookingDeleteFormSchema } from '@/schemas';
+import { AppointmentBookFormSchema, BookingDeleteFormSchema } from '@/schemas';
 
 export const deleteBooking = async (values: z.infer<typeof BookingDeleteFormSchema>) => {
 	const user = await getCurrentUser();
@@ -119,27 +116,4 @@ export const createBooking = async (values: z.infer<typeof AppointmentBookFormSc
 	});
 
 	return { success: ACTION_BOOKING_CREATED_SUCCESS };
-};
-
-export const toggleAutoBookingDeletion = async (values: z.infer<typeof AutoExpiredBookingDeletionSchema>) => {
-	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
-
-	const validatedData = AutoExpiredBookingDeletionSchema.safeParse(values);
-	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
-
-	const { autoExpiredBookingDeletionStatus } = validatedData.data;
-
-	await database.configuration.update({
-		where: { name: AUTO_EXPIRED_BOOKING_DELETION_KEY },
-		data: {
-			value: autoExpiredBookingDeletionStatus ? 1 : 0,
-		},
-	});
-
-	return {
-		success: autoExpiredBookingDeletionStatus
-			? ACTION_AUTO_EXPIRED_BOOKING_DELETION_ENABLED_SUCCESS
-			: ACTION_AUTO_EXPIRED_BOOKING_DELETION_DISABLED_SUCCESS,
-	};
 };

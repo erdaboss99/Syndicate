@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { getUniqueBooking } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 import { BookingDetailsQueryParamsSchema } from '@/schemas';
 
 import { BookingDetails } from '@/components/bookings/BookingDetails';
@@ -10,7 +11,7 @@ import ErrorCard from '@/components/general/ErrorCard';
 
 const BookingDetailsPage = async ({ params }: { params: { bookingId: string } }) => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
+	if (currentUser?.role !== 'ADMIN') redirect(DEFAULT_AUTHENTICATED_REDIRECT);
 
 	const { bookingId } = params;
 	const paramsData = BookingDetailsQueryParamsSchema.safeParse(bookingId);

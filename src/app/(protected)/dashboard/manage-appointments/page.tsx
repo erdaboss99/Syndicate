@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { getAppointments } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 
 import DataTable from '@/components/data-tables/DataTable';
 import { AppointmentColumns } from '@/components/data-tables/columns/AppointmentColumns';
@@ -9,7 +10,7 @@ import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AdminManageAppointmentsPage = async () => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
+	if (currentUser?.role !== 'ADMIN') redirect(DEFAULT_AUTHENTICATED_REDIRECT);
 
 	const appointments = await getAppointments({
 		select: { id: true, startTime: true, Booking: { select: { id: true } } },

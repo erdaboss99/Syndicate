@@ -8,8 +8,9 @@ import {
 	getIntervalFromDay,
 	isAppointmentCurrentlyInProgress,
 	isAppointmentExpired,
-	isAppointmentUpComing,
+	isAppointmentUpcoming,
 } from '@/lib/date';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 
 import { BookingDetails } from '@/components/bookings/BookingDetails';
 import { CardWrapper } from '@/components/general/CardWrapper';
@@ -19,7 +20,7 @@ import { Carousel, CarouselContent, CarouselDots, CarouselItem } from '@/compone
 
 const DailyBookingsPage = async () => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role === 'USER') redirect('/dashboard');
+	if (currentUser?.role === 'USER') redirect(DEFAULT_AUTHENTICATED_REDIRECT);
 
 	const todayInterval = getIntervalFromDay(new Date());
 
@@ -61,7 +62,7 @@ const DailyBookingsPage = async () => {
 	const inProgressBookingData = bookingData.filter((booking) =>
 		isAppointmentCurrentlyInProgress(booking.Appointment.startTime),
 	);
-	const upcomingBookingData = bookingData.filter((booking) => isAppointmentUpComing(booking.Appointment.startTime));
+	const upcomingBookingData = bookingData.filter((booking) => isAppointmentUpcoming(booking.Appointment.startTime));
 
 	return (
 		<CardWrapper

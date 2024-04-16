@@ -5,6 +5,7 @@ import { type Appointment, type Booking, type Issue } from '@prisma/client';
 import { getUser } from '@/data/user';
 import { getCurrentUser, getLoginProvider } from '@/lib/auth';
 import { formatDate } from '@/lib/date';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 import { UserDetailsQueryParamsSchema } from '@/schemas';
 
 import AccountDetails from '@/components/account/AccountDetails';
@@ -26,7 +27,7 @@ type UsersBookingCarouselProps = {
 
 const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
+	if (currentUser?.role !== 'ADMIN') redirect(DEFAULT_AUTHENTICATED_REDIRECT);
 
 	const { userId } = params;
 	const paramsData = UserDetailsQueryParamsSchema.safeParse(userId);

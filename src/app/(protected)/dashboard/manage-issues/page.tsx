@@ -2,13 +2,14 @@ import { redirect } from 'next/navigation';
 
 import { getIssues } from '@/data/issue';
 import { getCurrentUser } from '@/lib/auth';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 
 import { CardWrapper } from '@/components/general/CardWrapper';
 import { IssueCard, NewIssueCard } from '@/components/issues/IssueCard';
 
 const AdminManageIssuesPage = async () => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
+	if (currentUser?.role !== 'ADMIN') redirect(DEFAULT_AUTHENTICATED_REDIRECT);
 
 	const issues = await getIssues({
 		select: {

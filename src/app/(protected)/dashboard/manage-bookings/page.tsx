@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getBookings } from '@/data/booking';
 import { getIssues } from '@/data/issue';
 import { getCurrentUser } from '@/lib/auth';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 
 import DataTable from '@/components/data-tables/DataTable';
 import { BookingColumns } from '@/components/data-tables/columns/BookingColumns';
@@ -10,7 +11,7 @@ import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AdminManageBookingsPage = async () => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
+	if (currentUser?.role !== 'ADMIN') redirect(DEFAULT_AUTHENTICATED_REDIRECT);
 
 	const bookings = await getBookings({
 		select: {

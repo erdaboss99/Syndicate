@@ -4,6 +4,7 @@ import { UserRole } from '@prisma/client';
 
 import { getUsers } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 
 import DataTable from '@/components/data-tables/DataTable';
 import { UserColumns } from '@/components/data-tables/columns/UserColumns';
@@ -11,7 +12,7 @@ import { CardWrapper } from '@/components/general/CardWrapper';
 
 const AdminManageUsersPage = async () => {
 	const currentUser = await getCurrentUser();
-	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
+	if (currentUser?.role !== 'ADMIN') redirect(DEFAULT_AUTHENTICATED_REDIRECT);
 
 	const users = await getUsers({
 		select: { id: true, name: true, email: true, role: true, emailVerified: true, image: true },

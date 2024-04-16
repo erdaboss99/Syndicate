@@ -59,7 +59,7 @@ export const isAppointmentCurrentlyInProgress = (appointmentStart: Date) => {
 	return appointmentStart <= currentDate && add(appointmentStart, { minutes: APPOINTMENT_DURATION }) >= currentDate;
 };
 
-export const isAppointmentUpComing = (appointmentStart: Date) => {
+export const isAppointmentUpcoming = (appointmentStart: Date) => {
 	const currentDate = new Date();
 	return appointmentStart > currentDate;
 };

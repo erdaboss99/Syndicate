@@ -4,13 +4,13 @@ import { signIn } from 'next-auth/react';
 import { GrGoogle } from 'react-icons/gr';
 import { LuGithub } from 'react-icons/lu';
 
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 
 import { Button } from '@/components/ui/Button';
 
 const SocialLogins = () => {
 	const onClick = (provider: 'google' | 'github') => {
-		signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+		signIn(provider, { callbackUrl: DEFAULT_AUTHENTICATED_REDIRECT });
 	};
 
 	return (

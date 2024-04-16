@@ -5,6 +5,7 @@ import { type Appointment, type Booking, type Issue, type User } from '@prisma/c
 import { getBookings } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import {
+	formatDate,
 	getIntervalFromDay,
 	isAppointmentCurrentlyInProgress,
 	isAppointmentExpired,
@@ -12,9 +13,10 @@ import {
 } from '@/lib/date';
 import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 
-import { BookingDetails } from '@/components/bookings/BookingDetails';
 import { CardWrapper } from '@/components/general/CardWrapper';
+import { BaseDetailsField, HighlightedDetailsField } from '@/components/general/DetailsField';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/Accordion';
+import { Badge } from '@/components/ui/Badge';
 import { CardHeader } from '@/components/ui/Card';
 import { Carousel, CarouselContent, CarouselDots, CarouselItem } from '@/components/ui/Carousel';
 
@@ -76,6 +78,7 @@ const DailyBookingsPage = async () => {
 			linkHref='/dashboard'>
 			<Accordion
 				type='single'
+				defaultValue='Upcoming'
 				collapsible>
 				<DailyBookingCarousel
 					title='Expired'
@@ -116,12 +119,27 @@ const DailyBookingCarouselItem = ({
 }: DailyBookingCarouselItemProps) => {
 	return (
 		<div className='h-fit space-y-4 rounded border'>
-			<BookingDetails
-				description={description}
-				createdAt={createdAt}
-				Issue={Issue}
-				Appointment={Appointment}
-				User={User}
+			<HighlightedDetailsField
+				label='Appointment'
+				value={formatDate(Appointment.startTime, 'WRITTEN_LONG_DATE_TIME')}
+			/>
+			<BaseDetailsField label='Description'>{description}</BaseDetailsField>
+			<BaseDetailsField label='Created at'>
+				<Badge variant='outline'>{formatDate(createdAt, 'WRITTEN_SHORT_DATE_TIME')}</Badge>
+			</BaseDetailsField>
+			<HighlightedDetailsField
+				label='Issue name'
+				value={Issue.name}
+			/>
+			<BaseDetailsField label='Issue description'>{Issue.description}</BaseDetailsField>
+			<CardHeader variant='tertiary'>User details</CardHeader>
+			<HighlightedDetailsField
+				label='User name'
+				value={User.name}
+			/>
+			<HighlightedDetailsField
+				label='User email'
+				value={User.email}
 			/>
 		</div>
 	);

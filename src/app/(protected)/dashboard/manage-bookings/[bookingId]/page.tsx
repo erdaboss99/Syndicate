@@ -2,12 +2,16 @@ import { redirect } from 'next/navigation';
 
 import { getUniqueBooking } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
+import { formatDate } from '@/lib/date';
 import { DEFAULT_AUTHENTICATED_REDIRECT } from '@/routes';
 import { BookingDetailsQueryParamsSchema } from '@/schemas';
 
-import { BookingDetails } from '@/components/bookings/BookingDetails';
 import { CardWrapper } from '@/components/general/CardWrapper';
+import { BaseDetailsField, HighlightedDetailsField } from '@/components/general/DetailsField';
 import ErrorCard from '@/components/general/ErrorCard';
+import LinkTile from '@/components/general/LinkTile';
+import { Badge } from '@/components/ui/Badge';
+import { CardHeader } from '@/components/ui/Card';
 
 const BookingDetailsPage = async ({ params }: { params: { bookingId: string } }) => {
 	const currentUser = await getCurrentUser();
@@ -77,14 +81,30 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 			linkLabel='Back to manage bookings'
 			linkHref='/dashboard/manage-bookings'>
 			<div className='space-y-4'>
-				<BookingDetails
-					description={bookingData.description}
-					createdAt={bookingData.createdAt}
-					Issue={bookingData.Issue}
-					Appointment={bookingData.Appointment}
-					User={bookingData.User}
-					userLink={`/dashboard/manage-users/${bookingData.User.id}`}
+				<HighlightedDetailsField
+					label='Appointment'
+					value={formatDate(bookingData.Appointment.startTime, 'WRITTEN_LONG_DATE_TIME')}
 				/>
+				<BaseDetailsField label='Description'>{bookingData.description}</BaseDetailsField>
+				<BaseDetailsField label='Created at'>
+					<Badge variant='outline'>{formatDate(bookingData.createdAt, 'WRITTEN_SHORT_DATE_TIME')}</Badge>
+				</BaseDetailsField>
+				<HighlightedDetailsField
+					label='Issue name'
+					value={bookingData.Issue.name}
+				/>
+				<BaseDetailsField label='Issue description'>{bookingData.Issue.description}</BaseDetailsField>
+				<LinkTile tileHref={`/dashboard/manage-users/${bookingData.User.id}`}>
+					<CardHeader variant='tertiary'>User details</CardHeader>
+					<HighlightedDetailsField
+						label='User name'
+						value={bookingData.User.name}
+					/>
+					<HighlightedDetailsField
+						label='User email'
+						value={bookingData.User.email}
+					/>
+				</LinkTile>
 			</div>
 		</CardWrapper>
 	);

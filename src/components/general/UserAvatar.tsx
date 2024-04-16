@@ -3,7 +3,7 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 
 type UserAvatarProps = {
-	src?: string;
+	src: string | null;
 };
 
 const UserAvatar = ({ src }: UserAvatarProps) => {

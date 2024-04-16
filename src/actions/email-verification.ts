@@ -11,7 +11,7 @@ import {
 	ACTION_INVALID_TOKEN_ERROR,
 	ACTION_NON_EXISTING_TOKEN_ERROR,
 } from '@/constants';
-import { getUserByEmail } from '@/data/user';
+import { getUniqueUser } from '@/data/user';
 import { getUniqueVerificationToken } from '@/data/verificationToken';
 import { database } from '@/lib/database';
 
@@ -35,7 +35,7 @@ export const emailVerification = async (values: z.infer<typeof TokenVerification
 	const hasExpired = new Date(existingToken.expires) < new Date();
 	if (hasExpired) return { error: ACTION_EXPIRED_TOKEN_ERROR };
 
-	const existingUser = await getUserByEmail(existingToken.email);
+	const existingUser = await getUniqueUser({ where: { email: existingToken.email }, select: { id: true } });
 	if (!existingUser) return { error: ACTION_ACCOUNT_WITH_EMAIL_NOT_FOUND_ERROR };
 
 	await database.user.update({

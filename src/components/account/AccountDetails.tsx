@@ -1,6 +1,6 @@
-import { type UserRole } from '@prisma/client';
+import { type User } from '@prisma/client';
 
-import { type LoginProviders } from '@/auth/next-auth';
+import { LoginProviders } from '@/auth/next-auth';
 import { formatDate } from '@/lib/date';
 
 import { LoginProviderBadge, UserRoleBadge } from '@/components/general/CustomBadge';
@@ -8,14 +8,7 @@ import { BaseDetailsField, HighlightedDetailsField } from '@/components/general/
 import UserAvatar from '@/components/general/UserAvatar';
 import { Badge } from '@/components/ui/Badge';
 
-type AccountDetailsProps = {
-	image?: string;
-	name: string;
-	email: string;
-	role: UserRole;
-	provider: LoginProviders;
-	createdAt: Date;
-};
+type AccountDetailsProps = { provider: LoginProviders } & Pick<User, 'image' | 'name' | 'email' | 'role' | 'createdAt'>;
 
 const AccountDetails = ({ image, name, email, role, provider, createdAt }: AccountDetailsProps) => {
 	return (

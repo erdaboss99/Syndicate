@@ -7,7 +7,7 @@ import authConfig from '@/auth/auth.config';
 import { LoginProviders } from '@/auth/next-auth';
 import { JWT_TOKEN_EXPIRY } from '@/constants';
 import { getUniqueAccountDataSubset } from '@/data/account';
-import { getUserById } from '@/data/user';
+import { getUniqueUser } from '@/data/user';
 import { getLoginProvider } from '@/lib/auth';
 import { database } from '@/lib/database';
 
@@ -33,7 +33,10 @@ export const {
 		async signIn({ user, account }) {
 			if (account?.provider !== 'credentials') return true;
 
-			const existingUser = await getUserById(user.id);
+			const existingUser = await getUniqueUser({
+				where: { id: user?.id },
+				select: { emailVerified: true },
+			});
 			if (!existingUser?.emailVerified) return false;
 
 			return true;
@@ -54,13 +57,17 @@ export const {
 		async jwt({ token }) {
 			if (!token.sub) return token;
 
-			const existingUser = await getUserById(token.sub);
+			const existingUser = await getUniqueUser({
+				where: { id: token.sub },
+				select: { id: true, name: true, email: true, role: true, createdAt: true },
+			});
 			if (!existingUser) return token;
 
 			const existingAccount = await getUniqueAccountDataSubset({
 				where: { id: existingUser.id },
 				select: { provider: true },
 			});
+
 			token.provider = getLoginProvider(existingAccount?.provider);
 			token.createdAt = existingUser.createdAt.toISOString();
 			token.name = existingUser.name;

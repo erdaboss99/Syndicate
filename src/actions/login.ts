@@ -11,7 +11,7 @@ import {
 	ACTION_LOGIN_INVALID_CREDENTIALS_ERROR,
 	ACTION_LOGIN_INVALID_EMAIL_OR_PASSWORD_ERROR,
 } from '@/constants';
-import { getUserByEmail } from '@/data/user';
+import { getUniqueUser } from '@/data/user';
 import { sendVerificationEmail } from '@/lib/mail';
 import { generateVerificationToken } from '@/lib/tokens';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
@@ -23,7 +23,10 @@ export const loginWithCredentials = async (values: z.infer<typeof LoginSchema>) 
 
 	const { email, password } = validatedData.data;
 
-	const existingUser = await getUserByEmail(email);
+	const existingUser = await getUniqueUser({
+		where: { email },
+		select: { name: true, email: true, password: true, emailVerified: true },
+	});
 	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
 		return { error: ACTION_LOGIN_INVALID_CREDENTIALS_ERROR };
 

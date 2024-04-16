@@ -11,7 +11,7 @@ import {
 	PASSWORD_MATCH_VALIDATION,
 } from '@/constants';
 import { getUniquePasswordResetToken } from '@/data/passwordResetToken';
-import { getUserByEmail } from '@/data/user';
+import { getUniqueUser } from '@/data/user';
 import { database } from '@/lib/database';
 import { hash } from '@/lib/hash';
 import { ResetPasswordSchema } from '@/schemas';
@@ -35,7 +35,10 @@ export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>)
 	const hasExpired = new Date(existingToken.expires) < new Date();
 	if (hasExpired) return { error: ACTION_EXPIRED_TOKEN_ERROR };
 
-	const existingUser = await getUserByEmail(existingToken.email);
+	const existingUser = await getUniqueUser({
+		where: { email: existingToken.email },
+		select: { id: true },
+	});
 	if (!existingUser) return { error: ACTION_ACCOUNT_WITH_EMAIL_NOT_FOUND_ERROR };
 
 	if (password !== confirmPassword) return { error: PASSWORD_MATCH_VALIDATION };

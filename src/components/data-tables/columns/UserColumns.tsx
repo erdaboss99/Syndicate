@@ -23,7 +23,7 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 		enableHiding: false,
 		header: 'Avatar',
 		cell: ({ row }) => {
-			return <UserAvatar src={row.original.image!} />;
+			return <UserAvatar src={row.original.image} />;
 		},
 	},
 	{

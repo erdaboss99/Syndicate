@@ -8,7 +8,7 @@ import {
 	ACTION_NON_EXISTING_TOKEN_ERROR,
 	ACTION_PASSWORD_RESET_EMAIL_SENT_SUCCESS,
 } from '@/constants';
-import { getUserByEmail } from '@/data/user';
+import { getUniqueUser } from '@/data/user';
 import { sendPasswordResetEmail } from '@/lib/mail';
 import { generatePasswordResetToken } from '@/lib/tokens';
 import { RequestPasswordResetSchema } from '@/schemas';
@@ -19,7 +19,10 @@ export const requestPasswordReset = async (values: z.infer<typeof RequestPasswor
 
 	const { email } = validatedData.data;
 
-	const existingUser = await getUserByEmail(email);
+	const existingUser = await getUniqueUser({
+		where: { email },
+		select: { name: true, password: true },
+	});
 	if (!existingUser || !existingUser.name) return { error: ACTION_NON_EXISTING_TOKEN_ERROR };
 	if (!existingUser.password) return { error: ACTION_ACCOUNT_THIRD_PARTY_EDIT_ERROR };
 

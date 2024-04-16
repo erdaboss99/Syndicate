@@ -15,7 +15,7 @@ import {
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 } from '@/constants';
-import { getUserByEmail, getUserById } from '@/data/user';
+import { getUniqueUser } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { compare, hash } from '@/lib/hash';
@@ -34,7 +34,10 @@ export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => 
 
 	if (user?.id !== id) return { error: ACTION_FORBIDDEN_ERROR };
 
-	const existingUser = await getUserById(user?.id);
+	const existingUser = await getUniqueUser({
+		where: { id: user?.id },
+		select: { name: true, email: true, password: true },
+	});
 	if (!existingUser || !existingUser.email || !existingUser.password || !existingUser.name)
 		return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 
@@ -43,7 +46,7 @@ export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => 
 
 	const emailChanged = email !== existingUser.email;
 	if (emailChanged) {
-		const emailConflicts = await getUserByEmail(email);
+		const emailConflicts = await getUniqueUser({ where: { email }, select: { id: true } });
 		if (emailConflicts) return { error: ACTION_ACCOUNT_ALREADY_USED_EMAIL_ERROR };
 		await database.user.update({
 			where: {
@@ -87,7 +90,10 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();
-	const existingUser = await getUserById(user?.id!);
+	const existingUser = await getUniqueUser({
+		where: { id: user?.id },
+		select: { id: true, email: true },
+	});
 
 	const { id, email } = validatedData.data;
 
@@ -137,7 +143,11 @@ export const changeRole = async (values: z.infer<typeof RoleChangeSchema>) => {
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { id } = validatedData.data;
-	const existingUser = await getUserById(id);
+
+	const existingUser = await getUniqueUser({
+		where: { id },
+		select: { id: true },
+	});
 	if (!existingUser) return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 
 	const { role } = validatedData.data;

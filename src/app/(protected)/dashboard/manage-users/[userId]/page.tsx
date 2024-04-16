@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { type Appointment, type Booking, type Issue } from '@prisma/client';
 
-import { getSelectedUserDataSubset } from '@/data/user';
+import { getUser } from '@/data/user';
 import { getCurrentUser, getLoginProvider } from '@/lib/auth';
 import { formatDate } from '@/lib/date';
 import { UserDetailsQueryParamsSchema } from '@/schemas';
@@ -41,8 +41,8 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			/>
 		);
 
-	const userData = await getSelectedUserDataSubset({
-		id: paramsData.data,
+	const userData = await getUser({
+		where: { id: paramsData.data },
 		select: {
 			id: true,
 			name: true,
@@ -99,7 +99,7 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			linkHref='/dashboard/manage-users'>
 			<div className='space-y-4'>
 				<AccountDetails
-					image={userData?.image!}
+					image={userData?.image}
 					name={userData?.name!}
 					email={userData?.email!}
 					role={userData?.role!}

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { UserRole } from '@prisma/client';
 
-import { getUserDataSubset } from '@/data/user';
+import { getUsers } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
 
 import DataTable from '@/components/data-tables/DataTable';
@@ -13,13 +13,8 @@ const AdminManageUsersPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const users = await getUserDataSubset({
-		id: true,
-		name: true,
-		email: true,
-		role: true,
-		emailVerified: true,
-		image: true,
+	const users = await getUsers({
+		select: { id: true, name: true, email: true, role: true, emailVerified: true, image: true },
 	});
 
 	const filterOptions = Object.values(UserRole).map((role) => ({

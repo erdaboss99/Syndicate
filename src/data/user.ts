@@ -2,21 +2,48 @@ import { Prisma } from '@prisma/client';
 
 import { database } from '@/lib/database';
 
-export const getUserByEmail = async (email: string) => {
+export const getUniqueUser = async <K extends Prisma.UserWhereUniqueInput, T extends Prisma.UserSelect>(options: {
+	where: K;
+	select: T;
+}): Promise<Prisma.UserGetPayload<{ select: T }> | null> => {
 	try {
-		const user = await database.user.findUnique({ where: { email } });
+		const user = await database.user.findUnique({
+			where: options.where,
+			select: options.select,
+		});
 		return user;
 	} catch (error) {
 		return null;
 	}
 };
 
-export const getUserById = async (id: string) => {
+export const getUser = async <K extends Prisma.UserWhereInput, T extends Prisma.UserSelect>(options: {
+	where: K;
+	select: T;
+}): Promise<Prisma.UserGetPayload<{ select: T }> | null> => {
 	try {
-		const user = await database.user.findUnique({ where: { id } });
+		const user = await database.user.findFirst({
+			where: options.where,
+			select: options.select,
+		});
 		return user;
 	} catch (error) {
 		return null;
+	}
+};
+
+export const getUsers = async <K extends Prisma.UserWhereInput, T extends Prisma.UserSelect>(options: {
+	where?: K;
+	select: T;
+}): Promise<Prisma.UserGetPayload<{ select: T }>[]> => {
+	try {
+		const user = await database.user.findMany({
+			where: options.where,
+			select: options.select,
+		});
+		return user;
+	} catch (error) {
+		return [];
 	}
 };
 
@@ -43,34 +70,6 @@ export const getUserCount = async (options: { variant: 'ALL' | 'LASTWEEK' }) => 
 				});
 				return registeredInLastWeekCount._count.id;
 		}
-	} catch (error) {
-		return null;
-	}
-};
-
-export const getUserDataSubset = async <T extends Prisma.UserSelect>(
-	select: T,
-): Promise<Prisma.UserGetPayload<{ select: T }>[]> => {
-	try {
-		const userSubset = await database.user.findMany({
-			select,
-		});
-		return userSubset;
-	} catch (error) {
-		return [];
-	}
-};
-
-export const getSelectedUserDataSubset = async <T extends Prisma.UserSelect>(options: {
-	id: string;
-	select: T;
-}): Promise<Prisma.UserGetPayload<{ select: T }> | null> => {
-	try {
-		const userData = await database.user.findFirst({
-			where: { id: options.id },
-			select: options.select,
-		});
-		return userData;
 	} catch (error) {
 		return null;
 	}

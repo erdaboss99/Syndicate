@@ -3,7 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
-import { getUserByEmail } from '@/data/user';
+import { getUniqueUser } from '@/data/user';
 import { env } from '@/env.mjs';
 import { compare } from '@/lib/hash';
 import { LoginSchema } from '@/schemas';
@@ -15,8 +15,11 @@ export default {
 				const validatedData = LoginSchema.safeParse(credentials);
 				if (validatedData.success) {
 					const { email, password } = validatedData.data;
-					const existingUser = await getUserByEmail(email);
 
+					const existingUser = await getUniqueUser({
+						where: { email },
+						select: { id: true, password: true },
+					});
 					if (!existingUser || !existingUser.password) return null;
 
 					const passwordMatch = await compare({ data: password, hashedData: existingUser.password });

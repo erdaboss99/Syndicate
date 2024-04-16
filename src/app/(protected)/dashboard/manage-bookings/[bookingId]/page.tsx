@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getUniqueBookingDataSubset } from '@/data/booking';
+import { getUniqueBooking } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { BookingDetailsQueryParamsSchema } from '@/schemas';
 
@@ -25,7 +25,7 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 			/>
 		);
 
-	const bookingData = await getUniqueBookingDataSubset({
+	const bookingData = await getUniqueBooking({
 		where: {
 			id: paramsData.data,
 		},

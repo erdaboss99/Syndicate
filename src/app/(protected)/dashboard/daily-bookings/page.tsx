@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { type Appointment, type Booking, type Issue, type User } from '@prisma/client';
 
-import { getBookingDataSubset } from '@/data/booking';
+import { getBookings } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import {
 	getIntervalFromDay,
@@ -23,7 +23,7 @@ const DailyBookingsPage = async () => {
 
 	const todayInterval = getIntervalFromDay(new Date());
 
-	const bookingData = await getBookingDataSubset({
+	const bookingData = await getBookings({
 		where: {
 			Appointment: {
 				startTime: {

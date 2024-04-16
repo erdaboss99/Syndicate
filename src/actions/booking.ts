@@ -10,7 +10,7 @@ import {
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 } from '@/constants';
-import { getUniqueBookingDataSubset } from '@/data/booking';
+import { getUniqueBooking } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { sendBookingConfirmationEmail, sendBookingDeletionEmail } from '@/lib/mail';
@@ -25,7 +25,7 @@ export const deleteBooking = async (values: z.infer<typeof BookingDeleteSchema>)
 
 	const { id, reason } = validatedData.data;
 
-	const existingBooking = await getUniqueBookingDataSubset({ where: { id }, select: { id: true } });
+	const existingBooking = await getUniqueBooking({ where: { id }, select: { id: true } });
 	if (!existingBooking) return { error: ACTION_BOOKING_NOT_FOUND_ERROR };
 
 	const deletedBooking = await database.booking.delete({

@@ -6,7 +6,7 @@ import { type UserRole } from '@prisma/client';
 import authConfig from '@/auth/auth.config';
 import { LoginProviders } from '@/auth/next-auth';
 import { JWT_TOKEN_EXPIRY } from '@/constants';
-import { getAccountByUserId } from '@/data/account';
+import { getUniqueAccountDataSubset } from '@/data/account';
 import { getUserById } from '@/data/user';
 import { getLoginProvider } from '@/lib/auth';
 import { database } from '@/lib/database';
@@ -57,7 +57,10 @@ export const {
 			const existingUser = await getUserById(token.sub);
 			if (!existingUser) return token;
 
-			const existingAccount = await getAccountByUserId(existingUser.id);
+			const existingAccount = await getUniqueAccountDataSubset({
+				where: { id: existingUser.id },
+				select: { provider: true },
+			});
 			token.provider = getLoginProvider(existingAccount?.provider);
 			token.createdAt = existingUser.createdAt.toISOString();
 			token.name = existingUser.name;

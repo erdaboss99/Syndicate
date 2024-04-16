@@ -17,33 +17,17 @@ export const getIssues = async <T extends Prisma.IssueSelect, K extends Prisma.I
 	}
 };
 
-export const getIssueCount = async (options: { status: 'ALL' | 'USED' }) => {
+export const aggregateIssues = async <K extends Prisma.IssueWhereInput, T extends Prisma.IssueAggregateArgs>(options: {
+	where?: K;
+	aggregate: T;
+}): Promise<Prisma.GetIssueAggregateType<T> | null> => {
 	try {
-		switch (options.status) {
-			case 'ALL':
-				const allIssueCount = await database.issue.aggregate({
-					_count: {
-						id: true,
-					},
-				});
-				return allIssueCount._count.id;
-			case 'USED':
-				const usedIssueCount = await database.issue.aggregate({
-					_count: {
-						id: true,
-					},
-					where: {
-						bookings: {
-							some: {
-								id: {
-									not: undefined,
-								},
-							},
-						},
-					},
-				});
-				return usedIssueCount._count.id;
-		}
+		const { aggregate } = options;
+		const aggregation = await database.issue.aggregate({
+			where: options.where,
+			...aggregate,
+		});
+		return aggregation;
 	} catch (error) {
 		return null;
 	}

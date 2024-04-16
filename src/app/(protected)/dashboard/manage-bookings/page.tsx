@@ -51,6 +51,18 @@ const AdminManageBookingsPage = async () => {
 		label: issue.name,
 	}));
 
+	const bookingTableData = bookings.map((booking) => ({
+		id: booking.id,
+		description: booking.description,
+		createdAt: booking.createdAt,
+		appointmentId: booking.Appointment.id,
+		appointmentStartTime: booking.Appointment.startTime,
+		userId: booking.User.id,
+		userEmail: booking.User.email,
+		issueId: booking.Issue.id,
+		issueName: booking.Issue.name,
+	}));
+
 	return (
 		<CardWrapper
 			navigationTree={[
@@ -64,8 +76,8 @@ const AdminManageBookingsPage = async () => {
 			<div className='mx-auto w-[95%]'>
 				<DataTable
 					columns={BookingColumns}
-					data={bookings}
-					search='User_email'
+					data={bookingTableData}
+					search='userEmail'
 					filter={{ title: 'Issue', columnKey: 'Issue_name', options: filterOptions }}
 					visibility
 					pagination

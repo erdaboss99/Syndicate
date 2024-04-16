@@ -1,15 +1,16 @@
 import { LuCalendarClock, LuCalendarDays, LuKanbanSquare, LuUsers } from 'react-icons/lu';
 
-import { getAppointmentCount } from '@/data/appointment';
-import { getBookingCount } from '@/data/booking';
+import { aggregateAppointments } from '@/data/appointment';
+import { aggregateBookings } from '@/data/booking';
 import {
 	getAutoExpiredAppointmentDeletionStatus,
 	getAutoExpiredBookingDeletionStatus,
 	getAutoNewAppointmentGenerationStatus,
 	getSendAutoActionReportEmailStatus,
 } from '@/data/configuration';
-import { getIssueCount } from '@/data/issue';
-import { getUserCount } from '@/data/user';
+import { aggregateIssues } from '@/data/issue';
+import { aggregateUsers } from '@/data/user';
+import { getWeekIntervalFromDay } from '@/lib/date';
 
 import AutoExpiredAppointmentDeletionForm from '@/components/dashboard/AutoExpiredAppointmentDeletionForm';
 import AutoExpiredBookingDeletionForm from '@/components/dashboard/AutoExpiredBookingDeletionForm';
@@ -36,17 +37,43 @@ export const AdminDashboard = async () => {
 	const autoExpiredBookingDeletionStatus = await getAutoExpiredBookingDeletionStatus();
 	const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
 
-	const allUserCount = await getUserCount({ variant: 'ALL' });
-	const usersRegisteredInLastWeekCount = await getUserCount({ variant: 'LASTWEEK' });
+	const allUserCount = await aggregateUsers({
+		aggregate: { _count: { id: true } },
+	}).then((data) => data?._count.id);
 
-	const bookedAppointmentCount = await getAppointmentCount({ status: 'BOOKED' });
-	const availableAppointmentCount = await getAppointmentCount({ status: 'AVAILABLE' });
+	const usersRegisteredInLastWeekCount = await aggregateUsers({
+		aggregate: { _count: { id: true } },
+		where: { createdAt: { gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000) } },
+	}).then((data) => data?._count.id);
 
-	const allIssueCount = await getIssueCount({ status: 'ALL' });
-	const currentlyUsedIssueCount = await getIssueCount({ status: 'USED' });
+	const bookedAppointmentCount = await aggregateAppointments({
+		aggregate: { _count: { id: true } },
+		where: { Booking: { id: { not: undefined } } },
+	}).then((data) => data?._count.id);
 
-	const allBookingCount = await getBookingCount({ status: 'ALL' });
-	const thisWeekBookingCount = await getBookingCount({ status: 'WEEKLY' });
+	const availableAppointmentCount = await aggregateAppointments({
+		aggregate: { _count: { id: true } },
+		where: { Booking: null },
+	}).then((data) => data?._count.id);
+
+	const allIssueCount = await aggregateIssues({
+		aggregate: { _count: { id: true } },
+	}).then((data) => data?._count.id);
+
+	const currentlyUsedIssueCount = await aggregateIssues({
+		aggregate: { _count: { id: true } },
+		where: { bookings: { some: { id: { not: undefined } } } },
+	}).then((data) => data?._count.id);
+
+	const allBookingCount = await aggregateBookings({
+		aggregate: { _count: { id: true } },
+	}).then((data) => data?._count.id);
+
+	const thisWeeksInterval = getWeekIntervalFromDay(new Date());
+	const thisWeekBookingCount = await aggregateBookings({
+		aggregate: { _count: { id: true } },
+		where: { Appointment: { startTime: { gte: thisWeeksInterval.start, lte: thisWeeksInterval.end } } },
+	}).then((data) => data?._count.id);
 
 	return (
 		<BaseDashboard

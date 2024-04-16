@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/Button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
 import ChangeRoleDropdown from '@/components/users/ChangeRoleDropdown';
 
-export type UserDataTableFields = Pick<User, 'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'image'>;
+type UserDataTableFields = Pick<User, 'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'image'>;
 
 export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 	{

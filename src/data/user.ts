@@ -47,29 +47,17 @@ export const getUsers = async <K extends Prisma.UserWhereInput, T extends Prisma
 	}
 };
 
-export const getUserCount = async (options: { variant: 'ALL' | 'LASTWEEK' }) => {
+export const aggregateUsers = async <K extends Prisma.UserWhereInput, T extends Prisma.UserAggregateArgs>(options: {
+	where?: K;
+	aggregate: T;
+}): Promise<Prisma.GetUserAggregateType<T> | null> => {
 	try {
-		switch (options.variant) {
-			case 'ALL':
-				const userCount = await database.user.aggregate({
-					_count: {
-						id: true,
-					},
-				});
-				return userCount._count.id;
-			case 'LASTWEEK':
-				const registeredInLastWeekCount = await database.user.aggregate({
-					_count: {
-						id: true,
-					},
-					where: {
-						createdAt: {
-							gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-						},
-					},
-				});
-				return registeredInLastWeekCount._count.id;
-		}
+		const { aggregate } = options;
+		const aggregation = await database.user.aggregate({
+			where: options.where,
+			...aggregate,
+		});
+		return aggregation;
 	} catch (error) {
 		return null;
 	}

@@ -15,16 +15,16 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 
+import DataTableFilter from '@/components/data-tables/DataTableFilter';
 import DataTablePagination from '@/components/data-tables/DataTablePagination';
+import DataTableSearch from '@/components/data-tables/DataTableSearch';
+import DataTableVisibility from '@/components/data-tables/DataTableVisibility';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
-import DataTableFilter from './DataTableFilter';
-import DataTableSearch from './DataTableSearch';
-import DataTableVisibility from './DataTableVisibility';
 
 type DataTableProps<TData, TValue> = {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
-	search?: string;
+	search?: keyof TData;
 	filter?: {
 		columnKey: string;
 		title?: string;

@@ -1,7 +1,6 @@
 import { Prisma } from '@prisma/client';
 
 import { database } from '@/lib/database';
-import { getWeekIntervalFromDay } from '@/lib/date';
 
 export const getBookings = async <T extends Prisma.BookingSelect, K extends Prisma.BookingWhereInput>(options: {
 	where?: K;
@@ -36,33 +35,20 @@ export const getUniqueBooking = async <
 	}
 };
 
-export const getBookingCount = async (options: { status: 'ALL' | 'WEEKLY' }) => {
+export const aggregateBookings = async <
+	K extends Prisma.BookingWhereInput,
+	T extends Prisma.BookingAggregateArgs,
+>(options: {
+	where?: K;
+	aggregate: T;
+}): Promise<Prisma.GetBookingAggregateType<T> | null> => {
 	try {
-		switch (options.status) {
-			case 'ALL':
-				const allBookingCount = await database.booking.aggregate({
-					_count: {
-						id: true,
-					},
-				});
-				return allBookingCount._count.id;
-			case 'WEEKLY':
-				const thisWeeksInterval = getWeekIntervalFromDay(new Date());
-				const thisWeeksBookingCount = await database.booking.aggregate({
-					_count: {
-						id: true,
-					},
-					where: {
-						Appointment: {
-							startTime: {
-								gte: thisWeeksInterval.start,
-								lte: thisWeeksInterval.end,
-							},
-						},
-					},
-				});
-				return thisWeeksBookingCount._count.id;
-		}
+		const { aggregate } = options;
+		const aggregation = await database.booking.aggregate({
+			where: options.where,
+			...aggregate,
+		});
+		return aggregation;
 	} catch (error) {
 		return null;
 	}

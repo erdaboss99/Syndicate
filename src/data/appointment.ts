@@ -59,34 +59,20 @@ export const getAppointments = async <
 	}
 };
 
-export const getAppointmentCount = async (options: { status: 'BOOKED' | 'AVAILABLE' }) => {
+export const aggregateAppointments = async <
+	K extends Prisma.AppointmentWhereInput,
+	T extends Prisma.AppointmentAggregateArgs,
+>(options: {
+	where?: K;
+	aggregate: T;
+}): Promise<Prisma.GetAppointmentAggregateType<T> | null> => {
 	try {
-		switch (options.status) {
-			case 'BOOKED':
-				const bookedAppointmentCount = await database.appointment.aggregate({
-					_count: {
-						id: true,
-					},
-					where: {
-						Booking: {
-							id: {
-								not: undefined,
-							},
-						},
-					},
-				});
-				return bookedAppointmentCount._count.id;
-			case 'AVAILABLE':
-				const availableAppointmentCount = await database.appointment.aggregate({
-					_count: {
-						id: true,
-					},
-					where: {
-						Booking: null,
-					},
-				});
-				return availableAppointmentCount._count.id;
-		}
+		const { aggregate } = options;
+		const aggregation = await database.appointment.aggregate({
+			where: options.where,
+			...aggregate,
+		});
+		return aggregation;
 	} catch (error) {
 		return null;
 	}

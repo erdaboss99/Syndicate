@@ -21,7 +21,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/Dialog';
 
-export type AppointmentDataTableFields = Appointment & { bookingId: string | null };
+type AppointmentDataTableFields = Appointment & { bookingId: string | null };
 
 export const AppointmentColumns: ColumnDef<AppointmentDataTableFields>[] = [
 	{

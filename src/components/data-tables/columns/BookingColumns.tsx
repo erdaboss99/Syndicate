@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { type Appointment, type Booking, type Issue, type User } from '@prisma/client';
+import { type Booking } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 import { LuArrowUpDown, LuInfo, LuTrash2 } from 'react-icons/lu';
 
@@ -20,13 +20,18 @@ import {
 	DialogTrigger,
 } from '@/components/ui/Dialog';
 
-export type BookingDataTableFields = Pick<Booking, 'id' | 'description' | 'createdAt'> & {
-	Appointment: Pick<Appointment, 'id' | 'startTime'>;
-} & { User: Pick<User, 'id' | 'email'> } & { Issue: Pick<Issue, 'id' | 'name'> };
+type BookingDataTableFields = Pick<Booking, 'id' | 'description' | 'createdAt'> & {
+	appointmentId: string;
+	appointmentStartTime: Date;
+	userId: string;
+	userEmail: string;
+	issueId: string;
+	issueName: string;
+};
 
 export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 	{
-		accessorKey: 'Appointment.startTime',
+		accessorKey: 'appointmentStartTime',
 		header: ({ column }) => {
 			return (
 				<Button
@@ -42,7 +47,7 @@ export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 			return (
 				<time className='font-medium'>
 					<Suspense fallback={null}>
-						{formatDate(new Date(row.original.Appointment.startTime), 'WRITTEN_SHORT_DATE_TIME')}
+						{formatDate(new Date(row.original.appointmentStartTime), 'WRITTEN_SHORT_DATE_TIME')}
 					</Suspense>
 				</time>
 			);
@@ -53,7 +58,7 @@ export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 		header: 'Description',
 	},
 	{
-		accessorKey: 'Issue.name',
+		accessorKey: 'issueName',
 		enableHiding: false,
 		header: ({ column }) => {
 			return (
@@ -66,11 +71,11 @@ export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 			);
 		},
 		filterFn: (row, _, id) => {
-			return id.includes(row.original.Issue.id);
+			return id.includes(row.original.issueId);
 		},
 	},
 	{
-		accessorKey: 'User.email',
+		accessorKey: 'userEmail',
 		enableHiding: false,
 		header: 'User Email',
 	},
@@ -130,7 +135,7 @@ export const BookingColumns: ColumnDef<BookingDataTableFields>[] = [
 					<DialogContent className='sm:max-w-[425px]'>
 						<DialogHeader>
 							<DialogTitle>{`Delete booking for ${formatDate(
-								row.original.Appointment.startTime,
+								row.original.appointmentStartTime,
 								'WRITTEN_SHORT_DATE_TIME',
 							)}`}</DialogTitle>
 							<DialogDescription>

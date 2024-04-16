@@ -41,8 +41,7 @@ const AccountPage = async () => {
 						title='Edit account'
 						description="Make changes to your account here. Click save when you're done."
 						triggerButtonLabel='Edit account information'
-						triggerButtonVariant='default'
-						triggerButtonSize='full'>
+						triggerButtonVariant='default'>
 						<AccountEditForm />
 					</AccountDialog>
 				)}
@@ -55,8 +54,7 @@ const AccountPage = async () => {
 					title='Delete account'
 					description='This action is irreversible. All data will be lost. Are you sure you want to delete your account?'
 					triggerButtonLabel='Delete account'
-					triggerButtonVariant='outline'
-					triggerButtonSize='full'>
+					triggerButtonVariant='outline'>
 					<AccountDeleteForm />
 				</AccountDialog>
 			</CardFooter>
@@ -69,7 +67,6 @@ type AccountDialogProps = {
 	description: string;
 	triggerButtonLabel: string;
 	triggerButtonVariant: ButtonProps['variant'];
-	triggerButtonSize: ButtonProps['size'];
 	children: React.ReactNode;
 };
 
@@ -78,7 +75,6 @@ const AccountDialog = ({
 	description,
 	triggerButtonLabel,
 	triggerButtonVariant,
-	triggerButtonSize,
 	children,
 }: AccountDialogProps) => {
 	return (
@@ -86,7 +82,7 @@ const AccountDialog = ({
 			<DialogTrigger asChild>
 				<Button
 					variant={triggerButtonVariant}
-					size={triggerButtonSize}>
+					size='full'>
 					{triggerButtonLabel}
 				</Button>
 			</DialogTrigger>

@@ -11,11 +11,11 @@ const AdminManageAppointmentsPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const appointments = (
-		await getAppointments({
-			select: { id: true, startTime: true, Booking: { select: { id: true } } },
-		})
-	).map((appointment) => ({
+	const appointments = await getAppointments({
+		select: { id: true, startTime: true, Booking: { select: { id: true } } },
+	});
+
+	const appointmentTableData = appointments.map((appointment) => ({
 		id: appointment.id,
 		startTime: appointment.startTime,
 		bookingId: appointment.Booking === null ? null : appointment.Booking.id,
@@ -34,7 +34,7 @@ const AdminManageAppointmentsPage = async () => {
 			<div className='mx-auto w-[95%]'>
 				<DataTable
 					columns={AppointmentColumns}
-					data={appointments}
+					data={appointmentTableData}
 					pagination
 				/>
 			</div>

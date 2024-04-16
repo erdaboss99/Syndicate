@@ -17,6 +17,7 @@ import AutoNewAppointmentGenerationForm from '@/components/dashboard/AutoNewAppo
 import DashboardTile from '@/components/dashboard/DashboardTile';
 import SendAutoActionReportEmailForm from '@/components/dashboard/SendAutoActionReportEmailForm';
 import { CardWrapper, type CardWrapperProps } from '@/components/general/CardWrapper';
+import { CardHeader } from '@/components/ui/Card';
 
 const BaseDashboard = ({ children, headerTitle, size }: Omit<CardWrapperProps, 'navigationTree'>) => {
 	return (
@@ -108,7 +109,7 @@ export const EmployeeDashboard = () => {
 		<BaseDashboard
 			headerTitle='Employee dashbord'
 			size='LG'>
-			Employee
+			<CardHeader variant='tertiary'>asd</CardHeader>
 		</BaseDashboard>
 	);
 };

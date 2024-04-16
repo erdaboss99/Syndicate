@@ -51,7 +51,7 @@ const BreadcrumbNavigation = ({ navigationTree }: BreadcrumbNavigationProps) => 
 		concatenatedTree.length <= 2 ? Array.from(concatenatedTree) : Array.from(concatenatedTree).slice(-2);
 
 	return (
-		<Breadcrumb className='flex items-center justify-center pt-2 md:justify-start md:pl-5'>
+		<Breadcrumb className='flex items-center justify-center pt-5 md:justify-start md:pl-5'>
 			<BreadcrumbList>
 				<BreadcrumbItem>
 					<BreadcrumbLink asChild>

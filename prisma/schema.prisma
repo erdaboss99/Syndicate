@@ -44,7 +44,6 @@ model User {
     password      String?
     image         String?
     role          UserRole  @default(USER)
-    lastSeen      DateTime  @default(now()) @map("last_seen")
     createdAt     DateTime  @default(now()) @map("created_at")
 
     accounts Account[]

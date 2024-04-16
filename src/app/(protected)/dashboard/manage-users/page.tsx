@@ -19,7 +19,6 @@ const AdminManageUsersPage = async () => {
 		email: true,
 		role: true,
 		emailVerified: true,
-		lastSeen: true,
 		image: true,
 	});
 

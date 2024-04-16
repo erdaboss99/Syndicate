@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/Button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
 import ChangeRoleDropdown from '@/components/users/ChangeRoleDropdown';
 
-export type UserDataTableFields = Pick<User, 'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'lastSeen' | 'image'>;
+export type UserDataTableFields = Pick<User, 'id' | 'name' | 'email' | 'role' | 'emailVerified' | 'image'>;
 
 export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 	{
@@ -95,28 +95,6 @@ export const UserColumns: ColumnDef<UserDataTableFields>[] = [
 				<time className='font-medium'>
 					<Suspense fallback={null}>
 						{formatDate(new Date(row.original.emailVerified), 'WRITTEN_SHORT_DATE')}
-					</Suspense>
-				</time>
-			);
-		},
-	},
-	{
-		accessorKey: 'lastSeen',
-		header: ({ column }) => {
-			return (
-				<Button
-					variant='ghost'
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-					Last seen
-					<LuArrowUpDown className='ml-2 h-4 w-4' />
-				</Button>
-			);
-		},
-		cell: ({ row }) => {
-			return (
-				<time className='font-medium'>
-					<Suspense fallback={null}>
-						{formatDate(new Date(row.original.lastSeen), 'WRITTEN_SHORT_DATE_TIME')}
 					</Suspense>
 				</time>
 			);

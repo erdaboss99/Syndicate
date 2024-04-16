@@ -38,19 +38,17 @@ const BookingDetails = ({ description, createdAt, Issue, Appointment, User }: Bo
 				value={Issue.name}
 			/>
 			<BaseDetailsField label='Issue description'>{Issue.description}</BaseDetailsField>
-			<div>
-				<LinkTile tileHref={`/dashboard/manage-users/${User.id}`}>
-					<CardHeader variant='tertiary'>User details</CardHeader>
-					<HighlightedDetailsField
-						label='User name'
-						value={User.name}
-					/>
-					<HighlightedDetailsField
-						label='User email'
-						value={User.email}
-					/>
-				</LinkTile>
-			</div>
+			<LinkTile tileHref={`/dashboard/manage-users/${User.id}`}>
+				<CardHeader variant='tertiary'>User details</CardHeader>
+				<HighlightedDetailsField
+					label='User name'
+					value={User.name}
+				/>
+				<HighlightedDetailsField
+					label='User email'
+					value={User.email}
+				/>
+			</LinkTile>
 		</>
 	);
 };

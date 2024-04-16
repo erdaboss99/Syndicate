@@ -4,6 +4,7 @@ import { AdminDashboard, EmployeeDashboard, UserDashboard } from '@/components/d
 
 const AdminDashboardPage = async () => {
 	const currentUser = await getCurrentUser();
+
 	switch (currentUser?.role) {
 		case 'ADMIN':
 			return <AdminDashboard />;

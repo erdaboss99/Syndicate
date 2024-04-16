@@ -47,11 +47,6 @@ export const {
 				session.user.email = token.email as string;
 				session.user.provider = token.provider as LoginProviders;
 				session.user.createdAt = new Date(token.createdAt as string);
-
-				await database.user.update({
-					where: { id: session.user.id },
-					data: { lastSeen: new Date() },
-				});
 			}
 
 			return session;

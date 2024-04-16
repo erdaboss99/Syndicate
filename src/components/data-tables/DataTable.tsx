@@ -28,7 +28,7 @@ type DataTableProps<TData, TValue> = {
 	data: TData[];
 	search?: keyof TData;
 	filter?: {
-		columnKey: string;
+		columnKey: keyof TData;
 		title?: string;
 		options: {
 			label: string;

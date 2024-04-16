@@ -1,3 +1,5 @@
+import { add } from 'date-fns';
+import { type IconType } from 'react-icons/lib';
 import { LuCalendarClock, LuCalendarDays, LuKanbanSquare, LuUsers } from 'react-icons/lu';
 
 import { aggregateAppointments } from '@/data/appointment';
@@ -10,20 +12,22 @@ import {
 } from '@/data/configuration';
 import { aggregateIssues } from '@/data/issue';
 import { aggregateUsers } from '@/data/user';
+import { getCurrentUser } from '@/lib/auth';
 import { getIntervalFromDay, getWeekIntervalFromDay } from '@/lib/date';
 
 import AutoExpiredAppointmentDeletionForm from '@/components/dashboard/AutoExpiredAppointmentDeletionForm';
 import AutoExpiredBookingDeletionForm from '@/components/dashboard/AutoExpiredBookingDeletionForm';
 import AutoNewAppointmentGenerationForm from '@/components/dashboard/AutoNewAppointmentGenerationForm';
-import DashboardTile from '@/components/dashboard/DashboardTile';
 import SendAutoActionReportEmailForm from '@/components/dashboard/SendAutoActionReportEmailForm';
 import { CardWrapper, type CardWrapperProps } from '@/components/general/CardWrapper';
+import LinkTile, { type LinkTileProps } from '@/components/general/LinkTile';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
-const BaseDashboard = ({ children, headerTitle, size }: Omit<CardWrapperProps, 'navigationTree'>) => {
+const BaseDashboard = ({ children, size }: Omit<CardWrapperProps, 'navigationTree' | 'headerTitle'>) => {
 	return (
 		<CardWrapper
 			navigationTree={[{ nodeLabel: 'Dashboard', nodeHref: 'dashboard' }]}
-			headerTitle={headerTitle}
+			headerTitle='Dashboard'
 			size={size}>
 			{children}
 		</CardWrapper>
@@ -36,7 +40,7 @@ export const AdminDashboard = async () => {
 	const autoExpiredBookingDeletionStatus = await getAutoExpiredBookingDeletionStatus();
 	const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
 
-	const weekBeforeDate = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+	const weekBeforeDate = add(new Date(), { weeks: -1 });
 	const usersRegisteredInLastWeekCount = await aggregateUsers({
 		aggregate: { _count: { id: true } },
 		where: { createdAt: { gte: weekBeforeDate } },
@@ -76,9 +80,7 @@ export const AdminDashboard = async () => {
 	}).then((data) => data?._count.id);
 
 	return (
-		<BaseDashboard
-			headerTitle='Admin dashbord'
-			size='LG'>
+		<BaseDashboard size='LG'>
 			<div className='grid gap-2 p-4 md:grid-cols-2'>
 				<AutoNewAppointmentGenerationForm
 					autoNewAppointmentGenerationStatus={Boolean(autoNewAppointmentGenerationStatus)}
@@ -144,9 +146,7 @@ export const EmployeeDashboard = async () => {
 	}).then((data) => data?._count.id);
 
 	return (
-		<BaseDashboard
-			headerTitle='Employee dashbord'
-			size='LG'>
+		<BaseDashboard size='LG'>
 			<div className='grid gap-4 p-4 md:grid-cols-2'>
 				<DashboardTile
 					tileHref='/dashboard/daily-bookings'
@@ -161,12 +161,84 @@ export const EmployeeDashboard = async () => {
 	);
 };
 
-export const UserDashboard = () => {
+export const UserDashboard = async () => {
+	const user = await getCurrentUser();
+	const threeDaysAheadDate = add(new Date(), { days: 3 });
+	const nextDayDate = add(new Date(), { days: 1 });
+
+	const availableAppointmentsInThreeDaysCount = await aggregateAppointments({
+		aggregate: { _count: { id: true } },
+		where: { startTime: { gte: new Date(), lte: threeDaysAheadDate }, Booking: null },
+	}).then((data) => data?._count.id);
+
+	const allAvailableAppointmentCount = await aggregateAppointments({
+		aggregate: { _count: { id: true } },
+		where: { startTime: { gte: new Date() }, Booking: null },
+	}).then((data) => data?._count.id);
+
+	const bookingInTheNextDay = await aggregateBookings({
+		aggregate: { _count: { id: true } },
+		where: { Appointment: { startTime: { gte: new Date(), lte: nextDayDate } }, User: { id: user?.id } },
+	}).then((data) => data?._count.id);
+
+	const allBookingCount = await aggregateBookings({
+		aggregate: { _count: { id: true } },
+		where: { User: { id: user?.id } },
+	}).then((data) => data?._count.id);
+
 	return (
-		<BaseDashboard
-			headerTitle='User dashbord'
-			size='LG'>
-			User
+		<BaseDashboard size='LG'>
+			<div className='grid gap-4 p-4 md:grid-cols-2'>
+				<DashboardTile
+					tileHref='/appointments'
+					tileTitle='Book an appointment'
+					tilePrimaryCount={`${availableAppointmentsInThreeDaysCount}`}
+					tilePrimaryText=' available appointments in the next 3 days'
+					tileSecondaryText={`${allAvailableAppointmentCount} available appointments`}
+					TileIcon={LuCalendarClock}
+				/>
+				<DashboardTile
+					tileHref='/bookings'
+					tileTitle='Booked appointments'
+					tilePrimaryCount={`${bookingInTheNextDay}`}
+					tilePrimaryText=' upcoming bookings in the next 24 hours'
+					tileSecondaryText={`${allBookingCount} booked appointments`}
+					TileIcon={LuCalendarClock}
+				/>
+			</div>
 		</BaseDashboard>
+	);
+};
+
+type DashboardTileProps = {
+	tileTitle: string;
+	tilePrimaryCount: string;
+	tilePrimaryText: string;
+	tileSecondaryText: string;
+	TileIcon: IconType;
+} & Omit<LinkTileProps, 'children'>;
+
+const DashboardTile = ({
+	tileHref,
+	tileTitle,
+	tilePrimaryCount,
+	tilePrimaryText,
+	tileSecondaryText,
+	TileIcon,
+}: DashboardTileProps) => {
+	return (
+		<LinkTile tileHref={tileHref}>
+			<CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+				<CardTitle className='text-base md:text-lg'>{tileTitle}</CardTitle>
+				<TileIcon className='h-6 w-6 text-muted-foreground' />
+			</CardHeader>
+			<CardContent className='p-3 md:p-6'>
+				<h4 className='text-xl'>
+					<span className='font-bold text-primary'>{tilePrimaryCount}</span>
+					{tilePrimaryText}
+				</h4>
+				<p className='text-xs text-muted-foreground md:text-sm'>{tileSecondaryText}</p>
+			</CardContent>
+		</LinkTile>
 	);
 };

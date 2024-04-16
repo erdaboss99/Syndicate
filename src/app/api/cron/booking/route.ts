@@ -73,8 +73,8 @@ export async function DELETE() {
 		}
 		const deletedExpiredBookings = deletedBookings.map((booking) => {
 			return {
-				userName: booking.User.name!,
-				userEmail: booking.User.email!,
+				userName: booking.User.name,
+				userEmail: booking.User.email,
 				appointmentStartTime: booking.Appointment.startTime,
 				bookingDescription: booking.description,
 				issueName: booking.Issue.name,

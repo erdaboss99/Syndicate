@@ -127,8 +127,8 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 	});
 
 	await sendAccountDeletionEmail({
-		userName: deletedUser.name!,
-		userEmail: deletedUser.email!,
+		userName: deletedUser.name,
+		userEmail: deletedUser.email,
 		deletedAssociatedBookings: deletedUser.bookings,
 	});
 

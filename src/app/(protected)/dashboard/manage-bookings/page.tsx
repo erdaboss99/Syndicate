@@ -79,7 +79,7 @@ const AdminManageBookingsPage = async () => {
 					columns={BookingColumns}
 					data={bookingTableData}
 					search='userEmail'
-					filter={{ title: 'Issue', columnKey: 'Issue_name', options: filterOptions }}
+					filter={{ title: 'Issue', columnKey: 'issueName', options: filterOptions }}
 					visibility
 					pagination
 				/>

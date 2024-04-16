@@ -1,6 +1,6 @@
 import { add } from 'date-fns';
 import { type IconType } from 'react-icons/lib';
-import { LuCalendarClock, LuCalendarDays, LuKanbanSquare, LuUsers } from 'react-icons/lu';
+import { LuCalendarCheck2, LuCalendarClock, LuCalendarDays, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
 
 import { aggregateAppointments } from '@/data/appointment';
 import { aggregateBookings } from '@/data/booking';
@@ -191,19 +191,19 @@ export const UserDashboard = async () => {
 			<div className='grid gap-4 p-4 md:grid-cols-2'>
 				<DashboardTile
 					tileHref='/appointments'
-					tileTitle='Book an appointment'
+					tileTitle='Appointments'
 					tilePrimaryCount={`${availableAppointmentsInThreeDaysCount}`}
 					tilePrimaryText=' available appointments in the next 3 days'
 					tileSecondaryText={`${allAvailableAppointmentCount} available appointments`}
-					TileIcon={LuCalendarClock}
+					TileIcon={LuClock}
 				/>
 				<DashboardTile
 					tileHref='/bookings'
-					tileTitle='Booked appointments'
+					tileTitle='Bookings'
 					tilePrimaryCount={`${bookingInTheNextDay}`}
 					tilePrimaryText=' upcoming bookings in the next 24 hours'
 					tileSecondaryText={`${allBookingCount} booked appointments`}
-					TileIcon={LuCalendarClock}
+					TileIcon={LuCalendarCheck2}
 				/>
 			</div>
 		</BaseDashboard>

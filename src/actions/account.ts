@@ -19,6 +19,7 @@ import { getUserByEmail, getUserById } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { compare, hash } from '@/lib/hash';
+import { sendAccountDeletionEmail } from '@/lib/mail';
 import { AccountDeleteSchema, AccountEditSchema, RoleChangeSchema } from '@/schemas';
 
 export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => {
@@ -96,7 +97,35 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 
 	if (existingUser.email !== email) return { error: ACTION_ACCOUNT_INCORRECT_EMAIL_ERROR };
 
-	await database.user.delete({ where: { id: existingUser.id } });
+	const deletedUser = await database.user.delete({
+		where: { id: existingUser.id },
+		select: {
+			name: true,
+			email: true,
+			bookings: {
+				select: {
+					description: true,
+					Appointment: {
+						select: {
+							startTime: true,
+						},
+					},
+					Issue: {
+						select: {
+							name: true,
+						},
+					},
+				},
+			},
+		},
+	});
+
+	await sendAccountDeletionEmail({
+		userName: deletedUser.name!,
+		userEmail: deletedUser.email!,
+		deletedAssociatedBookings: deletedUser.bookings,
+	});
+
 	return { success: ACTION_ACCOUNT_DELETED_SUCCESS };
 };
 

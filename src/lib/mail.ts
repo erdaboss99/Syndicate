@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import { env } from '@/env.mjs';
 import { formatDate } from '@/lib/date';
 
+import AccountDeletionTemplate, { AccountDeletionTemplateProps } from '@/emails/AccountDelete';
 import BookingConfirmationTemplate, { type BookingConfirmationTemplateProps } from '@/emails/BookingConfirmation';
 import BookingDeletionTemplate, { BookingDeletionTemplateProps } from '@/emails/BookingDeletion';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
@@ -63,6 +64,22 @@ export const sendVerificationEmail = async (userName: string, userEmail: string,
 		recipients: [userEmail],
 		emailSubject: 'Syndicate - Confirm your email address',
 		emailTemplate: EmailVerificationTemplate({ userName, emailVerificationLink }),
+	});
+};
+
+export const sendAccountDeletionEmail = async ({
+	userName,
+	userEmail,
+	deletedAssociatedBookings,
+}: AccountDeletionTemplateProps) => {
+	await sendEmail({
+		recipients: [userEmail],
+		emailSubject: `Syndicate - Account deletion`,
+		emailTemplate: AccountDeletionTemplate({
+			userName,
+			userEmail,
+			deletedAssociatedBookings,
+		}),
 	});
 };
 

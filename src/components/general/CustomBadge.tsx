@@ -93,7 +93,7 @@ export const LoginProviderBadge = ({ provider, variant }: LoginProviderBadge) =>
 			return (
 				<BaseBadge
 					variant={variant}
-					Icon={GrGoogle}
+					Icon={LuGithub}
 					label='Github'
 				/>
 			);
@@ -101,8 +101,8 @@ export const LoginProviderBadge = ({ provider, variant }: LoginProviderBadge) =>
 			return (
 				<BaseBadge
 					variant={variant}
-					Icon={LuGithub}
-					label='Github'
+					Icon={GrGoogle}
+					label='Google'
 				/>
 			);
 		default:

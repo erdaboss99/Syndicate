@@ -14,7 +14,6 @@ import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { AccountDeleteSchema } from '@/schemas';
 
-import LogoutButton from '@/components/auth/LogoutButton';
 import { Button } from '@/components/ui/Button';
 import { DialogFooter } from '@/components/ui/Dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
@@ -79,30 +78,20 @@ const AccountDeleteForm = () => {
 					/>
 				</div>
 				<DialogFooter>
-					{!isDone ? (
-						<Button
-							type='submit'
-							variant='destructive'
-							size='lg'
-							disabled={isPending}>
-							{isPending ? (
-								<span className='flex flex-row items-center gap-2'>
-									<LuLoader2 className='animate-spin' />
-									Processing...
-								</span>
-							) : (
-								'Delete account'
-							)}
-						</Button>
-					) : (
-						<LogoutButton>
-							<Button
-								size='lg'
-								variant='default'>
-								Log in
-							</Button>
-						</LogoutButton>
-					)}
+					<Button
+						type='submit'
+						variant='destructive'
+						size='lg'
+						disabled={isPending || isDone}>
+						{isPending ? (
+							<span className='flex flex-row items-center gap-2'>
+								<LuLoader2 className='animate-spin' />
+								Processing...
+							</span>
+						) : (
+							'Delete account'
+						)}
+					</Button>
 				</DialogFooter>
 			</form>
 		</Form>

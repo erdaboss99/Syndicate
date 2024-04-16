@@ -16,9 +16,9 @@ export const AUTO_EXPIRED_BOOKING_DELETION_DEFAULT_VALUE = 0; // 0 = off, 1 = on
 export const SEND_AUTO_ACTION_REPORT_EMAIL_KEY = 'SEND_AUTO_ACTION_REPORT_EMAIL';
 export const SEND_AUTO_ACTION_REPORT_EMAIL_DEFAULT_VALUE = 0; // 0 = off, 1 = on
 
-export const OPENING_HOUR = 8; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
+export const OPENING_HOUR = 10; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
 export const CLOSING_HOUR = 12; // in UTC time ( UTC is 1 hour behind Budapest in winter, 2 hours in summer )
-export const APPOINTMENT_DURATION = 30; // in minutes
+export const APPOINTMENT_DURATION = 15; // in minutes
 export const FURTHEST_APPOINTMENT_DATE = 5; // in days
 
 // DateTime related constants

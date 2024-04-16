@@ -13,25 +13,27 @@ const AdminManageBookingsPage = async () => {
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
 	const bookings = await getBookingDataSubset({
-		id: true,
-		description: true,
-		createdAt: true,
-		Appointment: {
-			select: {
-				id: true,
-				startTime: true,
+		select: {
+			id: true,
+			description: true,
+			createdAt: true,
+			Appointment: {
+				select: {
+					id: true,
+					startTime: true,
+				},
 			},
-		},
-		User: {
-			select: {
-				id: true,
-				email: true,
+			User: {
+				select: {
+					id: true,
+					email: true,
+				},
 			},
-		},
-		Issue: {
-			select: {
-				id: true,
-				name: true,
+			Issue: {
+				select: {
+					id: true,
+					name: true,
+				},
 			},
 		},
 	});

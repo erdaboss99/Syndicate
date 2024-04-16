@@ -163,3 +163,7 @@ export const BookingDeleteSchema = z.object({
 		.min(5, { message: BOOKING_DELETE_REASON_MIN_VALIDATION })
 		.max(55, { message: BOOKING_DELETE_REASON_MAX_VALIDATION }),
 });
+
+export const BookingCancelSchema = z.object({
+	id: z.string().uuid({ message: UUID_VALIDATION }),
+});

@@ -3,9 +3,11 @@
 import { z } from 'zod';
 
 import {
+	ACTION_BOOKING_CANCELLED_SUCCESS,
 	ACTION_BOOKING_CREATED_SUCCESS,
 	ACTION_BOOKING_DELETED_SUCCESS,
 	ACTION_BOOKING_NOT_FOUND_ERROR,
+	ACTION_FORBIDDEN_ERROR,
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
@@ -13,8 +15,62 @@ import {
 import { getUniqueBooking } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
-import { sendBookingConfirmationEmail, sendBookingDeletionEmail } from '@/lib/mail';
-import { AppointmentBookSchema, BookingDeleteSchema } from '@/schemas';
+import { sendBookingCancellationEmail, sendBookingConfirmationEmail, sendBookingDeletionEmail } from '@/lib/mail';
+import { AppointmentBookSchema, BookingCancelSchema, BookingDeleteSchema } from '@/schemas';
+
+export const cancelBooking = async (values: z.infer<typeof BookingCancelSchema>) => {
+	const user = await getCurrentUser();
+
+	const validatedData = BookingCancelSchema.safeParse(values);
+	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
+
+	const { id } = validatedData.data;
+
+	const existingBooking = await getUniqueBooking({
+		where: { id },
+		select: { id: true, User: { select: { id: true } } },
+	});
+	if (!existingBooking) return { error: ACTION_BOOKING_NOT_FOUND_ERROR };
+
+	if (existingBooking.User.id !== user?.id) return { error: ACTION_FORBIDDEN_ERROR };
+
+	const deletedBooking = await database.booking.delete({
+		where: {
+			id,
+		},
+		select: {
+			description: true,
+			Appointment: {
+				select: {
+					startTime: true,
+				},
+			},
+			Issue: {
+				select: {
+					name: true,
+					description: true,
+				},
+			},
+			User: {
+				select: {
+					name: true,
+					email: true,
+				},
+			},
+		},
+	});
+
+	await sendBookingCancellationEmail({
+		userName: deletedBooking.User.name,
+		userEmail: deletedBooking.User.email,
+		appointmentStartTime: deletedBooking.Appointment.startTime,
+		bookingDescription: deletedBooking.description,
+		issueName: deletedBooking.Issue.name,
+		issueDescription: deletedBooking.Issue.description,
+	});
+
+	return { success: ACTION_BOOKING_CANCELLED_SUCCESS };
+};
 
 export const deleteBooking = async (values: z.infer<typeof BookingDeleteSchema>) => {
 	const user = await getCurrentUser();
@@ -55,8 +111,8 @@ export const deleteBooking = async (values: z.infer<typeof BookingDeleteSchema>)
 	});
 
 	await sendBookingDeletionEmail({
-		userName: deletedBooking.User.name!,
-		userEmail: deletedBooking.User.email!,
+		userName: deletedBooking.User.name,
+		userEmail: deletedBooking.User.email,
 		appointmentStartTime: deletedBooking.Appointment.startTime,
 		bookingDescription: deletedBooking.description,
 		issueName: deletedBooking.Issue.name,
@@ -106,8 +162,8 @@ export const createBooking = async (values: z.infer<typeof AppointmentBookSchema
 	});
 
 	await sendBookingConfirmationEmail({
-		userName: createdBooking.User.name!,
-		userEmail: createdBooking.User.email!,
+		userName: createdBooking.User.name,
+		userEmail: createdBooking.User.email,
 		appointmentStartTime: createdBooking.Appointment.startTime,
 		bookingDescription: createdBooking.description,
 		issueName: createdBooking.Issue.name,

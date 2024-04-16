@@ -5,6 +5,7 @@ import { env } from '@/env.mjs';
 import { formatDate } from '@/lib/date';
 
 import AccountDeletionTemplate, { AccountDeletionTemplateProps } from '@/emails/AccountDelete';
+import BookingCancellationTemplate, { BookingCancellationTemplateProps } from '@/emails/BookingCancellation';
 import BookingConfirmationTemplate, { type BookingConfirmationTemplateProps } from '@/emails/BookingConfirmation';
 import BookingDeletionTemplate, { BookingDeletionTemplateProps } from '@/emails/BookingDeletion';
 import EmailVerificationTemplate from '@/emails/EmailVerification';
@@ -177,6 +178,28 @@ export const sendBookingDeletionEmail = async ({
 			issueName,
 			issueDescription,
 			reason,
+		}),
+	});
+};
+
+export const sendBookingCancellationEmail = async ({
+	userName,
+	userEmail,
+	appointmentStartTime,
+	bookingDescription,
+	issueName,
+	issueDescription,
+}: BookingCancellationTemplateProps) => {
+	await sendEmail({
+		recipients: [userEmail],
+		emailSubject: `Syndicate - Booking cancellation - ${formatDate(appointmentStartTime, 'SHORT_DATE_TIME')}`,
+		emailTemplate: BookingCancellationTemplate({
+			userName,
+			userEmail,
+			appointmentStartTime,
+			bookingDescription,
+			issueName,
+			issueDescription,
 		}),
 	});
 };

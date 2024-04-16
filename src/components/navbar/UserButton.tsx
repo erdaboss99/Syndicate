@@ -4,7 +4,15 @@ import { type UserRole } from '@prisma/client';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
 import { type IconType } from 'react-icons/lib';
-import { LuCalendarClock, LuCalendarDays, LuCalendarRange, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
+import {
+	LuCalendarCheck2,
+	LuCalendarClock,
+	LuCalendarDays,
+	LuCalendarRange,
+	LuClock,
+	LuKanbanSquare,
+	LuUsers,
+} from 'react-icons/lu';
 import { MdExitToApp, MdOutlineManageAccounts } from 'react-icons/md';
 
 import { getCurrentUser } from '@/lib/auth';
@@ -80,6 +88,13 @@ const NavRecords: Omit<NavItemProps, 'currentRole'>[] = [
 		href: '/appointments',
 		roles: ['ADMIN', 'EMPLOYEE', 'USER'],
 		Icon: LuClock,
+		separate: true,
+	},
+	{
+		name: 'Booked appointments',
+		href: '/bookings',
+		roles: ['ADMIN', 'EMPLOYEE', 'USER'],
+		Icon: LuCalendarCheck2,
 		separate: true,
 	},
 ];

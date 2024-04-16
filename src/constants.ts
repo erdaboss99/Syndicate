@@ -106,6 +106,7 @@ export const ACTION_ISSUE_DELETE_LINKED_BOOKING_ERROR = 'Issue has linked bookin
 export const ACTION_BOOKING_CREATED_SUCCESS = 'Booking created successfully!';
 export const ACTION_BOOKING_DELETED_SUCCESS = 'Booking deleted successfully!';
 export const ACTION_BOOKING_NOT_FOUND_ERROR = 'Booking no longer exists!';
+export const ACTION_BOOKING_CANCELLED_SUCCESS = 'Booking cancelled successfully!';
 
 export const ACTION_APPOINTMENT_DELETED_SUCCESS = 'Appointment deleted successfully!';
 export const ACTION_APPOINTMENT_NOT_FOUND_ERROR = 'Appointment no longer exists!';

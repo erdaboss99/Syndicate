@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import { database } from '@/lib/database';
 
 export const getIssueCount = async (options: { status: 'ALL' | 'USED' }) => {
@@ -36,6 +38,19 @@ export const getIssues = async () => {
 	try {
 		const issues = await database.issue.findMany();
 		return issues;
+	} catch (error) {
+		return [];
+	}
+};
+
+export const getIssueDataSubset = async <T extends Prisma.IssueSelect>(
+	select: T,
+): Promise<Prisma.IssueGetPayload<{ select: T }>[]> => {
+	try {
+		const issueSubset = await database.issue.findMany({
+			select,
+		});
+		return issueSubset;
 	} catch (error) {
 		return [];
 	}

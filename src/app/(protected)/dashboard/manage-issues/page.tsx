@@ -1,18 +1,21 @@
 import { redirect } from 'next/navigation';
 
-import { type Issue } from '@prisma/client';
-
 import { getCurrentUser } from '@/lib/auth';
 
 import { CardWrapper } from '@/components/general/CardWrapper';
 import { IssueCard, NewIssueCard } from '@/components/issues/IssueCard';
-import { getIssues } from '@/data/issue';
+import { getIssueDataSubset } from '@/data/issue';
 
 const AdminManageIssuesPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const issues = await getIssues();
+	const issues = await getIssueDataSubset({
+		id: true,
+		name: true,
+		description: true,
+		bookings: { select: { id: true } },
+	});
 
 	return (
 		<CardWrapper
@@ -26,7 +29,7 @@ const AdminManageIssuesPage = async () => {
 			linkHref='/dashboard'>
 			<div className='grid grid-cols-1 place-items-center gap-5 md:grid-cols-3'>
 				<NewIssueCard />
-				{issues.map((issue: Issue) => (
+				{issues.map((issue) => (
 					<IssueCard
 						key={issue.id}
 						issue={issue}

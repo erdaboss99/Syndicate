@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/Dialog';
 
 type IssueCardProps = {
-	issue: Issue;
+	issue: Issue & { bookings: { id: string }[] };
 };
 
 const ISSUE_CARD_BASE_CLASSES = 'h-full min-h-[150px] w-full';
@@ -27,41 +27,42 @@ export const IssueCard = ({ issue }: IssueCardProps) => {
 				<CardHeader className='flex flex-row items-center justify-between pb-1'>
 					<CardTitle className='text-lg md:text-xl'>{issue.name}</CardTitle>
 				</CardHeader>
-				<CardContent>
-					<p className='text-base md:text-lg'>{issue.description}</p>
-				</CardContent>
-				<CardFooter className='flex items-center justify-end gap-6'>
-					<Dialog>
-						<DialogTrigger asChild>
-							<LuPencil
-								className='cursor-pointer'
-								size={20}
-							/>
-						</DialogTrigger>
-						<DialogContent className='sm:max-w-[425px]'>
-							<DialogHeader>
-								<DialogTitle>Update issue</DialogTitle>
-							</DialogHeader>
-							<IssueEditForm issue={issue} />
-						</DialogContent>
-					</Dialog>
-					<Dialog>
-						<DialogTrigger asChild>
-							<LuTrash2
-								className='cursor-pointer'
-								size={20}
-							/>
-						</DialogTrigger>
-						<DialogContent className='sm:max-w-[425px]'>
-							<DialogHeader>
-								<DialogTitle>Delete issue</DialogTitle>
-								<DialogDescription>
-									This action is irreversible. Are you sure you want to delete this issue?
-								</DialogDescription>
-							</DialogHeader>
-							<IssueDeleteForm issue={issue} />
-						</DialogContent>
-					</Dialog>
+				<CardContent className='px-6 text-base md:text-lg'>{issue.description}</CardContent>
+				<CardFooter className='flex items-center justify-between gap-6 px-6 pb-6'>
+					<p>{`${issue.bookings.length} existing bookings`}</p>
+					<div className='flex items-center justify-end gap-6'>
+						<Dialog>
+							<DialogTrigger asChild>
+								<LuPencil
+									className='cursor-pointer'
+									size={20}
+								/>
+							</DialogTrigger>
+							<DialogContent className='sm:max-w-[425px]'>
+								<DialogHeader>
+									<DialogTitle>Update issue</DialogTitle>
+								</DialogHeader>
+								<IssueEditForm issue={issue} />
+							</DialogContent>
+						</Dialog>
+						<Dialog>
+							<DialogTrigger asChild>
+								<LuTrash2
+									className='cursor-pointer'
+									size={20}
+								/>
+							</DialogTrigger>
+							<DialogContent className='sm:max-w-[425px]'>
+								<DialogHeader>
+									<DialogTitle>Delete issue</DialogTitle>
+									<DialogDescription>
+										This action is irreversible. Are you sure you want to delete this issue?
+									</DialogDescription>
+								</DialogHeader>
+								<IssueDeleteForm issue={issue} />
+							</DialogContent>
+						</Dialog>
+					</div>
 				</CardFooter>
 			</Card>
 		</div>

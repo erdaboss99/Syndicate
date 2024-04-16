@@ -38,7 +38,15 @@ const AdminManageBookingsPage = async () => {
 		},
 	});
 
-	const filterOptions = (await getIssues()).map((issue) => ({
+	const issues = await getIssues({
+		select: {
+			id: true,
+			name: true,
+			description: true,
+		},
+	});
+
+	const filterOptions = issues.map((issue) => ({
 		value: issue.id,
 		label: issue.name,
 	}));

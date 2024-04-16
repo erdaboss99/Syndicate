@@ -31,7 +31,13 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 
 	const formattedDate = formatDate(appointment.startTime, 'WRITTEN_LONG_DATE_TIME_INTERVAL');
 
-	const issues = await getIssues();
+	const issues = await getIssues({
+		select: {
+			id: true,
+			name: true,
+			description: true,
+		},
+	});
 
 	return (
 		<CardWrapper

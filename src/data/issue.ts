@@ -2,6 +2,21 @@ import { Prisma } from '@prisma/client';
 
 import { database } from '@/lib/database';
 
+export const getIssues = async <T extends Prisma.IssueSelect, K extends Prisma.IssueWhereInput>(options: {
+	where?: K;
+	select: T;
+}): Promise<Prisma.IssueGetPayload<{ select: T }>[]> => {
+	try {
+		const issues = await database.issue.findMany({
+			where: options.where,
+			select: options.select,
+		});
+		return issues;
+	} catch (error) {
+		return [];
+	}
+};
+
 export const getIssueCount = async (options: { status: 'ALL' | 'USED' }) => {
 	try {
 		switch (options.status) {
@@ -31,27 +46,5 @@ export const getIssueCount = async (options: { status: 'ALL' | 'USED' }) => {
 		}
 	} catch (error) {
 		return null;
-	}
-};
-
-export const getIssues = async () => {
-	try {
-		const issues = await database.issue.findMany();
-		return issues;
-	} catch (error) {
-		return [];
-	}
-};
-
-export const getIssueDataSubset = async <T extends Prisma.IssueSelect>(
-	select: T,
-): Promise<Prisma.IssueGetPayload<{ select: T }>[]> => {
-	try {
-		const issueSubset = await database.issue.findMany({
-			select,
-		});
-		return issueSubset;
-	} catch (error) {
-		return [];
 	}
 };

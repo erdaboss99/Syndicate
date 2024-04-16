@@ -1,20 +1,22 @@
 import { redirect } from 'next/navigation';
 
+import { getIssues } from '@/data/issue';
 import { getCurrentUser } from '@/lib/auth';
 
 import { CardWrapper } from '@/components/general/CardWrapper';
 import { IssueCard, NewIssueCard } from '@/components/issues/IssueCard';
-import { getIssueDataSubset } from '@/data/issue';
 
 const AdminManageIssuesPage = async () => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
-	const issues = await getIssueDataSubset({
-		id: true,
-		name: true,
-		description: true,
-		bookings: { select: { id: true } },
+	const issues = await getIssues({
+		select: {
+			id: true,
+			name: true,
+			description: true,
+			bookings: { select: { id: true } },
+		},
 	});
 
 	return (

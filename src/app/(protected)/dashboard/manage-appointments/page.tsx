@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getAppointmentDataSubset } from '@/data/appointment';
+import { getAppointments } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
 
 import DataTable from '@/components/data-tables/DataTable';
@@ -12,10 +12,8 @@ const AdminManageAppointmentsPage = async () => {
 	if (currentUser?.role !== 'ADMIN') redirect('/dashboard');
 
 	const appointments = (
-		await getAppointmentDataSubset({
-			id: true,
-			startTime: true,
-			Booking: { select: { id: true } },
+		await getAppointments({
+			select: { id: true, startTime: true, Booking: { select: { id: true } } },
 		})
 	).map((appointment) => ({
 		id: appointment.id,

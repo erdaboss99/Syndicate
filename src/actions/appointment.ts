@@ -9,7 +9,7 @@ import {
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 } from '@/constants';
-import { getSelectedAppointmentDataSubset } from '@/data/appointment';
+import { getUniqueAppointment } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { AppointmentDeleteSchema } from '@/schemas';
@@ -23,8 +23,8 @@ export const deleteAppointment = async (values: z.infer<typeof AppointmentDelete
 
 	const { id } = validatedData.data;
 
-	const existingAppointment = await getSelectedAppointmentDataSubset({
-		id,
+	const existingAppointment = await getUniqueAppointment({
+		where: { id },
 		select: {
 			id: true,
 			Booking: {

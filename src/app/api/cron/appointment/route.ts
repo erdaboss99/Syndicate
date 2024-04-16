@@ -11,7 +11,7 @@ import {
 	FURTHEST_APPOINTMENT_DATE,
 	OPENING_HOUR,
 } from '@/constants';
-import { getAppointmentsInInterval, getExpiredAppointments } from '@/data/appointment';
+import { getAppointments } from '@/data/appointment';
 import {
 	getAutoExpiredAppointmentDeletionStatus,
 	getAutoNewAppointmentGenerationStatus,
@@ -49,9 +49,17 @@ export async function POST() {
 		const weekendDaysInInterval: Date[] = [];
 		const generatedNewAppointments: { startTime: Date; endTime: Date }[] = [];
 
-		const existingAppointments = await getAppointmentsInInterval({
-			interval: { start: intervalStart, end: intervalEnd },
-			status: 'ALL',
+		const existingAppointments = await getAppointments({
+			where: {
+				startTime: {
+					gte: intervalStart,
+					lte: intervalEnd,
+				},
+			},
+			select: {
+				id: true,
+				startTime: true,
+			},
 		});
 
 		for (let i = intervalStart; i <= intervalEnd; i = add(i, { days: 1 })) {
@@ -121,7 +129,22 @@ export async function DELETE() {
 	const autoAppointmentDeletionStatus = await getAutoExpiredAppointmentDeletionStatus();
 
 	if (Boolean(autoAppointmentDeletionStatus)) {
-		const expiredUnbookedAppointments = await getExpiredAppointments({ status: 'UNBOOKED' });
+		const expiredUnbookedAppointments = await getAppointments({
+			where: {
+				AND: [
+					{ Booking: null },
+					{
+						startTime: {
+							lte: new Date(),
+						},
+					},
+				],
+			},
+			select: {
+				id: true,
+				startTime: true,
+			},
+		});
 
 		const deletedAppointments: Appointment[] = [];
 		for (const appointment of expiredUnbookedAppointments) {

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { getAppointmentById } from '@/data/appointment';
+import { getAppointment } from '@/data/appointment';
 import { getIssues } from '@/data/issue';
 import { formatDate } from '@/lib/date';
 import { AppointmentBookQueryParamsSchema } from '@/schemas';
@@ -13,7 +13,20 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 	const paramsData = AppointmentBookQueryParamsSchema.safeParse(appointmentId);
 	if (!paramsData.success) redirect('/appointments');
 
-	const appointment = await getAppointmentById({ id: paramsData.data, status: 'AVAILABLE' });
+	const appointment = await getAppointment({
+		where: {
+			AND: [
+				{ Booking: null },
+				{
+					id: params.appointmentId,
+				},
+			],
+		},
+		select: {
+			id: true,
+			startTime: true,
+		},
+	});
 	if (!appointment) redirect('/appointments');
 
 	const formattedDate = formatDate(appointment.startTime, 'WRITTEN_LONG_DATE_TIME_INTERVAL');

@@ -15,10 +15,12 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 
-import DataTableFilter from '@/components/data-tables/DataTableFilter';
-import DataTablePagination from '@/components/data-tables/DataTablePagination';
-import DataTableSearch from '@/components/data-tables/DataTableSearch';
-import DataTableVisibility from '@/components/data-tables/DataTableVisibility';
+import {
+	DataTableFilter,
+	DataTablePagination,
+	DataTableSearch,
+	DataTableVisibility,
+} from '@/components/data-tables/DataTableExtensions';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
 type DataTableProps<TData, TValue> = {

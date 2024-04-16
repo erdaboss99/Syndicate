@@ -21,49 +21,59 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 
+const MIN_ADMIN_ROUTE: UserRole[] = ['ADMIN'];
+const MIN_EMPLOYEE_ROUTE: UserRole[] = ['ADMIN', 'EMPLOYEE'];
+const MIN_USER_ROUTE: UserRole[] = ['ADMIN', 'EMPLOYEE', 'USER'];
+
 const NavRecords: Omit<NavItemProps, 'currentRole'>[] = [
 	{
 		name: 'Account',
 		href: '/account',
-		roles: ['ADMIN', 'EMPLOYEE', 'USER'],
+		roles: MIN_USER_ROUTE,
 		Icon: MdOutlineManageAccounts,
 		separate: false,
 	},
 	{
 		name: 'Dashboard',
 		href: '/dashboard',
-		roles: ['ADMIN', 'EMPLOYEE', 'USER'],
+		roles: MIN_USER_ROUTE,
 		Icon: AiOutlineDashboard,
 		separate: true,
 	},
-	{ name: 'Manage users', href: '/dashboard/manage-users', roles: ['ADMIN'], Icon: LuUsers, separate: false },
+	{
+		name: 'Manage users',
+		href: '/dashboard/manage-users',
+		roles: MIN_ADMIN_ROUTE,
+		Icon: LuUsers,
+		separate: true,
+	},
 	{
 		name: 'Manage appointments',
 		href: '/dashboard/manage-appointments',
-		roles: ['ADMIN'],
+		roles: MIN_ADMIN_ROUTE,
 		Icon: LuCalendarDays,
 		separate: false,
 	},
 	{
 		name: 'Manage issues',
 		href: '/dashboard/manage-issues',
-		roles: ['ADMIN'],
+		roles: MIN_ADMIN_ROUTE,
 		Icon: LuKanbanSquare,
 		separate: false,
 	},
 	{
 		name: 'Manage bookings',
 		href: '/dashboard/manage-bookings',
-		roles: ['ADMIN'],
+		roles: MIN_ADMIN_ROUTE,
 		Icon: LuCalendarClock,
 		separate: false,
 	},
 	{
 		name: 'Daily bookings',
 		href: '/dashboard/daily-bookings',
-		roles: ['ADMIN', 'EMPLOYEE'],
+		roles: MIN_EMPLOYEE_ROUTE,
 		Icon: LuCalendarRange,
-		separate: false,
+		separate: true,
 	},
 	{
 		name: 'Appointments',

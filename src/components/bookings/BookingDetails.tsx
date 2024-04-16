@@ -5,7 +5,32 @@ import LinkTile from '@/components/general/LinkTile';
 import { Badge } from '@/components/ui/Badge';
 import { CardHeader } from '@/components/ui/Card';
 
-type BookingDetailsProps = {
+type UserDetailsProps = {
+	User: {
+		id: string;
+		name: string;
+		email: string;
+	};
+};
+
+const UserDetails = ({ User }: UserDetailsProps) => {
+	return (
+		<>
+			<CardHeader variant='tertiary'>User details</CardHeader>
+			<HighlightedDetailsField
+				label='User name'
+				value={User.name}
+			/>
+			<HighlightedDetailsField
+				label='User email'
+				value={User.email}
+			/>
+		</>
+	);
+};
+
+export type BookingDetailsProps = {
+	userLink?: string;
 	description: string;
 	createdAt: Date;
 	Issue: {
@@ -15,14 +40,9 @@ type BookingDetailsProps = {
 	Appointment: {
 		startTime: Date;
 	};
-	User: {
-		id: string;
-		name: string;
-		email: string;
-	};
-};
+} & UserDetailsProps;
 
-const BookingDetails = ({ description, createdAt, Issue, Appointment, User }: BookingDetailsProps) => {
+const BookingDetails = ({ description, createdAt, Issue, Appointment, User, userLink }: BookingDetailsProps) => {
 	return (
 		<>
 			<HighlightedDetailsField
@@ -38,17 +58,13 @@ const BookingDetails = ({ description, createdAt, Issue, Appointment, User }: Bo
 				value={Issue.name}
 			/>
 			<BaseDetailsField label='Issue description'>{Issue.description}</BaseDetailsField>
-			<LinkTile tileHref={`/dashboard/manage-users/${User.id}`}>
-				<CardHeader variant='tertiary'>User details</CardHeader>
-				<HighlightedDetailsField
-					label='User name'
-					value={User.name}
-				/>
-				<HighlightedDetailsField
-					label='User email'
-					value={User.email}
-				/>
-			</LinkTile>
+			{userLink ? (
+				<LinkTile tileHref={userLink}>
+					<UserDetails User={User} />
+				</LinkTile>
+			) : (
+				<UserDetails User={User} />
+			)}
 		</>
 	);
 };

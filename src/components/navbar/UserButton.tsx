@@ -4,7 +4,7 @@ import { type UserRole } from '@prisma/client';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
 import { type IconType } from 'react-icons/lib';
-import { LuClock } from 'react-icons/lu';
+import { LuCalendarClock, LuCalendarDays, LuCalendarRange, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
 import { MdExitToApp, MdOutlineManageAccounts } from 'react-icons/md';
 
 import { getCurrentUser } from '@/lib/auth';
@@ -22,9 +22,56 @@ import {
 } from '@/components/ui/DropdownMenu';
 
 const NavRecords: Omit<NavItemProps, 'currentRole'>[] = [
-	{ name: 'Account', href: '/account', roles: ['ADMIN', 'EMPLOYEE', 'USER'], Icon: MdOutlineManageAccounts },
-	{ name: 'Dashboard', href: '/dashboard', roles: ['ADMIN', 'EMPLOYEE', 'USER'], Icon: AiOutlineDashboard },
-	{ name: 'Appointments', href: '/appointments', roles: ['ADMIN', 'EMPLOYEE', 'USER'], Icon: LuClock },
+	{
+		name: 'Account',
+		href: '/account',
+		roles: ['ADMIN', 'EMPLOYEE', 'USER'],
+		Icon: MdOutlineManageAccounts,
+		separate: false,
+	},
+	{
+		name: 'Dashboard',
+		href: '/dashboard',
+		roles: ['ADMIN', 'EMPLOYEE', 'USER'],
+		Icon: AiOutlineDashboard,
+		separate: true,
+	},
+	{ name: 'Manage users', href: '/dashboard/manage-users', roles: ['ADMIN'], Icon: LuUsers, separate: false },
+	{
+		name: 'Manage appointments',
+		href: '/dashboard/manage-appointments',
+		roles: ['ADMIN'],
+		Icon: LuCalendarDays,
+		separate: false,
+	},
+	{
+		name: 'Manage issues',
+		href: '/dashboard/manage-issues',
+		roles: ['ADMIN'],
+		Icon: LuKanbanSquare,
+		separate: false,
+	},
+	{
+		name: 'Manage bookings',
+		href: '/dashboard/manage-bookings',
+		roles: ['ADMIN'],
+		Icon: LuCalendarClock,
+		separate: false,
+	},
+	{
+		name: 'Daily bookings',
+		href: '/dashboard/daily-bookings',
+		roles: ['ADMIN', 'EMPLOYEE'],
+		Icon: LuCalendarRange,
+		separate: false,
+	},
+	{
+		name: 'Appointments',
+		href: '/appointments',
+		roles: ['ADMIN', 'EMPLOYEE', 'USER'],
+		Icon: LuClock,
+		separate: true,
+	},
 ];
 
 type NavItemProps = {
@@ -32,18 +79,22 @@ type NavItemProps = {
 	href: string;
 	Icon: IconType;
 	roles: UserRole[];
+	separate: boolean;
 	currentRole: UserRole;
 };
 
-const Navitem = ({ name, href, Icon, roles, currentRole }: NavItemProps) => {
+const Navitem = ({ name, href, Icon, roles, separate, currentRole }: NavItemProps) => {
 	if (!roles.includes(currentRole)) return null;
 	return (
-		<Link href={href}>
-			<DropdownMenuItem>
-				<Icon className='mr-3 h-6 w-6' />
-				{name}
-			</DropdownMenuItem>
-		</Link>
+		<>
+			{separate && <DropdownMenuSeparator />}
+			<Link href={href}>
+				<DropdownMenuItem>
+					<Icon className='mr-3 h-6 w-6' />
+					{name}
+				</DropdownMenuItem>
+			</Link>
+		</>
 	);
 };
 
@@ -60,7 +111,7 @@ const UserButton = async () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
-				className='w-40'
+				className='w-52'
 				align='end'>
 				{NavRecords.map((item) => (
 					<Navitem
@@ -69,6 +120,7 @@ const UserButton = async () => {
 						href={item.href}
 						roles={item.roles}
 						currentRole={user?.role!}
+						separate={item.separate}
 						Icon={item.Icon}
 					/>
 				))}

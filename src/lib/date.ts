@@ -49,6 +49,21 @@ export const formatDate = (
 	}
 };
 
+export const isAppointmentExpired = (appointmentStart: Date) => {
+	const currentDate = new Date();
+	return add(appointmentStart, { minutes: APPOINTMENT_DURATION }) < currentDate;
+};
+
+export const isAppointmentCurrentlyInProgress = (appointmentStart: Date) => {
+	const currentDate = new Date();
+	return appointmentStart <= currentDate && add(appointmentStart, { minutes: APPOINTMENT_DURATION }) >= currentDate;
+};
+
+export const isAppointmentUpComing = (appointmentStart: Date) => {
+	const currentDate = new Date();
+	return appointmentStart > currentDate;
+};
+
 export const getIntervalFromDay = (date: Date) => {
 	const start = startOfDay(date);
 	const end = endOfDay(date);

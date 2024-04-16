@@ -3,15 +3,6 @@ import { Prisma } from '@prisma/client';
 import { database } from '@/lib/database';
 import { getWeekIntervalFromDay } from '@/lib/date';
 
-export const getBookingById = async (id: string) => {
-	try {
-		const booking = await database.booking.findUnique({ where: { id } });
-		return booking;
-	} catch (error) {
-		return null;
-	}
-};
-
 export const getBookingCount = async (options: { status: 'ALL' | 'WEEKLY' }) => {
 	try {
 		switch (options.status) {
@@ -44,48 +35,38 @@ export const getBookingCount = async (options: { status: 'ALL' | 'WEEKLY' }) => 
 	}
 };
 
-export const getBookingDataSubset = async <T extends Prisma.BookingSelect>(
-	select: T,
-): Promise<Prisma.BookingGetPayload<{ select: T }>[]> => {
+export const getBookingDataSubset = async <
+	T extends Prisma.BookingSelect,
+	K extends Prisma.BookingWhereInput,
+>(options: {
+	where?: K;
+	select: T;
+}): Promise<Prisma.BookingGetPayload<{ select: T }>[]> => {
 	try {
-		const bookingSubset = await database.booking.findMany({
-			select,
+		const bookingData = await database.booking.findMany({
+			where: options.where,
+			select: options.select,
 		});
-		return bookingSubset;
+		return bookingData;
 	} catch (error) {
 		return [];
 	}
 };
 
-export const getSelectedBookingDataSubset = async <T extends Prisma.BookingSelect>(options: {
-	id: string;
+export const getUniqueBookingDataSubset = async <
+	K extends Prisma.BookingWhereUniqueInput,
+	T extends Prisma.BookingSelect,
+>(options: {
+	where: K;
 	select: T;
 }): Promise<Prisma.BookingGetPayload<{ select: T }> | null> => {
 	try {
-		const bookingData = await database.booking.findFirst({
-			where: { id: options.id },
+		const bookingData = await database.booking.findUnique({
+			where: options.where,
 			select: options.select,
 		});
 		return bookingData;
 	} catch (error) {
 		return null;
-	}
-};
-
-export const getExpiredBookings = async () => {
-	const currentTime = new Date();
-	try {
-		const expiredBookings = await database.booking.findMany({
-			where: {
-				Appointment: {
-					startTime: {
-						lte: currentTime,
-					},
-				},
-			},
-		});
-		return expiredBookings;
-	} catch (error) {
-		return [];
 	}
 };

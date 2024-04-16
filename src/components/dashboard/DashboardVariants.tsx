@@ -1,4 +1,4 @@
-import { LuCalendarClock, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/lu';
+import { LuCalendarClock, LuCalendarDays, LuKanbanSquare, LuUsers } from 'react-icons/lu';
 
 import { getAppointmentCount } from '@/data/appointment';
 import { getBookingCount } from '@/data/booking';
@@ -81,7 +81,7 @@ export const AdminDashboard = async () => {
 					tilePrimaryCount={`${availableAppointmentCount}`}
 					tilePrimaryText=' available appointments'
 					tileSecondaryText={`${bookedAppointmentCount} booked appointments`}
-					TileIcon={LuClock}
+					TileIcon={LuCalendarDays}
 				/>
 				<DashboardTile
 					tileHref='/dashboard/manage-issues'

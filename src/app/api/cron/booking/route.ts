@@ -3,7 +3,7 @@ import {
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 } from '@/constants';
-import { getExpiredBookings } from '@/data/booking';
+import { getBookingDataSubset } from '@/data/booking';
 import { getAutoExpiredBookingDeletionStatus, getSendAutoActionReportEmailStatus } from '@/data/configuration';
 import { type ExpiredBookingDeletionTemplateProps } from '@/emails/ExpiredBookingDeletion';
 import { getCurrentUser } from '@/lib/auth';
@@ -28,7 +28,19 @@ export async function DELETE() {
 	const autoExpiredBookingDeletion = await getAutoExpiredBookingDeletionStatus();
 
 	if (Boolean(autoExpiredBookingDeletion)) {
-		const expiredBookings = await getExpiredBookings();
+		const currentTime = new Date();
+		const expiredBookings = await getBookingDataSubset({
+			where: {
+				Appointment: {
+					startTime: {
+						lte: currentTime,
+					},
+				},
+			},
+			select: {
+				id: true,
+			},
+		});
 
 		const deletedBookings = [];
 		for (const booking of expiredBookings) {

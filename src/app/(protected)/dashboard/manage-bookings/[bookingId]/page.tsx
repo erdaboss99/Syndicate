@@ -79,7 +79,8 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 					createdAt={bookingData.createdAt}
 					Issue={bookingData.Issue}
 					Appointment={bookingData.Appointment}
-					User={{ ...bookingData.User, name: bookingData.User.name!, email: bookingData.User.email! }}
+					User={bookingData.User}
+					userLink={`/dashboard/manage-users/${bookingData.User.id}`}
 				/>
 			</div>
 		</CardWrapper>

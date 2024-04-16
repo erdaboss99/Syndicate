@@ -12,13 +12,13 @@ import {
 import { getSelectedAppointmentDataSubset } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
-import { AppointmentDeleteFormSchema } from '@/schemas';
+import { AppointmentDeleteSchema } from '@/schemas';
 
-export const deleteAppointment = async (values: z.infer<typeof AppointmentDeleteFormSchema>) => {
+export const deleteAppointment = async (values: z.infer<typeof AppointmentDeleteSchema>) => {
 	const user = await getCurrentUser();
 	if (user?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
 
-	const validatedData = AppointmentDeleteFormSchema.safeParse(values);
+	const validatedData = AppointmentDeleteSchema.safeParse(values);
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { id } = validatedData.data;

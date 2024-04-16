@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { toggleAutoBookingDeletion } from '@/actions/configuration';
+import { toggleAutoExpiredBookingDeletion } from '@/actions/configuration';
 import { AutoExpiredBookingDeletionSchema } from '@/schemas';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/Form';
@@ -29,7 +29,7 @@ const AutoExpiredBookingDeletionForm = ({ autoExpiredBookingDeletionStatus }: Au
 
 	function onSubmit(values: z.infer<typeof AutoExpiredBookingDeletionSchema>) {
 		startTransition(() => {
-			toggleAutoBookingDeletion(values).then((data) => {
+			toggleAutoExpiredBookingDeletion(values).then((data) => {
 				if (data?.error) toast.error(data?.error);
 				if (data?.success) toast.success(data?.success);
 			});

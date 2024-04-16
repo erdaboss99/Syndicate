@@ -48,14 +48,14 @@ export const getAutoExpiredAppointmentDeletionStatus = async () => {
 	return autoExpiredAppointmentDeletionStatus.value;
 };
 
-export const getAutoBookingDeletionStatus = async () => {
-	const autoExpiredBookingDeletion = await database.configuration.findUnique({
+export const getAutoExpiredBookingDeletionStatus = async () => {
+	const autoExpiredBookingDeletionStatus = await database.configuration.findUnique({
 		where: {
 			name: AUTO_EXPIRED_BOOKING_DELETION_KEY,
 		},
 	});
 
-	if (!autoExpiredBookingDeletion)
+	if (!autoExpiredBookingDeletionStatus)
 		return (
 			await database.configuration.create({
 				data: {
@@ -64,7 +64,7 @@ export const getAutoBookingDeletionStatus = async () => {
 				},
 			})
 		).value;
-	return autoExpiredBookingDeletion.value;
+	return autoExpiredBookingDeletionStatus.value;
 };
 
 export const getSendAutoActionReportEmailStatus = async () => {

@@ -12,7 +12,7 @@ import * as z from 'zod';
 
 import { editIssue } from '@/actions/issue';
 import { ACTION_DEFAULT_ERROR } from '@/constants';
-import { IssueEditFormSchema } from '@/schemas';
+import { IssueEditSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { DialogFooter } from '@/components/ui/Dialog';
@@ -30,8 +30,8 @@ const IssueEditForm = ({ issue }: IssueEditFormProps) => {
 
 	const router = useRouter();
 
-	const issueEditForm = useForm<z.infer<typeof IssueEditFormSchema>>({
-		resolver: zodResolver(IssueEditFormSchema),
+	const issueEditForm = useForm<z.infer<typeof IssueEditSchema>>({
+		resolver: zodResolver(IssueEditSchema),
 		defaultValues: {
 			id: issue.id,
 			name: issue.name,
@@ -39,7 +39,7 @@ const IssueEditForm = ({ issue }: IssueEditFormProps) => {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof IssueEditFormSchema>) => {
+	const onSubmit = (values: z.infer<typeof IssueEditSchema>) => {
 		startTransition(() => {
 			editIssue(values)
 				.then((data) => {

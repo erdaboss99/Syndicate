@@ -4,7 +4,7 @@ import {
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 } from '@/constants';
 import { getExpiredBookings } from '@/data/booking';
-import { getAutoBookingDeletionStatus, getSendAutoActionReportEmailStatus } from '@/data/configuration';
+import { getAutoExpiredBookingDeletionStatus, getSendAutoActionReportEmailStatus } from '@/data/configuration';
 import { type ExpiredBookingDeletionTemplateProps } from '@/emails/ExpiredBookingDeletion';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
@@ -25,7 +25,7 @@ export async function DELETE() {
 			status: 403,
 		});
 
-	const autoExpiredBookingDeletion = await getAutoBookingDeletionStatus();
+	const autoExpiredBookingDeletion = await getAutoExpiredBookingDeletionStatus();
 
 	if (Boolean(autoExpiredBookingDeletion)) {
 		const expiredBookings = await getExpiredBookings();

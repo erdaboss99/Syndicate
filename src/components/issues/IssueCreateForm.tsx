@@ -11,7 +11,7 @@ import * as z from 'zod';
 
 import { createIssue } from '@/actions/issue';
 import { ACTION_DEFAULT_ERROR } from '@/constants';
-import { IssueCreateFormSchema } from '@/schemas';
+import { IssueCreateSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { DialogFooter } from '@/components/ui/Dialog';
@@ -25,15 +25,15 @@ const IssueCreateForm = () => {
 
 	const router = useRouter();
 
-	const issueCreateForm = useForm<z.infer<typeof IssueCreateFormSchema>>({
-		resolver: zodResolver(IssueCreateFormSchema),
+	const issueCreateForm = useForm<z.infer<typeof IssueCreateSchema>>({
+		resolver: zodResolver(IssueCreateSchema),
 		defaultValues: {
 			name: '',
 			description: '',
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof IssueCreateFormSchema>) => {
+	const onSubmit = (values: z.infer<typeof IssueCreateSchema>) => {
 		startTransition(() => {
 			createIssue(values)
 				.then((data) => {

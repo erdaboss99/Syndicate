@@ -12,7 +12,7 @@ import * as z from 'zod';
 
 import { createBooking } from '@/actions/booking';
 import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
-import { AppointmentBookFormSchema } from '@/schemas';
+import { AppointmentBookSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
@@ -30,8 +30,8 @@ const AppointmentBookForm = ({ appointment, issues }: AppointmentBookFormProps) 
 
 	const router = useRouter();
 
-	const appointmentBookForm = useForm<z.infer<typeof AppointmentBookFormSchema>>({
-		resolver: zodResolver(AppointmentBookFormSchema),
+	const appointmentBookForm = useForm<z.infer<typeof AppointmentBookSchema>>({
+		resolver: zodResolver(AppointmentBookSchema),
 		defaultValues: {
 			appointmentId: appointment.id,
 			issueId: '',
@@ -39,7 +39,7 @@ const AppointmentBookForm = ({ appointment, issues }: AppointmentBookFormProps) 
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof AppointmentBookFormSchema>) => {
+	const onSubmit = (values: z.infer<typeof AppointmentBookSchema>) => {
 		startTransition(() => {
 			createBooking(values)
 				.then((data) => {

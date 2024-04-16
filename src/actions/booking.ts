@@ -14,13 +14,13 @@ import { getBookingById } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { sendBookingConfirmationEmail, sendBookingDeletionEmail } from '@/lib/mail';
-import { AppointmentBookFormSchema, BookingDeleteFormSchema } from '@/schemas';
+import { AppointmentBookSchema, BookingDeleteSchema } from '@/schemas';
 
-export const deleteBooking = async (values: z.infer<typeof BookingDeleteFormSchema>) => {
+export const deleteBooking = async (values: z.infer<typeof BookingDeleteSchema>) => {
 	const user = await getCurrentUser();
 	if (user?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
 
-	const validatedData = BookingDeleteFormSchema.safeParse(values);
+	const validatedData = BookingDeleteSchema.safeParse(values);
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { id, reason } = validatedData.data;
@@ -67,11 +67,11 @@ export const deleteBooking = async (values: z.infer<typeof BookingDeleteFormSche
 	return { success: ACTION_BOOKING_DELETED_SUCCESS };
 };
 
-export const createBooking = async (values: z.infer<typeof AppointmentBookFormSchema>) => {
+export const createBooking = async (values: z.infer<typeof AppointmentBookSchema>) => {
 	const currentUser = await getCurrentUser();
 	if (!currentUser) return { error: ACTION_ONLY_AUTHENTICATED_ERROR };
 
-	const validatedData = AppointmentBookFormSchema.safeParse(values);
+	const validatedData = AppointmentBookSchema.safeParse(values);
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const { appointmentId, issueId, description } = validatedData.data;

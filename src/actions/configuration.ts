@@ -77,7 +77,7 @@ export const toggleAutoExpiredAppointmentDeletion = async (
 	};
 };
 
-export const toggleAutoBookingDeletion = async (values: z.infer<typeof AutoExpiredBookingDeletionSchema>) => {
+export const toggleAutoExpiredBookingDeletion = async (values: z.infer<typeof AutoExpiredBookingDeletionSchema>) => {
 	const currentUser = await getCurrentUser();
 	if (currentUser?.role !== 'ADMIN') return { error: ACTION_ONLY_ADMIN_ERROR };
 

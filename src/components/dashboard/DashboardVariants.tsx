@@ -3,8 +3,8 @@ import { LuCalendarClock, LuClock, LuKanbanSquare, LuUsers } from 'react-icons/l
 import { getAppointmentCount } from '@/data/appointment';
 import { getBookingCount } from '@/data/booking';
 import {
-	getAutoBookingDeletionStatus,
 	getAutoExpiredAppointmentDeletionStatus,
+	getAutoExpiredBookingDeletionStatus,
 	getAutoNewAppointmentGenerationStatus,
 	getSendAutoActionReportEmailStatus,
 } from '@/data/configuration';
@@ -32,7 +32,7 @@ const BaseDashboard = ({ children, headerTitle, size }: Omit<CardWrapperProps, '
 export const AdminDashboard = async () => {
 	const autoNewAppointmentGenerationStatus = await getAutoNewAppointmentGenerationStatus();
 	const autoExpiredAppointmentDeletionStatus = await getAutoExpiredAppointmentDeletionStatus();
-	const autoExpiredBookingDeletionStatus = await getAutoBookingDeletionStatus();
+	const autoExpiredBookingDeletionStatus = await getAutoExpiredBookingDeletionStatus();
 	const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
 
 	const allUserCount = await getUserCount({ variant: 'ALL' });

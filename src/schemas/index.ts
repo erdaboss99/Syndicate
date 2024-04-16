@@ -106,7 +106,7 @@ export const SendAutoActionReportEmailSchema = z.object({
 	sendAutoActionReportEmailStatus: z.boolean(),
 });
 
-export const DateSelectionFormSchema = z.object({
+export const DateSelectionSchema = z.object({
 	selectedDate: z.date({
 		required_error: DATE_REQUIRED_VALIDATION,
 	}),
@@ -118,7 +118,7 @@ export const AppointmentSelectQueryParamsSchema = z
 
 export const AppointmentBookQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });
 
-export const AppointmentBookFormSchema = z.object({
+export const AppointmentBookSchema = z.object({
 	appointmentId: z.string().uuid({ message: UUID_VALIDATION }),
 	issueId: z.string().min(1, ISSUE_SELECTION_REQUIRED_VALIDATION).uuid({ message: UUID_VALIDATION }),
 	description: z
@@ -127,11 +127,11 @@ export const AppointmentBookFormSchema = z.object({
 		.max(55, { message: BOOKING_DESCRIPTION_MAX_VALIDATION }),
 });
 
-export const AppointmentDeleteFormSchema = z.object({
+export const AppointmentDeleteSchema = z.object({
 	id: z.string().uuid({ message: UUID_VALIDATION }),
 });
 
-export const IssueCreateFormSchema = z.object({
+export const IssueCreateSchema = z.object({
 	name: z.string().min(1, NAME_VALIDATION),
 	description: z
 		.string()
@@ -139,7 +139,7 @@ export const IssueCreateFormSchema = z.object({
 		.max(55, { message: ISSUE_DESCRIPTION_MAX_VALIDATION }),
 });
 
-export const IssueEditFormSchema = z.object({
+export const IssueEditSchema = z.object({
 	id: z.string().uuid(),
 	name: z.string().min(1, NAME_VALIDATION),
 	description: z
@@ -148,7 +148,7 @@ export const IssueEditFormSchema = z.object({
 		.max(55, { message: ISSUE_DESCRIPTION_MAX_VALIDATION }),
 });
 
-export const IssueDeleteFormSchema = z.object({
+export const IssueDeleteSchema = z.object({
 	id: z.string().uuid({ message: UUID_VALIDATION }),
 });
 
@@ -156,7 +156,7 @@ export const UserDetailsQueryParamsSchema = z.string().uuid({ message: UUID_VALI
 
 export const BookingDetailsQueryParamsSchema = z.string().uuid({ message: UUID_VALIDATION });
 
-export const BookingDeleteFormSchema = z.object({
+export const BookingDeleteSchema = z.object({
 	id: z.string().uuid({ message: UUID_VALIDATION }),
 	reason: z
 		.string()

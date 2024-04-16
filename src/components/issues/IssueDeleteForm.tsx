@@ -12,7 +12,7 @@ import * as z from 'zod';
 
 import { deleteIssue } from '@/actions/issue';
 import { ACTION_DEFAULT_ERROR } from '@/constants';
-import { IssueDeleteFormSchema } from '@/schemas';
+import { IssueDeleteSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { DialogFooter } from '@/components/ui/Dialog';
@@ -28,14 +28,14 @@ const IssueDeleteForm = ({ issue }: IssueDeleteFormProps) => {
 
 	const router = useRouter();
 
-	const issueDeleteForm = useForm<z.infer<typeof IssueDeleteFormSchema>>({
-		resolver: zodResolver(IssueDeleteFormSchema),
+	const issueDeleteForm = useForm<z.infer<typeof IssueDeleteSchema>>({
+		resolver: zodResolver(IssueDeleteSchema),
 		defaultValues: {
 			id: issue.id,
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof IssueDeleteFormSchema>) => {
+	const onSubmit = (values: z.infer<typeof IssueDeleteSchema>) => {
 		startTransition(() => {
 			deleteIssue(values)
 				.then((data) => {

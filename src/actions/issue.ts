@@ -13,10 +13,10 @@ import {
 } from '@/constants';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
-import { IssueCreateFormSchema, IssueDeleteFormSchema, IssueEditFormSchema } from '@/schemas';
+import { IssueCreateSchema, IssueDeleteSchema, IssueEditSchema } from '@/schemas';
 
-export const createIssue = async (values: z.infer<typeof IssueCreateFormSchema>) => {
-	const validatedData = IssueCreateFormSchema.safeParse(values);
+export const createIssue = async (values: z.infer<typeof IssueCreateSchema>) => {
+	const validatedData = IssueCreateSchema.safeParse(values);
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();
@@ -33,8 +33,8 @@ export const createIssue = async (values: z.infer<typeof IssueCreateFormSchema>)
 	return { success: ACTION_ISSUE_CREATED_SUCCESS };
 };
 
-export const editIssue = async (values: z.infer<typeof IssueEditFormSchema>) => {
-	const validatedData = IssueEditFormSchema.safeParse(values);
+export const editIssue = async (values: z.infer<typeof IssueEditSchema>) => {
+	const validatedData = IssueEditSchema.safeParse(values);
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();
@@ -61,8 +61,8 @@ export const editIssue = async (values: z.infer<typeof IssueEditFormSchema>) => 
 	return { success: ACTION_ISSUE_UPDATED_SUCCESS };
 };
 
-export const deleteIssue = async (values: z.infer<typeof IssueDeleteFormSchema>) => {
-	const validatedData = IssueDeleteFormSchema.safeParse(values);
+export const deleteIssue = async (values: z.infer<typeof IssueDeleteSchema>) => {
+	const validatedData = IssueDeleteSchema.safeParse(values);
 	if (!validatedData.success) return { error: ACTION_INVALID_PAYLOAD_ERROR };
 
 	const user = await getCurrentUser();

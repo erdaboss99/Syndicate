@@ -13,7 +13,7 @@ import * as z from 'zod';
 import { FURTHEST_APPOINTMENT_DATE } from '@/constants';
 import { formatDate } from '@/lib/date';
 import { cn } from '@/lib/utils';
-import { DateSelectionFormSchema } from '@/schemas';
+import { DateSelectionSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { Calendar } from '@/components/ui/Calendar';
@@ -25,11 +25,11 @@ const DateSelectionForm = () => {
 
 	const [calendarOpen, setCalendarOpen] = useState(false);
 
-	const dateSelectionForm = useForm<z.infer<typeof DateSelectionFormSchema>>({
-		resolver: zodResolver(DateSelectionFormSchema),
+	const dateSelectionForm = useForm<z.infer<typeof DateSelectionSchema>>({
+		resolver: zodResolver(DateSelectionSchema),
 	});
 
-	function onSubmit(data: z.infer<typeof DateSelectionFormSchema>) {
+	function onSubmit(data: z.infer<typeof DateSelectionSchema>) {
 		const convertedDate = formatDate(data.selectedDate, 'YYYY-MM-DD');
 		router.push(`/appointments/${convertedDate}`);
 	}

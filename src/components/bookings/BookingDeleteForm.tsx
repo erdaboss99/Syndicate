@@ -11,7 +11,7 @@ import * as z from 'zod';
 
 import { deleteBooking } from '@/actions/booking';
 import { ACTION_DEFAULT_ERROR } from '@/constants';
-import { BookingDeleteFormSchema } from '@/schemas';
+import { BookingDeleteSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { DialogFooter } from '@/components/ui/Dialog';
@@ -28,15 +28,15 @@ const BookingDeleteForm = ({ id }: BookingDeleteFormProps) => {
 
 	const router = useRouter();
 
-	const bookingDeleteForm = useForm<z.infer<typeof BookingDeleteFormSchema>>({
-		resolver: zodResolver(BookingDeleteFormSchema),
+	const bookingDeleteForm = useForm<z.infer<typeof BookingDeleteSchema>>({
+		resolver: zodResolver(BookingDeleteSchema),
 		defaultValues: {
 			id,
 			reason: '',
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof BookingDeleteFormSchema>) => {
+	const onSubmit = (values: z.infer<typeof BookingDeleteSchema>) => {
 		startTransition(() => {
 			deleteBooking(values)
 				.then((data) => {

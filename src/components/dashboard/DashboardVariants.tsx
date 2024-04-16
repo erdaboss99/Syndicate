@@ -10,7 +10,7 @@ import {
 } from '@/data/configuration';
 import { aggregateIssues } from '@/data/issue';
 import { aggregateUsers } from '@/data/user';
-import { getWeekIntervalFromDay } from '@/lib/date';
+import { getIntervalFromDay, getWeekIntervalFromDay } from '@/lib/date';
 
 import AutoExpiredAppointmentDeletionForm from '@/components/dashboard/AutoExpiredAppointmentDeletionForm';
 import AutoExpiredBookingDeletionForm from '@/components/dashboard/AutoExpiredBookingDeletionForm';
@@ -18,7 +18,6 @@ import AutoNewAppointmentGenerationForm from '@/components/dashboard/AutoNewAppo
 import DashboardTile from '@/components/dashboard/DashboardTile';
 import SendAutoActionReportEmailForm from '@/components/dashboard/SendAutoActionReportEmailForm';
 import { CardWrapper, type CardWrapperProps } from '@/components/general/CardWrapper';
-import { CardHeader } from '@/components/ui/Card';
 
 const BaseDashboard = ({ children, headerTitle, size }: Omit<CardWrapperProps, 'navigationTree'>) => {
 	return (
@@ -37,18 +36,14 @@ export const AdminDashboard = async () => {
 	const autoExpiredBookingDeletionStatus = await getAutoExpiredBookingDeletionStatus();
 	const sendAutoActionReportEmailStatus = await getSendAutoActionReportEmailStatus();
 
-	const allUserCount = await aggregateUsers({
-		aggregate: { _count: { id: true } },
-	}).then((data) => data?._count.id);
-
+	const weekBeforeDate = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
 	const usersRegisteredInLastWeekCount = await aggregateUsers({
 		aggregate: { _count: { id: true } },
-		where: { createdAt: { gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000) } },
+		where: { createdAt: { gte: weekBeforeDate } },
 	}).then((data) => data?._count.id);
 
-	const bookedAppointmentCount = await aggregateAppointments({
+	const allUserCount = await aggregateUsers({
 		aggregate: { _count: { id: true } },
-		where: { Booking: { id: { not: undefined } } },
 	}).then((data) => data?._count.id);
 
 	const availableAppointmentCount = await aggregateAppointments({
@@ -56,8 +51,9 @@ export const AdminDashboard = async () => {
 		where: { Booking: null },
 	}).then((data) => data?._count.id);
 
-	const allIssueCount = await aggregateIssues({
+	const bookedAppointmentCount = await aggregateAppointments({
 		aggregate: { _count: { id: true } },
+		where: { Booking: { id: { not: undefined } } },
 	}).then((data) => data?._count.id);
 
 	const currentlyUsedIssueCount = await aggregateIssues({
@@ -65,7 +61,7 @@ export const AdminDashboard = async () => {
 		where: { bookings: { some: { id: { not: undefined } } } },
 	}).then((data) => data?._count.id);
 
-	const allBookingCount = await aggregateBookings({
+	const allIssueCount = await aggregateIssues({
 		aggregate: { _count: { id: true } },
 	}).then((data) => data?._count.id);
 
@@ -73,6 +69,10 @@ export const AdminDashboard = async () => {
 	const thisWeekBookingCount = await aggregateBookings({
 		aggregate: { _count: { id: true } },
 		where: { Appointment: { startTime: { gte: thisWeeksInterval.start, lte: thisWeeksInterval.end } } },
+	}).then((data) => data?._count.id);
+
+	const allBookingCount = await aggregateBookings({
+		aggregate: { _count: { id: true } },
 	}).then((data) => data?._count.id);
 
 	return (
@@ -131,12 +131,32 @@ export const AdminDashboard = async () => {
 	);
 };
 
-export const EmployeeDashboard = () => {
+export const EmployeeDashboard = async () => {
+	const todaysInterval = getIntervalFromDay(new Date());
+	const upcomingBookingCount = await aggregateBookings({
+		aggregate: { _count: { id: true } },
+		where: { Appointment: { startTime: { gte: new Date(), lte: todaysInterval.end } } },
+	}).then((data) => data?._count.id);
+
+	const dailyBookingCount = await aggregateBookings({
+		aggregate: { _count: { id: true } },
+		where: { Appointment: { startTime: { gte: todaysInterval.start, lte: todaysInterval.end } } },
+	}).then((data) => data?._count.id);
+
 	return (
 		<BaseDashboard
 			headerTitle='Employee dashbord'
 			size='LG'>
-			<CardHeader variant='tertiary'>asd</CardHeader>
+			<div className='grid gap-4 p-4 md:grid-cols-2'>
+				<DashboardTile
+					tileHref='/dashboard/daily-bookings'
+					tileTitle='Daily bookings'
+					tilePrimaryCount={`${upcomingBookingCount}`}
+					tilePrimaryText=' upcoming bookings for today'
+					tileSecondaryText={`${dailyBookingCount} bookings for today`}
+					TileIcon={LuCalendarClock}
+				/>
+			</div>
 		</BaseDashboard>
 	);
 };

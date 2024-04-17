@@ -14,51 +14,38 @@ export default defineConfig({
 		trace: 'retain-on-failure',
 		video: 'retain-on-failure',
 		baseURL: process.env.BASE_URL,
-		navigationTimeout: 60 * 1000,
-	},
-
-	expect: {
-		timeout: 60 * 1000,
 	},
 
 	projects: [
-		{ name: 'Setup', testMatch: /.*\.setup\.ts/, teardown: 'Teardown' },
 		{
 			name: 'Chromium',
 			use: {
 				...devices['Desktop Chrome'],
 			},
-			dependencies: ['Setup'],
 		},
 		{
 			name: 'Firefox',
 			use: {
 				...devices['Desktop Firefox'],
 			},
-			dependencies: ['Setup'],
 		},
 		{
 			name: 'Safari',
 			use: {
 				...devices['Desktop Safari'],
 			},
-			dependencies: ['Setup'],
 		},
 		{
 			name: 'iPhone 13 Pro Max',
 			use: {
 				...devices['iPhone 13 Pro Max'],
 			},
-			dependencies: ['Setup'],
 		},
 		{
 			name: 'Pixel 7',
 			use: {
 				...devices['Pixel 7'],
 			},
-			dependencies: ['Setup'],
 		},
-
-		{ name: 'Teardown', testMatch: /.*\.teardown\.ts/ },
 	],
 });

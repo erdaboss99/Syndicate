@@ -62,6 +62,7 @@ const LoginForm = () => {
 									<Input
 										{...field}
 										placeholder='email@example.com'
+										data-testid='login-email-input'
 										type='email'
 										disabled={isPending}
 									/>
@@ -80,6 +81,7 @@ const LoginForm = () => {
 									<Input
 										{...field}
 										placeholder='*******'
+										data-testid='login-password-input'
 										type='password'
 										disabled={isPending}
 									/>
@@ -99,6 +101,7 @@ const LoginForm = () => {
 				<FormError message={urlError} />
 				<Button
 					type='submit'
+					data-testid='login-submit-button'
 					size='lg'
 					className='w-full'
 					disabled={isPending}>

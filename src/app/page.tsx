@@ -18,7 +18,8 @@ const HomePage = async () => {
 				<div className='flex items-center justify-center gap-8'>
 					<Button
 						variant='default'
-						size='lg'>
+						size='lg'
+						data-testid='home-login-button'>
 						<LoginButton>Sign in</LoginButton>
 					</Button>
 					<Button

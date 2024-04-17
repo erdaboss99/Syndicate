@@ -6,7 +6,6 @@ export const env = createEnv({
 		POSTGRES_PRISMA_URL: z.string().url(),
 
 		AUTH_SECRET: z.string().min(1),
-		NEXTAUTH_URL: z.string().min(1),
 		BASE_URL: z.string().url(),
 
 		REPORT_RECIPIENT: z.string().min(1),

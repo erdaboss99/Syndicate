@@ -22,7 +22,6 @@ jobs:
               run: |
                   echo "${{ secrets.POSTGRES_PRISMA_URL }}" >> .env
                   echo "${{ secrets.AUTH_SECRET }}" >> .env
-                  echo "${{ secrets.NEXTAUTH_URL }}" >> .env
                   echo "${{ secrets.BASE_URL }}" >> .env
                   echo "${{ secrets.MAIL_FROM }}" >> .env
                   echo "${{ secrets.MAIL_SERVICE }}" >> .env

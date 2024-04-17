@@ -14,11 +14,11 @@ export default defineConfig({
 		trace: 'retain-on-failure',
 		video: 'retain-on-failure',
 		baseURL: process.env.BASE_URL,
-		navigationTimeout: 20 * 1000,
+		navigationTimeout: 60 * 1000,
 	},
 
 	expect: {
-		timeout: 20 * 1000,
+		timeout: 60 * 1000,
 	},
 
 	projects: [

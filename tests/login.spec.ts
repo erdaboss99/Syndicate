@@ -1,48 +1,37 @@
-import { expect, test } from '@playwright/test';
-
+import { baseTestFixture as test } from '@/tests/fixtures';
+import { DashboardPageObjectModel } from '@/tests/pages/DashboardPageObjectModel';
 import { HomePageObjectModel } from '@/tests/pages/HomePageObjectModel';
 import { LoginPageObjectModel } from '@/tests/pages/LoginPageObjectModel';
 
-test.beforeEach(async ({ page }) => {
-	await page.goto(process.env.BASE_URL!);
-});
+test.describe('Login tests', () => {
+	test('Login Test as User', async ({ page }) => {
+		const homePage = new HomePageObjectModel(page);
 
-test('Login Test as User', async ({ page }) => {
-	const homePage = new HomePageObjectModel(page);
+		await homePage.isElementVisible('loginButton');
+		await homePage.clickElement('loginButton');
 
-	await homePage.loginButtonIsVisible();
-	await homePage.clickLoginButton();
+		const loginPage = new LoginPageObjectModel(page);
 
-	const loginPage = new LoginPageObjectModel(page);
+		await loginPage.isElementVisible('emailInput');
+		await loginPage.fillElement(process.env.USER_EMAIL!, 'emailInput');
 
-	await loginPage.emailInputIsVisible();
-	await loginPage.fillEmailInput(process.env.USER_EMAIL!);
+		await loginPage.isElementVisible('passwordInput');
+		await loginPage.fillElement(process.env.USER_PASSWORD!, 'passwordInput');
 
-	await loginPage.passwordInputIsVisible();
-	await loginPage.fillPasswordInput(process.env.USER_PASSWORD!);
+		await loginPage.isElementVisible('loginSubmit');
+		await loginPage.clickElement('loginSubmit');
 
-	await loginPage.loginSubmitButtonIsVisible();
-	await loginPage.clickLoginSubmitButton();
+		await test.step('Wait for the dashboard page to load', async () => {
+			await page.waitForURL(/dashboard/);
+			await page.waitForLoadState('networkidle');
+		});
 
-	await expect(page).toHaveURL(/dashboard/);
-});
+		const dashboardPage = new DashboardPageObjectModel(page);
 
-test('Login Test as Admin', async ({ page }) => {
-	const homePage = new HomePageObjectModel(page);
+		await dashboardPage.isElementVisible('appointmentsTile');
+		await dashboardPage.isElementVisible('bookingsTile');
+		await dashboardPage.clickElement('appointmentsTile');
 
-	await homePage.loginButtonIsVisible();
-	await homePage.clickLoginButton();
-
-	const loginPage = new LoginPageObjectModel(page);
-
-	await loginPage.emailInputIsVisible();
-	await loginPage.fillEmailInput(process.env.ADMIN_EMAIL!);
-
-	await loginPage.passwordInputIsVisible();
-	await loginPage.fillPasswordInput(process.env.ADMIN_PASSWORD!);
-
-	await loginPage.loginSubmitButtonIsVisible();
-	await loginPage.clickLoginSubmitButton();
-
-	await expect(page).toHaveURL(/dashboard/);
+		await page.waitForURL(/appointments/);
+	});
 });

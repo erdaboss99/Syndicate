@@ -1,19 +1,27 @@
-import { expect, test, type Locator, type Page } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+import { PrettyLocator } from '@/tests/types';
+
+type HomePageElements = 'loginButton';
 
 export class HomePageObjectModel {
-	private readonly loginButton: Locator;
-
+	private readonly homePageElementLocators: PrettyLocator<HomePageElements[]>;
 	constructor(page: Page) {
-		this.loginButton = page.getByTestId('home-login-button');
+		this.homePageElementLocators = {
+			loginButton: {
+				locator: page.getByTestId('home-login-button'),
+				reportLocatorName: 'Login button',
+			},
+		};
 	}
 
-	async loginButtonIsVisible() {
-		await expect(this.loginButton, 'Login button should be visible').toBeVisible();
+	public async isElementVisible(fieldType: keyof typeof this.homePageElementLocators): Promise<void> {
+		const field = this.homePageElementLocators[fieldType];
+		await expect(field.locator, `${field.reportLocatorName} should be visible`).toBeVisible();
 	}
 
-	async clickLoginButton() {
-		await test.step('Click on login button', async () => {
-			await this.loginButton.click();
-		});
+	public async clickElement(fieldType: keyof typeof this.homePageElementLocators): Promise<void> {
+		const field = this.homePageElementLocators[fieldType];
+		await test.step(`Click ${field.reportLocatorName}`, async () => await field.locator.click());
 	}
 }

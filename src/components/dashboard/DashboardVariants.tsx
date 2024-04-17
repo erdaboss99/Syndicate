@@ -190,6 +190,7 @@ export const UserDashboard = async () => {
 		<BaseDashboard size='LG'>
 			<div className='grid gap-4 p-4 md:grid-cols-2'>
 				<DashboardTile
+					tileDataTestId='dashboard-appointments-tile'
 					tileHref='/appointments'
 					tileTitle='Appointments'
 					tilePrimaryCount={`${availableAppointmentsInThreeDaysCount}`}
@@ -198,6 +199,7 @@ export const UserDashboard = async () => {
 					TileIcon={LuClock}
 				/>
 				<DashboardTile
+					tileDataTestId='dashboard-bookings-tile'
 					tileHref='/bookings'
 					tileTitle='Bookings'
 					tilePrimaryCount={`${bookingInTheNextDay}`}
@@ -215,6 +217,7 @@ type DashboardTileProps = {
 	tilePrimaryCount: string;
 	tilePrimaryText: string;
 	tileSecondaryText: string;
+	tileDataTestId?: string;
 	TileIcon: IconType;
 } & Omit<LinkTileProps, 'children'>;
 
@@ -224,6 +227,7 @@ const DashboardTile = ({
 	tilePrimaryCount,
 	tilePrimaryText,
 	tileSecondaryText,
+	tileDataTestId,
 	TileIcon,
 }: DashboardTileProps) => {
 	return (
@@ -232,7 +236,9 @@ const DashboardTile = ({
 				<CardTitle className='text-base md:text-lg'>{tileTitle}</CardTitle>
 				<TileIcon className='h-6 w-6 text-muted-foreground' />
 			</CardHeader>
-			<CardContent className='p-3 md:p-6'>
+			<CardContent
+				className='p-3 md:p-6'
+				data-testid={tileDataTestId}>
 				<h4 className='text-xl'>
 					<span className='font-bold text-primary'>{tilePrimaryCount}</span>
 					{tilePrimaryText}

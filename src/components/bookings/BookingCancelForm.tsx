@@ -42,7 +42,7 @@ const BookingCancelForm = ({ id }: BookingCancelFormProps) => {
 					if (data?.success) {
 						setIsDone(true);
 						toast.success(data?.success);
-						router.refresh();
+						router.push('/dashboard');
 					}
 				})
 				.catch(() => toast.error(ACTION_DEFAULT_ERROR));
@@ -56,6 +56,7 @@ const BookingCancelForm = ({ id }: BookingCancelFormProps) => {
 				onSubmit={bookingCancelForm.handleSubmit(onSubmit)}>
 				<DialogFooter>
 					<Button
+						data-testid='booking-cancel-submit-button'
 						type='submit'
 						variant='destructive'
 						size='lg'

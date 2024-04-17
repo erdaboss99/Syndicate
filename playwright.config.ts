@@ -7,7 +7,7 @@ export default defineConfig({
 	testDir: './e2e',
 	fullyParallel: true,
 	forbidOnly: !!process.env.CI,
-	retries: process.env.CI ? 1 : 1,
+	retries: process.env.CI ? 0 : 0,
 	workers: process.env.CI ? 1 : 1,
 	reporter: 'html',
 	use: {
@@ -18,34 +18,19 @@ export default defineConfig({
 
 	projects: [
 		{
-			name: 'Chromium',
+			name: 'Appointment Booking',
 			use: {
 				...devices['Desktop Chrome'],
 			},
+			testMatch: /.*\.appointment_booking\.spec\.ts/,
+			teardown: 'Delete Booking',
 		},
 		{
-			name: 'Firefox',
+			name: 'Delete Booking',
 			use: {
-				...devices['Desktop Firefox'],
+				...devices['Desktop Chrome'],
 			},
-		},
-		{
-			name: 'Safari',
-			use: {
-				...devices['Desktop Safari'],
-			},
-		},
-		{
-			name: 'iPhone 13 Pro Max',
-			use: {
-				...devices['iPhone 13 Pro Max'],
-			},
-		},
-		{
-			name: 'Pixel 7',
-			use: {
-				...devices['Pixel 7'],
-			},
+			testMatch: /.*\.cancel_booking\.spec\.ts/,
 		},
 	],
 });

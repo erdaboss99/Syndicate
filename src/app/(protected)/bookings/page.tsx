@@ -76,21 +76,34 @@ const BookedAppointmentsCarouselItem = ({
 	return (
 		<div className='h-fit space-y-4 rounded border'>
 			<HighlightedDetailsField
+				fieldDataTestId='booking-appointment'
 				label='Appointment'
 				value={formatDate(Appointment.startTime, 'WRITTEN_LONG_DATE_TIME')}
 			/>
-			<BaseDetailsField label='Description'>{description}</BaseDetailsField>
-			<BaseDetailsField label='Created at'>
+			<BaseDetailsField
+				fieldDataTestId='booking-description'
+				label='Description'>
+				{description}
+			</BaseDetailsField>
+			<BaseDetailsField
+				fieldDataTestId='booking-created-at'
+				label='Created at'>
 				<Badge variant='outline'>{formatDate(createdAt, 'WRITTEN_SHORT_DATE_TIME')}</Badge>
 			</BaseDetailsField>
 			<HighlightedDetailsField
+				fieldDataTestId='booking-issue-name'
 				label='Issue name'
 				value={Issue.name}
 			/>
-			<BaseDetailsField label='Issue description'>{Issue.description}</BaseDetailsField>
+			<BaseDetailsField
+				fieldDataTestId='booking-issue-description'
+				label='Issue description'>
+				{Issue.description}
+			</BaseDetailsField>
 			<Dialog>
 				<DialogTrigger asChild>
 					<Button
+						data-testid='booking-cancel-trigger'
 						variant='destructive'
 						size='full'>
 						Cancel booking

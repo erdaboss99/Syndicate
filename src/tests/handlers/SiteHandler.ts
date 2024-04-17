@@ -8,7 +8,7 @@ export class SiteHandler {
 
 	public async pageLoaded(urlRegex: RegExp, reportName: string): Promise<void> {
 		await test.step(`Wait for the ${reportName} page to load`, async () => {
-			await this.page.waitForURL(urlRegex);
+			await this.page.waitForURL(urlRegex, { timeout: 30_000 });
 			await this.page.waitForLoadState('networkidle');
 		});
 	}

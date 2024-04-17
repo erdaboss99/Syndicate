@@ -74,13 +74,14 @@ const AppointmentBookForm = ({ appointment, issues }: AppointmentBookFormProps) 
 									disabled={isPending || isDone}
 									defaultValue={field.value}>
 									<FormControl>
-										<SelectTrigger>
+										<SelectTrigger data-testid='appointment-book-issue-select-trigger'>
 											<SelectValue placeholder='Select the issue of the booking' />
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
 										{issues.map((issue) => (
 											<SelectItem
+												data-testid='appointment-book-issue-select-item'
 												key={issue.id}
 												value={issue.id}>
 												{issue.name}
@@ -104,6 +105,7 @@ const AppointmentBookForm = ({ appointment, issues }: AppointmentBookFormProps) 
 								<FormControl>
 									<Textarea
 										{...field}
+										data-testid='appointment-book-issue-description-input'
 										className='resize-none'
 										disabled={isPending || isDone}
 									/>
@@ -114,6 +116,7 @@ const AppointmentBookForm = ({ appointment, issues }: AppointmentBookFormProps) 
 					/>
 				</div>
 				<Button
+					data-testid='appointment-book-submit-button'
 					type='submit'
 					size='lg'
 					className='w-full'

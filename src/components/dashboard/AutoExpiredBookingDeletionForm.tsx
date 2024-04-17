@@ -27,14 +27,14 @@ const AutoExpiredBookingDeletionForm = ({ autoExpiredBookingDeletionStatus }: Au
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof AutoExpiredBookingDeletionSchema>) {
+	const onSubmit = (values: z.infer<typeof AutoExpiredBookingDeletionSchema>) => {
 		startTransition(() => {
 			toggleAutoExpiredBookingDeletion(values).then((data) => {
 				if (data?.error) toast.error(data?.error);
 				if (data?.success) toast.success(data?.success);
 			});
 		});
-	}
+	};
 
 	return (
 		<Form {...autoExpiredBookingDeletionForm}>

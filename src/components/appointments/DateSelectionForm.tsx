@@ -29,10 +29,10 @@ const DateSelectionForm = () => {
 		resolver: zodResolver(DateSelectionSchema),
 	});
 
-	function onSubmit(data: z.infer<typeof DateSelectionSchema>) {
+	const onSubmit = (data: z.infer<typeof DateSelectionSchema>) => {
 		const convertedDate = formatDate(data.selectedDate, 'YYYY-MM-DD');
 		router.push(`/appointments/${convertedDate}`);
-	}
+	};
 
 	return (
 		<Form {...dateSelectionForm}>

@@ -10,9 +10,8 @@ import {
 	ACTION_INVALID_TOKEN_ERROR,
 	PASSWORD_MATCH_VALIDATION,
 } from '@/constants';
-import { getUniquePasswordResetToken } from '@/data/passwordResetToken';
-import { getUniqueUser } from '@/data/user';
-import { database } from '@/lib/database';
+import { deletePasswordResetToken, getUniquePasswordResetToken } from '@/data/passwordResetToken';
+import { getUniqueUser, updateUniqueUser } from '@/data/user';
 import { hash } from '@/lib/hash';
 import { ResetPasswordSchema } from '@/schemas';
 
@@ -24,11 +23,7 @@ export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>)
 
 	const existingToken = await getUniquePasswordResetToken({
 		where: { token },
-		select: {
-			id: true,
-			expires: true,
-			email: true,
-		},
+		select: { id: true, expires: true, email: true },
 	});
 	if (!existingToken) return { error: ACTION_INVALID_TOKEN_ERROR };
 
@@ -44,19 +39,14 @@ export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>)
 	if (password !== confirmPassword) return { error: PASSWORD_MATCH_VALIDATION };
 
 	const hashedPassword = await hash(password);
-	await database.user.update({
-		where: {
-			id: existingUser.id,
-		},
-		data: {
-			password: hashedPassword,
-		},
+
+	await updateUniqueUser({
+		where: { id: existingUser.id },
+		data: { password: hashedPassword },
+		select: { id: true },
 	});
-	await database.passwordResetToken.delete({
-		where: {
-			id: existingToken.id,
-		},
-	});
+
+	await deletePasswordResetToken({ where: { id: existingToken.id }, select: { id: true } });
 
 	return { success: ACTION_ACCOUNT_PASSWORD_UPDATED_SUCCESS };
 };

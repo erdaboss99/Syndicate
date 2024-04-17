@@ -11,9 +11,8 @@ import {
 	ACTION_INVALID_TOKEN_ERROR,
 	ACTION_NON_EXISTING_TOKEN_ERROR,
 } from '@/constants';
-import { getUniqueUser } from '@/data/user';
-import { getUniqueVerificationToken } from '@/data/verificationToken';
-import { database } from '@/lib/database';
+import { getUniqueUser, updateUniqueUser } from '@/data/user';
+import { deleteVerificationToken, getUniqueVerificationToken } from '@/data/verificationToken';
 
 export const emailVerification = async (values: z.infer<typeof TokenVerificationSchema>) => {
 	const validatedData = TokenVerificationSchema.safeParse(values);
@@ -23,11 +22,7 @@ export const emailVerification = async (values: z.infer<typeof TokenVerification
 
 	const existingToken = await getUniqueVerificationToken({
 		where: { token },
-		select: {
-			id: true,
-			expires: true,
-			email: true,
-		},
+		select: { id: true, expires: true, email: true },
 	});
 
 	if (!existingToken) return { error: ACTION_NON_EXISTING_TOKEN_ERROR };
@@ -38,15 +33,13 @@ export const emailVerification = async (values: z.infer<typeof TokenVerification
 	const existingUser = await getUniqueUser({ where: { email: existingToken.email }, select: { id: true } });
 	if (!existingUser) return { error: ACTION_ACCOUNT_WITH_EMAIL_NOT_FOUND_ERROR };
 
-	await database.user.update({
+	await updateUniqueUser({
 		where: { id: existingUser.id },
-		data: {
-			emailVerified: new Date(),
-			email: existingToken.email,
-		},
+		data: { emailVerified: new Date(), email: existingToken.email },
+		select: { id: true },
 	});
 
-	await database.verificationToken.delete({ where: { id: existingToken.id } });
+	await deleteVerificationToken({ where: { id: existingToken.id }, select: { id: true } });
 
 	return { success: ACTION_ACCOUNT_EMAIL_VERIFIED_SUCCESS };
 };

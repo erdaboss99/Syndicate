@@ -1,4 +1,3 @@
-import { type Appointment } from '@prisma/client';
 import { add, endOfDay, isWeekend, startOfDay } from 'date-fns';
 
 import {
@@ -11,7 +10,7 @@ import {
 	FURTHEST_APPOINTMENT_DATE,
 	OPENING_HOUR,
 } from '@/constants';
-import { getAppointments } from '@/data/appointment';
+import { createUniqueAppointment, deleteUniqueAppointment, getAppointments } from '@/data/appointment';
 import {
 	getAutoExpiredAppointmentDeletionStatus,
 	getAutoNewAppointmentGenerationStatus,
@@ -20,7 +19,6 @@ import {
 import { type ExpiredAppointmentDeletionTemplateProps } from '@/emails/ExpiredAppointmentDeletionTemplate';
 import { type NewAppointmentGenerationTemplateProps } from '@/emails/NewAppointmentGeneration';
 import { getCurrentUser } from '@/lib/auth';
-import { database } from '@/lib/database';
 import { formatDatesInObject } from '@/lib/date';
 import { sendExpiredAppointmentDeletionReport, sendNewAppointmentGenerationReport } from '@/lib/mail';
 
@@ -50,16 +48,8 @@ export async function POST() {
 		const generatedNewAppointments: { startTime: Date; endTime: Date }[] = [];
 
 		const existingAppointments = await getAppointments({
-			where: {
-				startTime: {
-					gte: intervalStart,
-					lte: intervalEnd,
-				},
-			},
-			select: {
-				id: true,
-				startTime: true,
-			},
+			where: { startTime: { gte: intervalStart, lte: intervalEnd } },
+			select: { id: true, startTime: true },
 		});
 
 		for (let i = intervalStart; i <= intervalEnd; i = add(i, { days: 1 })) {
@@ -74,14 +64,13 @@ export async function POST() {
 
 			for (let j = startOfThisDay; j < endOfThisDay; j = add(j, { minutes: APPOINTMENT_DURATION })) {
 				if (!existingAppointments.find((appointment) => appointment.startTime.getTime() === j.getTime())) {
-					const currentAppointment = await database.appointment.create({
-						data: {
-							startTime: j,
-						},
+					const currentAppointment = await createUniqueAppointment({
+						data: { startTime: j },
+						select: { startTime: true, id: true },
 					});
 					generatedNewAppointments.push({
-						startTime: currentAppointment.startTime,
-						endTime: add(currentAppointment.startTime, { minutes: APPOINTMENT_DURATION }),
+						startTime: currentAppointment!.startTime,
+						endTime: add(currentAppointment!.startTime, { minutes: APPOINTMENT_DURATION }),
 					});
 				}
 			}
@@ -130,36 +119,23 @@ export async function DELETE() {
 
 	if (Boolean(autoAppointmentDeletionStatus)) {
 		const expiredUnbookedAppointments = await getAppointments({
-			where: {
-				AND: [
-					{ Booking: null },
-					{
-						startTime: {
-							lte: new Date(),
-						},
-					},
-				],
-			},
-			select: {
-				id: true,
-				startTime: true,
-			},
+			where: { AND: [{ Booking: null }, { startTime: { lte: new Date() } }] },
+			select: { id: true, startTime: true },
 		});
 
-		const deletedAppointments: Appointment[] = [];
+		const deletedAppointments = [];
 		for (const appointment of expiredUnbookedAppointments) {
 			deletedAppointments.push(
-				await database.appointment.delete({
-					where: {
-						id: appointment.id,
-					},
+				await deleteUniqueAppointment({
+					where: { id: appointment.id },
+					select: { id: true, startTime: true },
 				}),
 			);
 		}
 		const deletedExpiredAppointments = deletedAppointments.map((appointment) => {
 			return {
-				startTime: appointment.startTime,
-				endTime: add(appointment.startTime, { minutes: APPOINTMENT_DURATION }),
+				startTime: appointment!.startTime,
+				endTime: add(appointment!.startTime, { minutes: APPOINTMENT_DURATION }),
 			};
 		});
 

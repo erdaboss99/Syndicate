@@ -59,6 +59,42 @@ export const getAppointments = async <
 	}
 };
 
+export const createUniqueAppointment = async <
+	D extends Prisma.AppointmentCreateInput,
+	T extends Prisma.AppointmentSelect,
+>(options: {
+	data: D;
+	select: T;
+}): Promise<Prisma.AppointmentGetPayload<{ select: T }> | null> => {
+	try {
+		const appointment = await database.appointment.create({
+			data: options.data,
+			select: options.select,
+		});
+		return appointment;
+	} catch (error) {
+		return null;
+	}
+};
+
+export const deleteUniqueAppointment = async <
+	K extends Prisma.AppointmentWhereUniqueInput,
+	T extends Prisma.AppointmentSelect,
+>(options: {
+	where: K;
+	select: T;
+}): Promise<Prisma.AppointmentGetPayload<{ select: T }> | null> => {
+	try {
+		const appointment = await database.appointment.delete({
+			where: options.where,
+			select: options.select,
+		});
+		return appointment;
+	} catch (error) {
+		return null;
+	}
+};
+
 export const aggregateAppointments = async <
 	K extends Prisma.AppointmentWhereInput,
 	T extends Prisma.AppointmentAggregateArgs,

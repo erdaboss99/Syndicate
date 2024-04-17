@@ -29,14 +29,14 @@ const AutoExpiredAppointmentDeletionForm = ({
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof AutoExpiredAppointmentDeletionSchema>) {
+	const onSubmit = (values: z.infer<typeof AutoExpiredAppointmentDeletionSchema>) => {
 		startTransition(() => {
 			toggleAutoExpiredAppointmentDeletion(values).then((data) => {
 				if (data?.error) toast.error(data?.error);
 				if (data?.success) toast.success(data?.success);
 			});
 		});
-	}
+	};
 
 	return (
 		<Form {...autoExpiredAppointmentDeletionForm}>

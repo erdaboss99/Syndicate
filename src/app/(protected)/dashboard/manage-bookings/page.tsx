@@ -18,33 +18,14 @@ const AdminManageBookingsPage = async () => {
 			id: true,
 			description: true,
 			createdAt: true,
-			Appointment: {
-				select: {
-					id: true,
-					startTime: true,
-				},
-			},
-			User: {
-				select: {
-					id: true,
-					email: true,
-				},
-			},
-			Issue: {
-				select: {
-					id: true,
-					name: true,
-				},
-			},
+			Appointment: { select: { id: true, startTime: true } },
+			User: { select: { id: true, email: true } },
+			Issue: { select: { id: true, name: true } },
 		},
 	});
 
 	const issues = await getIssues({
-		select: {
-			id: true,
-			name: true,
-			description: true,
-		},
+		select: { id: true, name: true, description: true },
 	});
 
 	const filterOptions = issues.map((issue) => ({

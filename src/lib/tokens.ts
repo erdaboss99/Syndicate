@@ -2,9 +2,12 @@ import { v4 as uuid } from 'uuid';
 
 import { EMAIL_VERIFICATION_TOKEN_EXPIRY, PASSWORD_RESET_TOKEN_EXPIRY } from '@/constants';
 
-import { getPasswordResetToken } from '@/data/passwordResetToken';
-import { getVerificationToken } from '@/data/verificationToken';
-import { database } from '@/lib/database';
+import {
+	createUniquePasswordResetToken,
+	deletePasswordResetToken,
+	getPasswordResetToken,
+} from '@/data/passwordResetToken';
+import { createUniqueVerificationToken, deleteVerificationToken, getVerificationToken } from '@/data/verificationToken';
 
 export const generateVerificationToken = async (email: string) => {
 	const token = uuid();
@@ -12,19 +15,14 @@ export const generateVerificationToken = async (email: string) => {
 
 	const existingToken = await getVerificationToken({
 		where: { email },
-		select: {
-			id: true,
-		},
+		select: { id: true },
 	});
 
-	if (existingToken) await database.verificationToken.delete({ where: { id: existingToken.id } });
+	if (existingToken) await deleteVerificationToken({ where: { id: existingToken.id }, select: { id: true } });
 
-	const verificationToken = await database.verificationToken.create({
-		data: {
-			email,
-			token,
-			expires,
-		},
+	const verificationToken = await createUniqueVerificationToken({
+		data: { email, token, expires },
+		select: { id: true, email: true, token: true, expires: true, issuedAt: true },
 	});
 	return verificationToken;
 };
@@ -35,19 +33,13 @@ export const generatePasswordResetToken = async (email: string) => {
 
 	const existingToken = await getPasswordResetToken({
 		where: { email },
-		select: {
-			id: true,
-		},
+		select: { id: true },
 	});
+	if (existingToken) await deletePasswordResetToken({ where: { id: existingToken.id }, select: { id: true } });
 
-	if (existingToken) await database.passwordResetToken.delete({ where: { id: existingToken.id } });
-
-	const passwordResetToken = await database.passwordResetToken.create({
-		data: {
-			email,
-			token,
-			expires,
-		},
+	const passwordResetToken = await createUniquePasswordResetToken({
+		data: { email, token, expires },
+		select: { id: true, email: true, token: true, expires: true, issuedAt: true },
 	});
 	return passwordResetToken;
 };

@@ -31,31 +31,14 @@ const BookingDetailsPage = async ({ params }: { params: { bookingId: string } })
 		);
 
 	const bookingData = await getUniqueBooking({
-		where: {
-			id: paramsData.data,
-		},
+		where: { id: paramsData.data },
 		select: {
 			id: true,
 			description: true,
 			createdAt: true,
-			Issue: {
-				select: {
-					name: true,
-					description: true,
-				},
-			},
-			Appointment: {
-				select: {
-					startTime: true,
-				},
-			},
-			User: {
-				select: {
-					id: true,
-					name: true,
-					email: true,
-				},
-			},
+			Issue: { select: { name: true, description: true } },
+			Appointment: { select: { startTime: true } },
+			User: { select: { id: true, name: true, email: true } },
 		},
 	});
 

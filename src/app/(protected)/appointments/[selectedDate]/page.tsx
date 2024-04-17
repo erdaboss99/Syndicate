@@ -29,21 +29,8 @@ const AppointmentSelectPage = async ({ params }: { params: { selectedDate: strin
 	const interval = getIntervalFromDay(currentDate);
 
 	const appointments = await getAppointments({
-		where: {
-			AND: [
-				{ Booking: null },
-				{
-					startTime: {
-						gte: interval.start,
-						lte: interval.end,
-					},
-				},
-			],
-		},
-		select: {
-			id: true,
-			startTime: true,
-		},
+		where: { AND: [{ Booking: null }, { startTime: { gte: interval.start, lte: interval.end } }] },
+		select: { id: true, startTime: true },
 	});
 
 	return (

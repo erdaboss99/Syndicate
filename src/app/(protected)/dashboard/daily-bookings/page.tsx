@@ -27,36 +27,14 @@ const DailyBookingsPage = async () => {
 	const todayInterval = getIntervalFromDay(new Date());
 
 	const bookingData = await getBookings({
-		where: {
-			Appointment: {
-				startTime: {
-					gte: todayInterval.start,
-					lte: todayInterval.end,
-				},
-			},
-		},
+		where: { Appointment: { startTime: { gte: todayInterval.start, lte: todayInterval.end } } },
 		select: {
 			id: true,
 			description: true,
 			createdAt: true,
-			Issue: {
-				select: {
-					name: true,
-					description: true,
-				},
-			},
-			Appointment: {
-				select: {
-					startTime: true,
-				},
-			},
-			User: {
-				select: {
-					id: true,
-					name: true,
-					email: true,
-				},
-			},
+			Issue: { select: { name: true, description: true } },
+			Appointment: { select: { startTime: true } },
+			User: { select: { id: true, name: true, email: true } },
 		},
 	});
 

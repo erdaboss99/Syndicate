@@ -18,8 +18,8 @@ import {
 	AUTO_NEW_APPOINTMENT_GENERATION_KEY,
 	SEND_AUTO_ACTION_REPORT_EMAIL_KEY,
 } from '@/constants';
+import { updateUniqueConfiguration } from '@/data/configuration';
 import { getCurrentUser } from '@/lib/auth';
-import { database } from '@/lib/database';
 import {
 	AutoExpiredAppointmentDeletionSchema,
 	AutoExpiredBookingDeletionSchema,
@@ -38,11 +38,10 @@ export const toggleAutoNewAppointmentGeneration = async (
 
 	const { autoNewAppointmentGenerationStatus } = validatedData.data;
 
-	await database.configuration.update({
+	await updateUniqueConfiguration({
 		where: { name: AUTO_NEW_APPOINTMENT_GENERATION_KEY },
-		data: {
-			value: autoNewAppointmentGenerationStatus ? 1 : 0,
-		},
+		data: { value: autoNewAppointmentGenerationStatus ? 1 : 0 },
+		select: { value: true },
 	});
 
 	return {
@@ -63,11 +62,10 @@ export const toggleAutoExpiredAppointmentDeletion = async (
 
 	const { autoExpiredAppointmentDeletionStatus } = validatedData.data;
 
-	await database.configuration.update({
+	await updateUniqueConfiguration({
 		where: { name: AUTO_EXPIRED_APPOINTMENT_DELETION_KEY },
-		data: {
-			value: autoExpiredAppointmentDeletionStatus ? 1 : 0,
-		},
+		data: { value: autoExpiredAppointmentDeletionStatus ? 1 : 0 },
+		select: { value: true },
 	});
 
 	return {
@@ -86,11 +84,10 @@ export const toggleAutoExpiredBookingDeletion = async (values: z.infer<typeof Au
 
 	const { autoExpiredBookingDeletionStatus } = validatedData.data;
 
-	await database.configuration.update({
+	await updateUniqueConfiguration({
 		where: { name: AUTO_EXPIRED_BOOKING_DELETION_KEY },
-		data: {
-			value: autoExpiredBookingDeletionStatus ? 1 : 0,
-		},
+		data: { value: autoExpiredBookingDeletionStatus ? 1 : 0 },
+		select: { value: true },
 	});
 
 	return {
@@ -109,11 +106,10 @@ export const toggleSendAutoActionReportEmail = async (values: z.infer<typeof Sen
 
 	const { sendAutoActionReportEmailStatus } = validatedData.data;
 
-	await database.configuration.update({
+	await updateUniqueConfiguration({
 		where: { name: SEND_AUTO_ACTION_REPORT_EMAIL_KEY },
-		data: {
-			value: sendAutoActionReportEmailStatus ? 1 : 0,
-		},
+		data: { value: sendAutoActionReportEmailStatus ? 1 : 0 },
+		select: { value: true },
 	});
 
 	return {

@@ -8,7 +8,7 @@ import {
 	ACTION_INVALID_PAYLOAD_ERROR,
 	PASSWORD_MATCH_VALIDATION,
 } from '@/constants';
-import { database } from '@/lib/database';
+import { createUniqueUser, getUniqueUser } from '@/data/user';
 import { hash } from '@/lib/hash';
 import { sendVerificationEmail } from '@/lib/mail';
 import { generateVerificationToken } from '@/lib/tokens';
@@ -20,24 +20,20 @@ export const registration = async (values: z.infer<typeof RegistrationSchema>) =
 
 	const { name, email, password, confirmPassword } = validatedData.data;
 
-	const existingUser = await database.user.findUnique({
-		where: {
-			email,
-		},
+	const existingUser = await getUniqueUser({
+		where: { email },
+		select: { id: true },
 	});
 	if (existingUser) return { error: ACTION_ACCOUNT_ALREADY_USED_EMAIL_ERROR };
 	if (password !== confirmPassword) return { error: PASSWORD_MATCH_VALIDATION };
 
 	const hashedPassword = await hash(password);
-	await database.user.create({
-		data: {
-			name,
-			email,
-			password: hashedPassword,
-		},
+	await createUniqueUser({
+		data: { name, email, password: hashedPassword },
+		select: { id: true },
 	});
 
 	const verificationToken = await generateVerificationToken(email);
-	await sendVerificationEmail(name, verificationToken.email, verificationToken.token);
+	await sendVerificationEmail(name, verificationToken!.email, verificationToken!.token);
 	return { success: ACTION_CONFIRMATION_EMAIL_SENT_SUCCESS };
 };

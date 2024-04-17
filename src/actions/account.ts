@@ -15,9 +15,8 @@ import {
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 } from '@/constants';
-import { getUniqueUser } from '@/data/user';
+import { deleteUniqueUser, getUniqueUser, updateUniqueUser } from '@/data/user';
 import { getCurrentUser } from '@/lib/auth';
-import { database } from '@/lib/database';
 import { compare, hash } from '@/lib/hash';
 import { sendAccountDeletionEmail } from '@/lib/mail';
 import { AccountDeleteSchema, AccountEditSchema, RoleChangeSchema } from '@/schemas';
@@ -48,37 +47,28 @@ export const editAccount = async (values: z.infer<typeof AccountEditSchema>) => 
 	if (emailChanged) {
 		const emailConflicts = await getUniqueUser({ where: { email }, select: { id: true } });
 		if (emailConflicts) return { error: ACTION_ACCOUNT_ALREADY_USED_EMAIL_ERROR };
-		await database.user.update({
-			where: {
-				id: user.id,
-			},
-			data: {
-				email,
-				emailVerified: null,
-			},
+
+		await updateUniqueUser({
+			where: { id: user.id },
+			data: { email, emailVerified: null },
+			select: { id: true },
 		});
 	}
 
 	const nameChanged = name !== existingUser.name;
 	if (nameChanged) {
-		await database.user.update({
-			where: {
-				id: user.id,
-			},
-			data: {
-				name,
-			},
+		await updateUniqueUser({
+			where: { id: user.id },
+			data: { name },
+			select: { id: true },
 		});
 	}
 
 	if (newPassword && confirmPassword) {
-		await database.user.update({
-			where: {
-				id: user.id,
-			},
-			data: {
-				password: await hash(newPassword),
-			},
+		await updateUniqueUser({
+			where: { id: user.id },
+			data: { password: await hash(newPassword) },
+			select: { id: true },
 		});
 	}
 
@@ -103,7 +93,7 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 
 	if (existingUser.email !== email) return { error: ACTION_ACCOUNT_INCORRECT_EMAIL_ERROR };
 
-	const deletedUser = await database.user.delete({
+	const deletedUser = await deleteUniqueUser({
 		where: { id: existingUser.id },
 		select: {
 			name: true,
@@ -111,25 +101,17 @@ export const deleteAccount = async (values: z.infer<typeof AccountDeleteSchema>)
 			bookings: {
 				select: {
 					description: true,
-					Appointment: {
-						select: {
-							startTime: true,
-						},
-					},
-					Issue: {
-						select: {
-							name: true,
-						},
-					},
+					Appointment: { select: { startTime: true } },
+					Issue: { select: { name: true } },
 				},
 			},
 		},
 	});
 
 	await sendAccountDeletionEmail({
-		userName: deletedUser.name,
-		userEmail: deletedUser.email,
-		deletedAssociatedBookings: deletedUser.bookings,
+		userName: deletedUser!.name,
+		userEmail: deletedUser!.email,
+		deletedAssociatedBookings: deletedUser!.bookings,
 	});
 
 	return { success: ACTION_ACCOUNT_DELETED_SUCCESS };
@@ -151,13 +133,11 @@ export const changeRole = async (values: z.infer<typeof RoleChangeSchema>) => {
 	if (!existingUser) return { error: ACTION_ACCOUNT_NOT_FOUND_ERROR };
 
 	const { role } = validatedData.data;
-	await database.user.update({
-		where: {
-			id,
-		},
-		data: {
-			role: role,
-		},
+	await updateUniqueUser({
+		where: { id },
+		data: { role: role },
+		select: { id: true },
 	});
+
 	return { success: ACTION_ACCOUNT_ROLE_CHANGE_SUCCESS };
 };

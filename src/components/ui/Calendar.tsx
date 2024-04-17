@@ -18,7 +18,7 @@ const DayTestTag = (props: DayContentProps) => {
 	);
 };
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+const Calendar = ({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) => {
 	return (
 		<DayPicker
 			showOutsideDays={showOutsideDays}
@@ -59,8 +59,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 				...classNames,
 			}}
 			components={{
-				IconLeft: ({ ...props }) => <ChevronLeftIcon className='h-4 w-4' />,
-				IconRight: ({ ...props }) => <ChevronRightIcon className='h-4 w-4' />,
+				IconLeft: ({}) => <ChevronLeftIcon className='h-4 w-4' />,
+				IconRight: ({}) => <ChevronRightIcon className='h-4 w-4' />,
 				DayContent(props) {
 					return <DayTestTag {...props} />;
 				},
@@ -68,7 +68,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 			{...props}
 		/>
 	);
-}
+};
 Calendar.displayName = 'Calendar';
 
 export { Calendar };

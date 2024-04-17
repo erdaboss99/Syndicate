@@ -3,11 +3,10 @@ import {
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 } from '@/constants';
-import { getBookings } from '@/data/booking';
+import { deleteUniqueBooking, getBookings } from '@/data/booking';
 import { getAutoExpiredBookingDeletionStatus, getSendAutoActionReportEmailStatus } from '@/data/configuration';
 import { type ExpiredBookingDeletionTemplateProps } from '@/emails/ExpiredBookingDeletion';
 import { getCurrentUser } from '@/lib/auth';
-import { database } from '@/lib/database';
 import { formatDatesInObject } from '@/lib/date';
 import { sendExpiredBookingDeletionReport } from '@/lib/mail';
 
@@ -30,54 +29,32 @@ export async function DELETE() {
 	if (Boolean(autoExpiredBookingDeletion)) {
 		const currentTime = new Date();
 		const expiredBookings = await getBookings({
-			where: {
-				Appointment: {
-					startTime: {
-						lte: currentTime,
-					},
-				},
-			},
-			select: {
-				id: true,
-			},
+			where: { Appointment: { startTime: { lte: currentTime } } },
+			select: { id: true },
 		});
 
 		const deletedBookings = [];
 		for (const booking of expiredBookings) {
 			deletedBookings.push(
-				await database.booking.delete({
-					where: {
-						id: booking.id,
-					},
+				await deleteUniqueBooking({
+					where: { id: booking.id },
 					select: {
 						description: true,
-						User: {
-							select: {
-								name: true,
-								email: true,
-							},
-						},
-						Appointment: {
-							select: {
-								startTime: true,
-							},
-						},
-						Issue: {
-							select: {
-								name: true,
-							},
-						},
+						User: { select: { name: true, email: true } },
+						Appointment: { select: { startTime: true } },
+						Issue: { select: { name: true } },
 					},
 				}),
 			);
 		}
+
 		const deletedExpiredBookings = deletedBookings.map((booking) => {
 			return {
-				userName: booking.User.name,
-				userEmail: booking.User.email,
-				appointmentStartTime: booking.Appointment.startTime,
-				bookingDescription: booking.description,
-				issueName: booking.Issue.name,
+				userName: booking!.User.name,
+				userEmail: booking!.User.email,
+				appointmentStartTime: booking!.Appointment.startTime,
+				bookingDescription: booking!.description,
+				issueName: booking!.Issue.name,
 			};
 		});
 

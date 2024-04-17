@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,16 +10,18 @@ import { toast } from 'sonner';
 import * as z from 'zod';
 
 import { requestPasswordReset } from '@/actions/request-password-reset';
+import { ACTION_DEFAULT_ERROR, ACTION_REDIRECT_DELAY } from '@/constants';
 import { RequestPasswordResetSchema } from '@/schemas';
 
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
-import { ACTION_DEFAULT_ERROR } from '@/constants';
 
 const RequestPasswordResetForm = () => {
 	const [isPending, startTransition] = useTransition();
 	const [isDone, setIsDone] = useState(false);
+
+	const router = useRouter();
 
 	const requestPasswordResetForm = useForm<z.infer<typeof RequestPasswordResetSchema>>({
 		resolver: zodResolver(RequestPasswordResetSchema),
@@ -36,6 +39,9 @@ const RequestPasswordResetForm = () => {
 					if (data?.success) {
 						setIsDone(true);
 						toast.success(data?.success);
+						setTimeout(() => {
+							router.push('/auth/login');
+						}, ACTION_REDIRECT_DELAY);
 					}
 				})
 				.catch(() => toast.error(ACTION_DEFAULT_ERROR));

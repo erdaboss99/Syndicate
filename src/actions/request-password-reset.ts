@@ -27,7 +27,7 @@ export const requestPasswordReset = async (values: z.infer<typeof RequestPasswor
 	if (!existingUser.password) return { error: ACTION_ACCOUNT_THIRD_PARTY_EDIT_ERROR };
 
 	const passwordResetToken = await generatePasswordResetToken(email);
-	await sendPasswordResetEmail(existingUser.name, passwordResetToken.email, passwordResetToken.token);
+	await sendPasswordResetEmail(existingUser.name, passwordResetToken!.email, passwordResetToken!.token);
 
 	return { success: ACTION_PASSWORD_RESET_EMAIL_SENT_SUCCESS };
 };

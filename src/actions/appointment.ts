@@ -9,9 +9,8 @@ import {
 	ACTION_INVALID_PAYLOAD_ERROR,
 	ACTION_ONLY_ADMIN_ERROR,
 } from '@/constants';
-import { getUniqueAppointment } from '@/data/appointment';
+import { deleteUniqueAppointment, getUniqueAppointment } from '@/data/appointment';
 import { getCurrentUser } from '@/lib/auth';
-import { database } from '@/lib/database';
 import { AppointmentDeleteSchema } from '@/schemas';
 
 export const deleteAppointment = async (values: z.infer<typeof AppointmentDeleteSchema>) => {
@@ -25,24 +24,16 @@ export const deleteAppointment = async (values: z.infer<typeof AppointmentDelete
 
 	const existingAppointment = await getUniqueAppointment({
 		where: { id },
-		select: {
-			id: true,
-			Booking: {
-				select: {
-					id: true,
-				},
-			},
-		},
+		select: { id: true, Booking: { select: { id: true } } },
 	});
 
 	if (!existingAppointment) return { error: ACTION_APPOINTMENT_NOT_FOUND_ERROR };
 
 	if (existingAppointment.Booking?.id !== undefined) return { error: ACTION_APPOINTMENT_DELETE_BOOKED_ERROR };
 
-	await database.appointment.delete({
-		where: {
-			id,
-		},
+	await deleteUniqueAppointment({
+		where: { id },
+		select: { id: true },
 	});
 
 	return { success: ACTION_APPOINTMENT_DELETED_SUCCESS };

@@ -14,30 +14,14 @@ const AppointmentBookPage = async ({ params }: { params: { appointmentId: string
 	if (!paramsData.success) redirect('/appointments');
 
 	const appointment = await getAppointment({
-		where: {
-			AND: [
-				{ Booking: null },
-				{
-					id: params.appointmentId,
-				},
-			],
-		},
-		select: {
-			id: true,
-			startTime: true,
-		},
+		where: { AND: [{ Booking: null }, { id: params.appointmentId }] },
+		select: { id: true, startTime: true },
 	});
 	if (!appointment) redirect('/appointments');
 
 	const formattedDate = formatDate(appointment.startTime, 'WRITTEN_LONG_DATE_TIME_INTERVAL');
 
-	const issues = await getIssues({
-		select: {
-			id: true,
-			name: true,
-			description: true,
-		},
-	});
+	const issues = await getIssues({ select: { id: true, name: true, description: true } });
 
 	return (
 		<CardWrapper

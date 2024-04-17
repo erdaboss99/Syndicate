@@ -29,14 +29,14 @@ const AutoNewAppointmentGenerationForm = ({
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof AutoNewAppointmentGenerationSchema>) {
+	const onSubmit = (values: z.infer<typeof AutoNewAppointmentGenerationSchema>) => {
 		startTransition(() => {
 			toggleAutoNewAppointmentGeneration(values).then((data) => {
 				if (data?.error) toast.error(data?.error);
 				if (data?.success) toast.success(data?.success);
 			});
 		});
-	}
+	};
 
 	return (
 		<Form {...autoNewAppointmentGenerationForm}>

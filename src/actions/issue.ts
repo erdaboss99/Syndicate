@@ -11,8 +11,8 @@ import {
 	ACTION_ISSUE_UPDATED_SUCCESS,
 	ACTION_ONLY_ADMIN_ERROR,
 } from '@/constants';
+import { createUniqueIssue, deleteUniqueIssue, getUniqueIssue, updateUniqueIssue } from '@/data/issue';
 import { getCurrentUser } from '@/lib/auth';
-import { database } from '@/lib/database';
 import { IssueCreateSchema, IssueDeleteSchema, IssueEditSchema } from '@/schemas';
 
 export const createIssue = async (values: z.infer<typeof IssueCreateSchema>) => {
@@ -24,11 +24,9 @@ export const createIssue = async (values: z.infer<typeof IssueCreateSchema>) => 
 
 	const { name, description } = validatedData.data;
 
-	await database.issue.create({
-		data: {
-			name,
-			description,
-		},
+	await createUniqueIssue({
+		data: { name, description },
+		select: { id: true },
 	});
 	return { success: ACTION_ISSUE_CREATED_SUCCESS };
 };
@@ -42,21 +40,16 @@ export const editIssue = async (values: z.infer<typeof IssueEditSchema>) => {
 
 	const { id, name, description } = validatedData.data;
 
-	const existingIssue = await database.issue.findUnique({
-		where: {
-			id,
-		},
+	const existingIssue = await getUniqueIssue({
+		where: { id },
+		select: { id: true },
 	});
-	if (!existingIssue) return { error: ACTION_ISSUE_NOT_FOUND_ERROR };
 
-	await database.issue.update({
-		where: {
-			id,
-		},
-		data: {
-			name,
-			description,
-		},
+	if (!existingIssue) return { error: ACTION_ISSUE_NOT_FOUND_ERROR };
+	await updateUniqueIssue({
+		where: { id },
+		data: { name, description },
+		select: { id: true },
 	});
 	return { success: ACTION_ISSUE_UPDATED_SUCCESS };
 };
@@ -70,23 +63,19 @@ export const deleteIssue = async (values: z.infer<typeof IssueDeleteSchema>) => 
 
 	const { id } = validatedData.data;
 
-	const existingIssue = await database.issue.findUnique({
-		where: {
-			id,
-		},
-		include: {
-			bookings: true,
-		},
+	const existingIssue = await getUniqueIssue({
+		where: { id },
+		select: { bookings: true },
 	});
 
 	if (!existingIssue) return { error: ACTION_ISSUE_NOT_FOUND_ERROR };
 
 	if (existingIssue.bookings.length !== 0) return { error: ACTION_ISSUE_DELETE_LINKED_BOOKING_ERROR };
 
-	await database.issue.delete({
-		where: {
-			id,
-		},
+	await deleteUniqueIssue({
+		where: { id },
+		select: { id: true },
 	});
+
 	return { success: ACTION_ISSUE_DELETED_SUCCESS };
 };

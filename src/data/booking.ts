@@ -7,11 +7,11 @@ export const getBookings = async <T extends Prisma.BookingSelect, K extends Pris
 	select: T;
 }): Promise<Prisma.BookingGetPayload<{ select: T }>[]> => {
 	try {
-		const bookingData = await database.booking.findMany({
+		const booking = await database.booking.findMany({
 			where: options.where,
 			select: options.select,
 		});
-		return bookingData;
+		return booking;
 	} catch (error) {
 		return [];
 	}
@@ -25,11 +25,29 @@ export const getUniqueBooking = async <
 	select: T;
 }): Promise<Prisma.BookingGetPayload<{ select: T }> | null> => {
 	try {
-		const bookingData = await database.booking.findUnique({
+		const booking = await database.booking.findUnique({
 			where: options.where,
 			select: options.select,
 		});
-		return bookingData;
+		return booking;
+	} catch (error) {
+		return null;
+	}
+};
+
+export const deleteUniqueBooking = async <
+	K extends Prisma.BookingWhereUniqueInput,
+	T extends Prisma.BookingSelect,
+>(options: {
+	where: K;
+	select: T;
+}): Promise<Prisma.BookingGetPayload<{ select: T }> | null> => {
+	try {
+		const booking = await database.booking.delete({
+			where: options.where,
+			select: options.select,
+		});
+		return booking;
 	} catch (error) {
 		return null;
 	}

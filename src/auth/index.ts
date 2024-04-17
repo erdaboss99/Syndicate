@@ -6,8 +6,8 @@ import { type UserRole } from '@prisma/client';
 import authConfig from '@/auth/auth.config';
 import { LoginProviders } from '@/auth/next-auth';
 import { JWT_TOKEN_EXPIRY } from '@/constants';
-import { getUniqueAccountDataSubset } from '@/data/account';
-import { getUniqueUser } from '@/data/user';
+import { getUniqueAccount } from '@/data/account';
+import { getUniqueUser, updateUniqueUser } from '@/data/user';
 import { getLoginProvider } from '@/lib/auth';
 import { database } from '@/lib/database';
 
@@ -23,9 +23,10 @@ export const {
 	},
 	events: {
 		async linkAccount({ user }) {
-			await database.user.update({
+			await updateUniqueUser({
 				where: { id: user.id },
 				data: { emailVerified: new Date() },
+				select: { id: true },
 			});
 		},
 	},
@@ -63,7 +64,7 @@ export const {
 			});
 			if (!existingUser) return token;
 
-			const existingAccount = await getUniqueAccountDataSubset({
+			const existingAccount = await getUniqueAccount({
 				where: { id: existingUser.id },
 				select: { provider: true },
 			});

@@ -51,25 +51,13 @@ const UserDetailsPage = async ({ params }: { params: { userId: string } }) => {
 			image: true,
 			role: true,
 			createdAt: true,
-			accounts: {
-				select: {
-					provider: true,
-				},
-			},
+			accounts: { select: { provider: true } },
 			bookings: {
 				select: {
 					id: true,
 					description: true,
-					Issue: {
-						select: {
-							name: true,
-						},
-					},
-					Appointment: {
-						select: {
-							startTime: true,
-						},
-					},
+					Issue: { select: { name: true } },
+					Appointment: { select: { startTime: true } },
 				},
 			},
 		},

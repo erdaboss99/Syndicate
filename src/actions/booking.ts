@@ -12,7 +12,7 @@ import {
 	ACTION_ONLY_ADMIN_ERROR,
 	ACTION_ONLY_AUTHENTICATED_ERROR,
 } from '@/constants';
-import { getUniqueBooking } from '@/data/booking';
+import { deleteUniqueBooking, getUniqueBooking } from '@/data/booking';
 import { getCurrentUser } from '@/lib/auth';
 import { database } from '@/lib/database';
 import { sendBookingCancellationEmail, sendBookingConfirmationEmail, sendBookingDeletionEmail } from '@/lib/mail';
@@ -35,28 +35,12 @@ export const cancelBooking = async (values: z.infer<typeof BookingCancelSchema>)
 	if (existingBooking.User.id !== user?.id) return { error: ACTION_FORBIDDEN_ERROR };
 
 	const deletedBooking = await database.booking.delete({
-		where: {
-			id,
-		},
+		where: { id },
 		select: {
 			description: true,
-			Appointment: {
-				select: {
-					startTime: true,
-				},
-			},
-			Issue: {
-				select: {
-					name: true,
-					description: true,
-				},
-			},
-			User: {
-				select: {
-					name: true,
-					email: true,
-				},
-			},
+			Appointment: { select: { startTime: true } },
+			Issue: { select: { name: true, description: true } },
+			User: { select: { name: true, email: true } },
 		},
 	});
 
@@ -84,39 +68,23 @@ export const deleteBooking = async (values: z.infer<typeof BookingDeleteSchema>)
 	const existingBooking = await getUniqueBooking({ where: { id }, select: { id: true } });
 	if (!existingBooking) return { error: ACTION_BOOKING_NOT_FOUND_ERROR };
 
-	const deletedBooking = await database.booking.delete({
-		where: {
-			id,
-		},
+	const deletedBooking = await deleteUniqueBooking({
+		where: { id },
 		select: {
 			description: true,
-			Appointment: {
-				select: {
-					startTime: true,
-				},
-			},
-			User: {
-				select: {
-					name: true,
-					email: true,
-				},
-			},
-			Issue: {
-				select: {
-					name: true,
-					description: true,
-				},
-			},
+			Appointment: { select: { startTime: true } },
+			User: { select: { name: true, email: true } },
+			Issue: { select: { name: true, description: true } },
 		},
 	});
 
 	await sendBookingDeletionEmail({
-		userName: deletedBooking.User.name,
-		userEmail: deletedBooking.User.email,
-		appointmentStartTime: deletedBooking.Appointment.startTime,
-		bookingDescription: deletedBooking.description,
-		issueName: deletedBooking.Issue.name,
-		issueDescription: deletedBooking.Issue.description,
+		userName: deletedBooking!.User.name,
+		userEmail: deletedBooking!.User.email,
+		appointmentStartTime: deletedBooking!.Appointment.startTime,
+		bookingDescription: deletedBooking!.description,
+		issueName: deletedBooking!.Issue.name,
+		issueDescription: deletedBooking!.Issue.description,
 		reason,
 	});
 
@@ -133,31 +101,12 @@ export const createBooking = async (values: z.infer<typeof AppointmentBookSchema
 	const { appointmentId, issueId, description } = validatedData.data;
 
 	const createdBooking = await database.booking.create({
-		data: {
-			userId: currentUser.id,
-			appointmentId: appointmentId,
-			issueId: issueId,
-			description: description,
-		},
+		data: { userId: currentUser.id, appointmentId: appointmentId, issueId: issueId, description: description },
 		select: {
 			description: true,
-			Appointment: {
-				select: {
-					startTime: true,
-				},
-			},
-			User: {
-				select: {
-					name: true,
-					email: true,
-				},
-			},
-			Issue: {
-				select: {
-					name: true,
-					description: true,
-				},
-			},
+			Appointment: { select: { startTime: true } },
+			User: { select: { name: true, email: true } },
+			Issue: { select: { name: true, description: true } },
 		},
 	});
 

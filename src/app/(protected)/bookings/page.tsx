@@ -24,24 +24,13 @@ const BookingsPage = async () => {
 	const currentUser = await getCurrentUser();
 
 	const bookings = await getBookings({
-		where: {
-			userId: currentUser?.id,
-		},
+		where: { userId: currentUser?.id },
 		select: {
 			id: true,
 			description: true,
 			createdAt: true,
-			Appointment: {
-				select: {
-					startTime: true,
-				},
-			},
-			Issue: {
-				select: {
-					name: true,
-					description: true,
-				},
-			},
+			Appointment: { select: { startTime: true } },
+			Issue: { select: { name: true, description: true } },
 		},
 	});
 

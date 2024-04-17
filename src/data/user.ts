@@ -37,13 +37,64 @@ export const getUsers = async <K extends Prisma.UserWhereInput, T extends Prisma
 	select: T;
 }): Promise<Prisma.UserGetPayload<{ select: T }>[]> => {
 	try {
-		const user = await database.user.findMany({
+		const users = await database.user.findMany({
+			where: options.where,
+			select: options.select,
+		});
+		return users;
+	} catch (error) {
+		return [];
+	}
+};
+
+export const createUniqueUser = async <D extends Prisma.UserCreateInput, T extends Prisma.UserSelect>(options: {
+	data: D;
+	select: T;
+}): Promise<Prisma.UserGetPayload<{ select: T }> | null> => {
+	try {
+		const user = await database.user.create({
+			data: options.data,
+			select: options.select,
+		});
+		return user;
+	} catch (error) {
+		return null;
+	}
+};
+
+export const updateUniqueUser = async <
+	K extends Prisma.UserWhereUniqueInput,
+	D extends Prisma.UserUpdateInput,
+	T extends Prisma.UserSelect,
+>(options: {
+	where: K;
+	data: D;
+	select: T;
+}): Promise<Prisma.UserGetPayload<{ select: T }> | null> => {
+	try {
+		const user = await database.user.update({
+			where: options.where,
+			data: options.data,
+			select: options.select,
+		});
+		return user;
+	} catch (error) {
+		return null;
+	}
+};
+
+export const deleteUniqueUser = async <K extends Prisma.UserWhereUniqueInput, T extends Prisma.UserSelect>(options: {
+	where: K;
+	select: T;
+}): Promise<Prisma.UserGetPayload<{ select: T }> | null> => {
+	try {
+		const user = await database.user.delete({
 			where: options.where,
 			select: options.select,
 		});
 		return user;
 	} catch (error) {
-		return [];
+		return null;
 	}
 };
 

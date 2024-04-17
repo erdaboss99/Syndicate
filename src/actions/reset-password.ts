@@ -23,7 +23,7 @@ export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>)
 	const { token, password, confirmPassword } = validatedData.data;
 
 	const existingToken = await getUniquePasswordResetToken({
-		where: { id: token },
+		where: { token },
 		select: {
 			id: true,
 			expires: true,

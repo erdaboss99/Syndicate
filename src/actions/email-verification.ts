@@ -22,7 +22,7 @@ export const emailVerification = async (values: z.infer<typeof TokenVerification
 	const { token } = validatedData.data;
 
 	const existingToken = await getUniqueVerificationToken({
-		where: { id: token },
+		where: { token },
 		select: {
 			id: true,
 			expires: true,

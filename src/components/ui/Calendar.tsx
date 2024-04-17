@@ -3,12 +3,20 @@
 import * as React from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
-import { DayPicker } from 'react-day-picker';
+import { DayContent, DayContentProps, DayPicker } from 'react-day-picker';
 
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+
+const DayTestTag = (props: DayContentProps) => {
+	return (
+		<time data-testid={props.activeModifiers.disabled ? 'calendar-disabled-day' : 'calendar-available-day'}>
+			<DayContent {...props} />
+		</time>
+	);
+};
 
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
 	return (
@@ -53,6 +61,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 			components={{
 				IconLeft: ({ ...props }) => <ChevronLeftIcon className='h-4 w-4' />,
 				IconRight: ({ ...props }) => <ChevronRightIcon className='h-4 w-4' />,
+				DayContent(props) {
+					return <DayTestTag {...props} />;
+				},
 			}}
 			{...props}
 		/>

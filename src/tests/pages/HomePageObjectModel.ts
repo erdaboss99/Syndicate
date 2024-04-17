@@ -5,11 +5,14 @@ import { PrettyLocator } from '@/tests/types';
 type HomePageElements = 'loginButton';
 
 export class HomePageObjectModel {
+	private readonly page: Page;
 	private readonly homePageElementLocators: PrettyLocator<HomePageElements[]>;
+
 	constructor(page: Page) {
+		this.page = page;
 		this.homePageElementLocators = {
 			loginButton: {
-				locator: page.getByTestId('home-login-button'),
+				locator: this.page.getByTestId('home-login-button'),
 				reportLocatorName: 'Login button',
 			},
 		};

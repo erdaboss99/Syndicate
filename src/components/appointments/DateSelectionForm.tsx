@@ -51,6 +51,7 @@ const DateSelectionForm = () => {
 									<FormControl>
 										<Button
 											variant={'outline'}
+											data-testid='date-selection-open-calendar-button'
 											className={cn(
 												'w-[270px] pl-3 text-left text-sm font-normal md:text-base',
 												!field.value && 'text-muted-foreground',
@@ -90,6 +91,7 @@ const DateSelectionForm = () => {
 				/>
 				<Button
 					size='lg'
+					data-testid='date-selection-submit-button'
 					variant='default'
 					type='submit'>
 					Search

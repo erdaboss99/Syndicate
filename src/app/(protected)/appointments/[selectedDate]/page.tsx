@@ -89,6 +89,7 @@ const AppointmentSelectButton = ({ appointment }: AppointmentSelectButtonProps) 
 			size='lg'
 			variant='outline'
 			className='font-bold'
+			data-testid='appointment-select-button'
 			asChild>
 			<Link href={appointmentBookPath}>
 				{formattedDate}

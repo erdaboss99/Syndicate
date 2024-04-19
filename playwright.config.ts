@@ -18,19 +18,39 @@ export default defineConfig({
 
 	projects: [
 		{
-			name: 'Appointment Booking',
+			name: 'Desktop Chrome',
 			use: {
 				...devices['Desktop Chrome'],
 			},
-			testMatch: /.*\.appointment_booking\.spec\.ts/,
-			teardown: 'Delete Booking',
+			testMatch: /.*\.e2e\.spec\.ts/,
 		},
 		{
-			name: 'Delete Booking',
+			name: 'Desktop Firefox',
 			use: {
-				...devices['Desktop Chrome'],
+				...devices['Desktop Firefox'],
 			},
-			testMatch: /.*\.cancel_booking\.spec\.ts/,
+			testMatch: /.*\.e2e\.spec\.ts/,
+		},
+		{
+			name: 'Desktop Safari',
+			use: {
+				...devices['Desktop Safari'],
+			},
+			testMatch: /.*\.e2e\.spec\.ts/,
+		},
+		{
+			name: 'iPhone 13 Pro Max',
+			use: {
+				...devices['iPhone 13 Pro Max'],
+			},
+			testMatch: /.*\.e2e\.spec\.ts/,
+		},
+		{
+			name: 'Galaxy S9+',
+			use: {
+				...devices['Galaxy S9+'],
+			},
+			testMatch: /.*\.e2e\.spec\.ts/,
 		},
 	],
 });

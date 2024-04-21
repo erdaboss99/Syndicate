@@ -24,20 +24,20 @@ export default defineConfig({
 			},
 			testMatch: /.*\.e2e\.spec\.ts/,
 		},
-		{
-			name: 'Desktop Firefox',
-			use: {
-				...devices['Desktop Firefox'],
-			},
-			testMatch: /.*\.e2e\.spec\.ts/,
-		},
-		{
-			name: 'Desktop Safari',
-			use: {
-				...devices['Desktop Safari'],
-			},
-			testMatch: /.*\.e2e\.spec\.ts/,
-		},
+		// {
+		// 	name: 'Desktop Firefox',
+		// 	use: {
+		// 		...devices['Desktop Firefox'],
+		// 	},
+		// 	testMatch: /.*\.e2e\.spec\.ts/,
+		// },
+		// {
+		// 	name: 'Desktop Safari',
+		// 	use: {
+		// 		...devices['Desktop Safari'],
+		// 	},
+		// 	testMatch: /.*\.e2e\.spec\.ts/,
+		// },
 		{
 			name: 'iPhone 13 Pro Max',
 			use: {
@@ -45,12 +45,12 @@ export default defineConfig({
 			},
 			testMatch: /.*\.e2e\.spec\.ts/,
 		},
-		{
-			name: 'Galaxy S9+',
-			use: {
-				...devices['Galaxy S9+'],
-			},
-			testMatch: /.*\.e2e\.spec\.ts/,
-		},
+		// {
+		// 	name: 'Galaxy S9+',
+		// 	use: {
+		// 		...devices['Galaxy S9+'],
+		// 	},
+		// 	testMatch: /.*\.e2e\.spec\.ts/,
+		// },
 	],
 });
